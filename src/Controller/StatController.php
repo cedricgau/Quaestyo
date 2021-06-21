@@ -42,22 +42,12 @@ class StatController extends AbstractController
             $ncn[] = $con->findByCountncn($perioda,$periodb);            
             $avpa[] = $con->findByCountavpa($perioda,$periodb);
             $avpa2[] = $con->findByCountnc($perioda,$periodb);
-            $num[] = $con->findByCountnum($perioda,$periodb);
+            $num1_data[]=5.59;//$num[] = $con->findByCountnum($perioda,$periodb);
         }	
         
-        foreach ($num as $x => $y){
-            $b=0;                           
-        foreach($y as $z => $a){               
-            if ($a['NUM']>0) { 
-               
-                $num1_data[]=5.59;
-                    
-                }
-            }            
-            $num1_data[] = $b;
-        }
+        
 
-        //datas cac
+        //datas cac/arpu/cltv
         
         for($c=0; $c<12 ; $c++){
             if(isset($ncn[$c][0][1]) && $ncn[$c][0][1]!==0 && isset($depex[$c][0]["advert"]) && isset($depex2[$c][0]["CA"])){                                

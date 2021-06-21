@@ -16,13 +16,14 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\File\Exception\FileException;
+use Symfony\Component\Security\Core\User\UserInterface;
 
 class AdminController extends AbstractController
 {
     /**
      * @Route("/quaestyo_homeland", name="quaestyo_homeland")
      */
-    public function index(Request $request): Response
+    public function index(Request $request, UserInterface $user): Response
     {
         // initialisation des messages 
 
@@ -147,7 +148,7 @@ class AdminController extends AbstractController
 
 
         return $this->render('admin/index.html.twig', [
-            'controller_name' => 'Bertrand ,',
+            'controller_name' => $user->getUsername().',',
             'form_externdatas' => $form_externdatas->createView(),
             'form_drop' => $form_drop->createView(),
             'form_majp' => $form_play->createView(),

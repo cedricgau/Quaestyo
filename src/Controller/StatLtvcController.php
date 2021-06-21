@@ -86,11 +86,12 @@ class StatLtvcController extends AbstractController
         // cas particulier du calcul avec pondération avant le 1/02/2022
         
         $periodc =  '2021-02-01';
-        $periodd =  date('Y-m-d');
+        $periodd =  date('Y-m-d',strtotime('-12 month'));
+        $periode =  date('Y-m-d');
         
         if ( date('Y-m-d')< '2022-02-01'){             
         
-            $num = $con->findByCountnum($periodc,$periodd);                               
+            $num = $con->findByCountnum($periodc,$periode);                               
             $datex = date("n")."/".date("Y");
             
             switch ($datex){
@@ -122,6 +123,7 @@ class StatLtvcController extends AbstractController
                     $pond = 1;
             }
         }else{
+            $num = $con->findByCountnum($periodd,$periode);
             $pond=1;
         }
 

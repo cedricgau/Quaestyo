@@ -1,0 +1,20 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Page pour vous enregistrer{% endblock %}
+
+{% block body %}
+    {% for flashError in app.flashes('verify_email_error') %}
+        <div class="alert alert-danger" role="alert">{{ flashError }}</div>
+    {% endfor %}
+
+    <h1>Enregistrement</h1>
+
+    {{ form_start(registrationForm) }}
+        {{ form_row(registrationForm.username, { label: 'Identifiant'}) }}
+        {{ form_row(registrationForm.plainPassword, {
+            label: 'Mot de passe'
+        }) }}        
+
+        <button type="submit" class="btn">Sauvegarder</button>
+    {{ form_end(registrationForm) }}
+{% endblock %}

@@ -1,0 +1,90 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Long Time Value Customer QUAESTYO{% endblock %}
+{% block stylesheets %}{% endblock %}      
+{% block body %}
+
+ <h1 class="text-center">Long Time Value Customer QUAESTYO</h1>
+
+<div class="d-grid gap-3">
+  <div class="p-5 bg-white"></div> 
+    <div class="container">
+        <table class="table table-striped">
+            <thead>
+                <tr class="table-success">
+                <th>Nombre d'aventure jouée</th>    
+                <th>Clients</th> 
+                <th>Nombre aventure payante</th> 
+                <th>Pondération</th>      
+                </tr>
+            </thead>
+            <tbody>
+                {% for col in numb%}    
+                <tr>    
+                <th scope="col">{{col.champ}}</th>      
+                    <th scope="col">{{col.client}}</th>
+                    <th scope="col">{{col.nbav}}</th> 
+                    <th scope="col">{{col.pond}}</th>  
+                    
+                </tr>
+                {% endfor %}
+                <tr>    
+                <th>Totaux</th>      
+                    <th >{{total}}</th>
+                    <th></th> 
+                    <th>{{totalpond}}</th>  
+                    
+                </tr>    
+            </tbody>
+        </table>
+    </div>
+    <div class="container">
+        <table class="table table-striped">
+            <thead>
+                <tr class="table-success">
+                <th>CLTV</th>    
+                <th>Total</th>                  
+                </tr>
+            </thead>
+            <tbody>                
+                <tr>    
+                    <th>Panier Moyen</th>                 
+                    <th>{{panmoy}}€</th>                   
+                </tr>                
+                <tr>    
+                    <th>CLTV sans pondération</th>   
+                    <th>{{(totalpond/total)|round(2, 'floor')}}</th>
+                </tr>
+                <tr>    
+                    <th>Pondération</th>   
+                    <th>{{pond}}</th>
+                </tr>   
+                <tr>    
+                    <th>CLTV </th>   
+                    <th>{{(panmoy*pond)|round(2, 'floor')}}€</th>
+                </tr>   
+                <tr>    
+                    <th>CAC</th>   
+                    <th>{{cac}}€</th>
+                </tr>   
+                <tr>    
+                    <th>Résultat</th>   
+                    <th>{{(panmoy*pond)|round(2, 'floor')-cac}}€</th>
+                </tr>   
+                <tr>    
+                    <th>CLTV/CAC </th>   
+                    <th>{{((panmoy*pond)|round(2, 'floor')/cac)|round(2, 'floor')}}</th>
+                </tr>       
+            </tbody>
+        </table>
+    </div>    
+</div>
+
+{% endblock %}
+
+{% block javascripts %}
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.2.1/chart.js" integrity="sha512-or2Rj8rtp6G4AA7LOM1DVfQmzsevkILKgY1LLJ5kEDv3UCiEt9bmHJn7LNmo8BC5hxJCQ3cosqo1t77+p/yOfg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    
+    
+    
+{% endblock %}

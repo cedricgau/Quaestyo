@@ -1,0 +1,116 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Key Performance Indicators QUAESTYO{% endblock %}
+{% block stylesheets %}{% endblock %}      
+{% block body %}
+
+ <h1 class="text-center">Key Performance Indicators QUAESTYO</h1>
+ <div class="text-center">
+    <div class="spinner-border text-primary" role="status"></div>  
+    <div class="spinner-border text-secondary" role="status"></div>    
+    <div class="spinner-border text-success" role="status"></div>     
+    <div class="spinner-border text-danger" role="status"></div>     
+    <div class="spinner-border text-warning" role="status"></div>    
+    <div class="spinner-border text-info" role="status"></div>     
+    <div class="spinner-border text-light" role="status"></div>    
+    <div class="spinner-border text-dark" role="status"></div>
+    <div class="spinner-border text-primary" role="status"></div>  
+    <div class="spinner-border text-secondary" role="status"></div>    
+    <div class="spinner-border text-success" role="status"></div>     
+    <div class="spinner-border text-danger" role="status"></div>     
+</div>
+<div class="d-grid gap-3">
+  <div class="p-5 bg-white"></div>
+ <div class="container">
+<table class="table table-striped">
+  <thead>
+    <tr class="table-success">
+    <th scope="col">Volumétries Nationales QUAESTYO</th>
+    {% for col in vol_cols%}
+      <th scope="col">{{col}}</th>
+    {% endfor %}      
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th scope="row">CAC</th>
+      {% for col in cac_data%}
+        <th scope="col">{{col}}€</th>
+      {% endfor %}
+    </tr>
+    <tr>
+      <th scope="row">ARPU</th>
+      {% for col in arpu_data%}
+        <th scope="col">{{col}}€</th>
+      {% endfor %}
+    </tr>
+    <tr>
+      <th scope="row">CLTV</th>
+      {% for col in ctlv_data%}
+        <th scope="col">{{col}}€</th>
+      {% endfor %}
+    </tr>    
+  </tbody>
+</table>
+    
+    <canvas id="volg" width="400" height="100"></canvas>
+  <script>    
+        let volg = document.querySelector("#volg");
+        let volgGraph = new Chart(volg, {
+            type: 'bar',
+            
+    data: {
+        labels: {{ vol_cols2 }},
+        datasets: [{
+            label: 'CAC',
+            backgroundColor: 'blue',
+            data: {{ cac_data2 }}       
+            
+        },{
+            label: 'ARPU',
+            backgroundColor: 'orange',
+            data: {{ arpu_data2 }}
+            
+        },{
+            label: 'CLTV',
+            backgroundColor: 'grey',
+            data: {{ ctlv_data2 }}
+        
+            
+        }]
+    },
+    options: {
+        plugins: {
+            legend: {
+                display: true,
+                position: 'bottom',
+            },
+            title: {
+                display: true,
+                text: "Volumétries Nationales QUAESTYO" 
+            }
+        },
+        scales: {
+            y: {
+                beginAtZero: true
+            },
+            x: {
+                
+                //type: 'category',
+                //labels: {{ vol_cols2 }}
+            }
+        }
+    }
+});
+
+    </script>    
+
+</div>
+{% endblock %}
+
+{% block javascripts %}
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.2.1/chart.js" integrity="sha512-or2Rj8rtp6G4AA7LOM1DVfQmzsevkILKgY1LLJ5kEDv3UCiEt9bmHJn7LNmo8BC5hxJCQ3cosqo1t77+p/yOfg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    
+    
+    
+{% endblock %}

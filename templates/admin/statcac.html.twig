@@ -1,0 +1,192 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Cout d'Acquisition Client QUAESTYO{% endblock %}
+{% block stylesheets %}{% endblock %}      
+{% block body %}
+
+ <h1 class="text-center">Cout d'Acquisition Client QUAESTYO</h1> 
+
+<div class="d-grid gap-3">
+  <div class="p-5 bg-white"></div>
+
+
+<div class="container">
+<table class="table table-striped">
+  <thead>
+    <tr class="table-success">
+    <th scope="col">CAC</th>
+    {% for col in cac_cols%}
+      <th scope="col">{{col}}</th>
+    {% endfor %}
+    <th scope="col">Total</th>      
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th scope="row">Dépenses Pub</th>
+      {% for col in cac_dep_data%}
+        <th scope="col">{{col}}€</th>
+      {% endfor %}
+      <th scope="col">{{total_dep_data}}€</th>
+    </tr>
+    <tr>
+      <th scope="row">Comptes créés</th>
+      {% for col in cac_cc_data%}
+        <th scope="col">{{col}}</th>
+      {% endfor %}
+      <th scope="col">{{total_cc_data}}</th>
+    </tr>
+    <tr>
+      <th scope="row">Non payé (gratuit et sans aventure )</th>
+      {% for col in cac_np_data%}
+        <th scope="col">{{col}}</th>
+      {% endfor %}
+      <th scope="col">{{total_np_data}}</th>
+    </tr>   
+    <tr>
+      <th scope="row">Joué aventure gratuite</th>
+      {% for col in cac_jag_data%}
+        <th scope="col">{{col}}</th>         
+      {% endfor %}
+      <th scope="col">{{total_jag_data}}</th>
+    </tr>    
+    <tr>
+      <th scope="row">Nvx Clients Nationaux (joueurs €)</th>
+      {% for col in cac_ncn_data%}
+        <th scope="col">{{col}}</th>
+      {% endfor %}
+      <th scope="col">{{total_ncn_data}}</th>
+    </tr>
+    <tr>
+      <th scope="row">Nvx Clients Parisiens (joueurs €)</th>
+      {% for col in cac_ncnp_data%}
+        <th scope="col">{{col}}</th>
+      {% endfor %}
+      <th scope="col">{{total_ncnp_data}}</th>
+    </tr>    
+    <tr>
+      <th scope="row">Nvx Clients transfo %</th>
+      {% for col in pourcent3%}
+        <th scope="col">{{col}}%</th>
+      {% endfor %}
+    </tr>
+    <tr>
+      <th scope="row">CAC National</th>
+      {% for cac in cac_data %}
+        <td>{{ cac }}€</td>
+      {% endfor %}
+      <th scope="col">{{total_cac_data}}€</th>      
+    </tr>    
+    <tr>
+      <th scope="row">CAC Moyen</th>
+      {% for cac in cac_moy_data %}
+        <td>{{ cac }}€</td>
+      {% endfor %}
+    </tr>
+  </tbody>
+</table>
+    
+    <canvas id="cac" width="400" height="100"></canvas>
+  <script>    
+        let cac = document.querySelector("#cac");
+        let cacGraph = new Chart(cac, {
+            type: 'line',
+            
+    data: {
+        labels: {{ cac_cols2 }},
+        datasets: [{
+            label: 'CAC',
+            borderColor: 'blue',
+            data: {{ cac_data2 }}
+            
+        },{
+            label: 'CAC Moyen',
+            borderColor: 'red',
+            data: {{ cac_moy_data2 }}
+            
+        }]
+    },
+    options: {
+        plugins: {
+            legend: {
+                display: true,
+                position: 'bottom',
+            },
+            title: {
+                display: true,
+                text: "CAC"
+            }
+        },
+        scales: {
+            y: {
+                beginAtZero: true
+            }
+        }
+    }
+});
+
+    </script> 
+<div class="d-grid gap-3">
+  <div class="p-5 bg-white"></div>
+
+
+<div class="container">
+<table class="table table-striped">
+  <thead>
+    <tr class="table-success">
+    <th scope="col">Volumétrie Hors CAC</th>
+    {% for col in cac_cols%}
+      <th scope="col">{{col}}</th>
+    {% endfor %}
+     <th scope="col">Total</th>      
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th scope="row">Téléchargements</th>
+      {% for col in tele_data%}
+        <th scope="col">{{col}}</th>
+      {% endfor %}
+    </tr>
+    <tr>
+      <th scope="row">Nombre de comptes créés hors CAC</th>
+      {% for col in nbHCAC__data%}
+        <th scope="col">{{col}}</th>
+      {% endfor %}
+    </tr>
+    <tr>
+      <th scope="row">Nombre de clients</th>
+      {% for col in nbcli_data%}
+        <th scope="col">{{col}}</th>
+      {% endfor %}
+    </tr>
+    <tr>
+      <th scope="row">Nombre de non clients</th>
+      {% for col in nbncli_data %}
+        <td>{{ col }}</td>
+      {% endfor %}
+    </tr>
+    <tr>
+      <th scope="row">Désinstallation</th>
+      {% for col in des_data %}
+        <td>{{ col }}</td>
+      {% endfor %}
+    </tr>
+    <tr>
+      <th scope="row">Nombre d'applications actives</th>
+      {% for col in nbapp_data %}
+        <td>{{ col }}</td>
+      {% endfor %}
+    </tr>
+  </tbody>
+</table>  
+    
+</div>
+{% endblock %}
+
+{% block javascripts %}
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.2.1/chart.js" integrity="sha512-or2Rj8rtp6G4AA7LOM1DVfQmzsevkILKgY1LLJ5kEDv3UCiEt9bmHJn7LNmo8BC5hxJCQ3cosqo1t77+p/yOfg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    
+    
+    
+{% endblock %}

@@ -1,0 +1,124 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Average Revenu Per User QUAESTYO{% endblock %}
+{% block stylesheets %}{% endblock %}      
+{% block body %}
+
+ <h1 class="text-center">Average Revenu Per User QUAESTYO</h1>
+ 
+<div class="d-grid gap-3">
+  <div class="p-5 bg-white"></div>
+<div class="container">
+<table class="table table-striped">
+  <thead>
+    <tr class="table-success">
+    <th scope="col">ARPU</th>
+    {% for col in arpu_cols%}
+      <th scope="col">{{col}}</th>
+    {% endfor %}
+    <th scope="col">Total</th>      
+    </tr>    
+  </thead>
+  <tbody>
+    <tr>
+      <th scope="row">CA</th>
+      {% for col in arpu_ca_data%}
+        <th scope="col">{{col}}€</th>
+      {% endfor %}
+      <th scope="col">{{total_ca_data}}€</th>   
+    </tr>
+    <tr>
+      <th scope="row">Nombre de commandes</th>
+      {% for col in arpu_avpa_data%}
+        <th scope="col">{{col}}</th>
+      {% endfor %}
+      <th scope="col">{{total_avpa_data}}</th>  
+    </tr>
+    <tr>
+      <th scope="row">Nombre de clients</th>
+      {% for col in arpu_avpa2_data%}
+        <th scope="col">{{col}}</th>
+      {% endfor %}
+      <th scope="col">{{total_avpa2_data}}</th>  
+    </tr>
+    <tr>
+      <th scope="row">Panier Moyen</th>
+      {% for col in pan_moy_data%}
+        <th scope="col">{{col}}€</th>
+      {% endfor %}
+      <th scope="col">{{total_moy_data}}€</th>  
+    </tr>
+    <tr>
+      <th scope="row">Résultat</th>
+      {% for col in resultat%}
+        <th scope="col" {%if col<0 %} style='color:red;' {% endif %}>{{col}}€</th>
+      {% endfor %}
+      <th scope="col" {%if total_resultat<0 %} style='color:red;' {% endif %}>{{total_resultat}}€</th>  
+    </tr>   
+    <tr>
+      <th scope="row">Pourcentage</th>
+      {% for col in pourcent1%}
+        <th scope="col" {%if col<0 %} style='color:red;' {% endif %}>{{col}}%</th>
+      {% endfor %}
+    </tr>   
+    <tr>
+      <th scope="row">ARPU</th>
+      {% for col in arpu_data%}
+        <th scope="col">{{col}}€</th>
+      {% endfor %}
+      <th scope="col">{{total_arpu_data}}€</th>  
+    </tr>    
+  </tbody>
+</table>
+   
+    <canvas id="arpu" width="400" height="100"></canvas>
+  <script>    
+        let arpu = document.querySelector("#arpu");
+        let arpuGraph = new Chart(arpu, {
+            type: 'line',
+    data: {
+        labels: {{ arpu_cols2}},
+        datasets: [{
+            label: 'ARPU',            
+            borderColor: 'blue',
+            data: {{ arpu_data2 }}
+        
+        },{
+            label: 'Panier Moyen',
+            borderColor: 'red',
+            data: {{ pan_moy_data2 }}
+        },{
+          label: 'ARPU Moyen',            
+            borderColor: 'yellow',
+            data: {{ serie_data2 }}            
+        }]
+    },
+    options: {
+        plugins: {
+            legend: {
+                display: true,
+                position: 'bottom',
+            },
+            title: {
+                display: true,
+                text: "ARPU"
+            }
+        },
+        scales: {
+            y: {
+                beginAtZero: true
+            }
+        }
+    }
+});
+
+    </script>  
+</div>
+{% endblock %}
+
+{% block javascripts %}
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.2.1/chart.js" integrity="sha512-or2Rj8rtp6G4AA7LOM1DVfQmzsevkILKgY1LLJ5kEDv3UCiEt9bmHJn7LNmo8BC5hxJCQ3cosqo1t77+p/yOfg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    
+    
+    
+{% endblock %}

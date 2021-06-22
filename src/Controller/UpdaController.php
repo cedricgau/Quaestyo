@@ -6,7 +6,6 @@ use DateTime;
 use App\Entity\Player;
 use App\Entity\Game;
 use App\Entity\Adventure;
-use App\Repository\PlayerRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -159,11 +158,11 @@ class UpdaController extends AbstractController
         $em->flush();
         
         return $this->redirectToRoute('quaestyo_homeland', [               
-            'successb' => 'La base de donnée a bien été mise à jour',               
+            'messageb' => 'La base de donnée a bien été mise à jour',               
         ]);
         }
         return $this->redirectToRoute('quaestyo_homeland', [
-            'successb' => 'La mise à jour n\'a pas fonctionnée, Appelez Cédric',            
+            'messageb' => 'La mise à jour n\'a pas fonctionnée, Appelez Cédric',            
         ]);  
     }
 }

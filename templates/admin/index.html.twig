@@ -55,9 +55,9 @@
             </div>                
         </div>
         <div class="card-footer text-muted">
-            {% if successd is not empty %}
+            {% if messagea is not empty %}
                     <div class="alert alert-warning">
-                        <code>{{ messaged2 }}</code>
+                        <code>{{ messagea }}</code>
                     </div>
             {% endif %}
             
@@ -101,9 +101,9 @@
         </div>
         <div class="card-footer text-muted">
             <div class="col-sm-6">
-                {% if success is not empty %}
+                {% if messagec is not empty %}
                     <div class="alert alert-warning">
-                        <code><a href="Files_CSV\Quaestyo.csv">{{ success }}</a></code>
+                        <code><a href="Files_CSV\Quaestyo.csv">{{ messagec }}</a></code>
                     </div>
                 {% endif %}
             </div>   
@@ -145,13 +145,16 @@
             {% endif %} 
         </div>                   
         <div class="card-footer text-muted">
-            {% if successb is not empty %}
+            {% if messageb is not empty %}
                     <div class="alert alert-warning">
-                        <code>{{ successb }}</code>
+                        <code>{{ messageb }}</code>
                     </div>
             {% endif %}
         </div>    
     </div>
+
+
+    
     <div class="card border-dark mb-5">
         <div class="card-header text-center">
             <h5>✅ Modifier l'état d'un compte Joueur ✅</h5>
@@ -188,9 +191,9 @@
             
         </div>                
         <div class="card-footer text-muted">
-            {% if successd is not empty %}
+            {% if messaged is not empty %}
                     <div class="alert alert-warning">
-                        <code>{{ successd }}</code>
+                        <code>{{ messaged }}</code>
                     </div>
             {% endif %}
         </div>    

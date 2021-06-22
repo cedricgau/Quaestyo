@@ -27,10 +27,12 @@ class AdminController extends AbstractController
     {
         // initialisation des messages 
 
-        $message = "";
+        $messagea = "";
         $messageb = "";
         $messagec = "";
         $messaged = "";
+        $messagee = "";
+
         setlocale(LC_TIME, 'fra_fra');
         $affdate = strftime('%A %d %B %Y');        
         $affdate2 = strftime('%d %m %Y');
@@ -74,13 +76,12 @@ class AdminController extends AbstractController
             
             }
             $em->flush();
-            $messaged2 = 'Mise à jour du Chiffre d\'affaires : '.$exdata->getCA().' , du coût de la publicité  : '.$exdata->getAdvert().' en date : '.$equalm.'/'.$equaly;
+            $messagea = 'Mise à jour du Chiffre d\'affaires : '.$exdata->getCA().' , du coût de la publicité  : '.$exdata->getAdvert().', des téléchargements  : '.$exdata->getDownload().' et des désinstallations  : '.$exdata->getUninstall().' pour le mois : '.$equalm.'/'.$equaly;
             }
 
         // Mise à jour de la base de données
 
-        $drop = new Drop();
-        // var_dump($request->query->get('successb'));
+        $drop = new Drop();        
         $form_drop = $this->createForm(DropType::class, $drop);
         
         $form_drop->handleRequest($request);
@@ -145,9 +146,12 @@ class AdminController extends AbstractController
         $ca = count($a);
        
         
-        if ( $request->query->get('success') !== null) $message = $request->query->get('success');
-        if ( $request->query->get('successb') !== null) $messageb = $request->query->get('successb');
-        if ( $request->query->get('successc') !== null) $messagec = $request->query->get('successc');
+        if ( $request->query->get('messagea') !== null) $messagea = $request->query->get('messagea');
+        if ( $request->query->get('messageb') !== null) $messageb = $request->query->get('messageb');
+        if ( $request->query->get('messagec') !== null) $messagec = $request->query->get('messagec');
+        if ( $request->query->get('messaged') !== null) $messaged = $request->query->get('messaged');
+        if ( $request->query->get('messagee') !== null) $messagea = $request->query->get('messagee');
+       
 
 
         return $this->render('admin/index.html.twig', [
@@ -161,10 +165,11 @@ class AdminController extends AbstractController
             'cp' => $cp,
             'cg' => $cg,
             'ca' => $ca,
-            'success' => $message,
-            'successb' => $messageb,
-            'successc' => $messagec,
-            'successd' => $messaged,
+            'messagea' => $messagea,
+            'messageb' => $messageb,
+            'messagec' => $messagec,
+            'messaged' => $messaged,
+            'messagee' => $messagee,
         ]);
         
     }

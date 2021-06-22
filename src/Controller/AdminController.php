@@ -60,14 +60,17 @@ class AdminController extends AbstractController
                 $exdata
                   ->setCA($form_externdatas->get('CA')->getData())                  
                   ->setAdvert($form_externdatas->get('advert')->getData())
-                  ->setDatepayed($datedem);
+                  ->setDatepayed($datedem)
+                  ->setDownload($form_externdatas->get('download')->getData())
+                  ->setUninstall($form_externdatas->get('uninstall')->getData());
                   
                 $em->persist($exdata);                
             }else{
                 $exdata
                   ->setCA($form_externdatas->get('CA')->getData())                  
                   ->setAdvert($form_externdatas->get('advert')->getData())
-                  ->setDatepayed($datedem);      
+                  ->setDatepayed($datedem)->setDownload($form_externdatas->get('download')->getData())
+                  ->setUninstall($form_externdatas->get('uninstall')->getData());      
             
             }
             $em->flush();

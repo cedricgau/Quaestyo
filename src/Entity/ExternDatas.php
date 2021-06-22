@@ -32,6 +32,16 @@ class ExternDatas
      */
     private $date_payed;
 
+    /**
+     * @ORM\Column(type="integer", nullable=true)
+     */
+    private $download;
+
+    /**
+     * @ORM\Column(type="integer", nullable=true)
+     */
+    private $uninstall;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -69,6 +79,30 @@ class ExternDatas
     public function setDatePayed(?\DateTimeInterface $date_payed): self
     {
         $this->date_payed = $date_payed;
+
+        return $this;
+    }
+
+    public function getDownload(): ?int
+    {
+        return $this->download;
+    }
+
+    public function setDownload(?int $download): self
+    {
+        $this->download = $download;
+
+        return $this;
+    }
+
+    public function getUninstall(): ?int
+    {
+        return $this->uninstall;
+    }
+
+    public function setUninstall(?int $uninstall): self
+    {
+        $this->uninstall = $uninstall;
 
         return $this;
     }

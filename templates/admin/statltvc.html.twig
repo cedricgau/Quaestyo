@@ -42,7 +42,7 @@
         <table class="table table-striped">
             <thead>
                 <tr class="table-success">
-                <th>CLTV</th>    
+                <th>LTVC</th>    
                 <th>Total</th>                  
                 </tr>
             </thead>
@@ -52,16 +52,16 @@
                     <th>{{panmoy}}€</th>                   
                 </tr>                
                 <tr>    
-                    <th>CLTV sans pondération</th>   
-                    <th>{{(totalpond/total)|round(2, 'floor')}}</th>
+                    <th>LTVC sans pondération</th>   
+                    <th style="color:red ; font-weight:1000">{{(totalpond/total)|round(2)}}</th>
                 </tr>
                 <tr>    
                     <th>Pondération</th>   
-                    <th>{{pond}}</th>
+                    <th>{{(totalpond/total*pond)|round(2)}}</th>
                 </tr>   
                 <tr>    
-                    <th>CLTV </th>   
-                    <th>{{(panmoy*pond)|round(2, 'floor')}}€</th>
+                    <th>LTVC </th>   
+                    <th>{{(panmoy*totalpond/total*pond)|round(2)}}€</th>
                 </tr>   
                 <tr>    
                     <th>CAC</th>   
@@ -69,11 +69,11 @@
                 </tr>   
                 <tr>    
                     <th>Résultat</th>   
-                    <th>{{(panmoy*pond)|round(2, 'floor')-cac}}€</th>
+                    <th>{{((panmoy*pond)-cac)|round(2)}}€</th>
                 </tr>   
                 <tr>    
-                    <th>CLTV/CAC </th>   
-                    <th>{{((panmoy*pond)|round(2, 'floor')/cac)|round(2, 'floor')}}</th>
+                    <th>LTVC/CAC </th>   
+                    <th>{{((panmoy*totalpond/total*pond)/cac)|round(2)}}</th>
                 </tr>       
             </tbody>
         </table>

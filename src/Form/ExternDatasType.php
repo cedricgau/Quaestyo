@@ -15,18 +15,28 @@ class ExternDatasType extends AbstractType
     {
         $builder
             ->add('CA', NumberType::class, [
-                'label' => 'Chiffre d\'Affaires'])
+                'label' => 'Chiffre d\'Affaires',
+                'data' => 0,                
+                'required' => true,])
             ->add('advert', NumberType::class, [
-                'label' => 'Publicité investie'])
+                'label' => 'Publicité investie',
+                'data' => 0,                
+                'required' => true,])
             ->add('date_payed', DateType::class, [
-                'label' => 'Mois de paiement',
+                'label' => 'Mise à jour mensuelle concernée',
                 'days' => ['disabled' => true],
                 'format' => 'dd-MM-yyyy',
                 'months' => ['data' => date('m')],          
                 'years' => range(2021,2099),
-                'years' => ['data' => date('Y')],
-                
-            ])
+                'years' => ['data' => date('Y')],])
+            ->add('download', NumberType::class, [
+                    'label' => 'Téléchargements',
+                    'data' => 0,                
+                    'required' => true,])
+            ->add('uninstall', NumberType::class, [
+                        'label' => 'Désinstallations',
+                        'data' => 0,                
+                        'required' => true,])
         ;
     }
 

@@ -102,7 +102,7 @@ class StatLtvcController extends AbstractController
                     $pond = 1.5;
                     break;
                 case "8/2021" :
-                    $pond = 1.6;
+                    $pond = 1.5;
                     break;
                 case "9/2021" :
                     $pond = 1.5;

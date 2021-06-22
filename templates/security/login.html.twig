@@ -13,8 +13,8 @@
             Vous êtes logger comme {{ app.user.username }}, <a href="{{ path('app_logout') }}">Logout</a>
         </div>
     {% endif %}
-
-    <h1 class="h3 mb-3 font-weight-normal">Identifiez-vous s'il vous plait</h1>
+    <img src="img\LOGO_QUAESTYOfondblanc.jpg" width="800px" style="text-align:center" />
+    <h3 class="h3 mb-3 font-weight-normal">Identifiez-vous s'il vous plait</h3>
     <p></p>
     <label for="inputUsername">Identifiant</label>
     <input type="text" value="{{ last_username }}" name="username" id="inputUsername" class="form-control" autocomplete="username" required autofocus>
@@ -35,9 +35,10 @@
             </label>
         </div>
     #}
-
+     <div class="mt-3">
     <button class="btn btn-lg btn-primary" type="submit">
         Valider
     </button>
+    </div>
 </form>
 {% endblock %}

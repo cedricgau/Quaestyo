@@ -53,27 +53,136 @@ class StatController extends AbstractController
             if(isset($ncn[$c][0][1]) && $ncn[$c][0][1]!==0 && isset($depex[$c][0]["advert"]) && isset($depex2[$c][0]["CA"])){                                
                  $cac_data[] = round($depex[$c][0]["advert"]/$ncn[$c][0][1],2);
                  $arpu_data[] = round($depex2[$c][0]["CA"]/$avpa2[$c][0][1],2);
-                 $ctlv_data[] = $num1_data[$c];
+                 $pan_moy_data[] = round($depex2[$c][0]["CA"]/$avpa[$c][0][1],2);
+                 $arpu_ca_data[] = $depex2[$c][0]["CA"];
+                 $arpu_avpa_data[] = $avpa[$c][0][1];
+                 $cac_dep_data[] = $depex[$c][0]["advert"];
+                 $cac_ncn_data[] = $ncn[$c][0][1];
+                 $arpu_avpa2_data[] = $avpa2[$c][0][1];                  
+                 
+                 
              }else{           
                 $cac_data [] = 0;
-                $arpu_data[] = 0;
-                $ctlv_data[] = 0;  
+                $arpu_data[] = 0;                
+                $pan_moy_data[] = 0;               
+                $arpu_ca_data[] = 0;
+                $arpu_ca_data[] = 0;
+                $cac_dep_data[] = 0;
+                $cac_ncn_data[] = 0;
+                $arpu_avpa2_data[] = 0;
             }
              
         }
+       
+        // cas particulier du calcul avec pondération avant le 1/02/2022
         
-               
+        $periodc =  '2021-02-01';
+        $periodd =  date('Y-m-d',strtotime('-12 month'));
+        $periode =  date('Y-m-d');
+        
+        if ( date('Y-m-d')< '2022-02-01'){             
+        
+            $num = $con->findByCountnum($periodc,$periode);                               
+            $datex = date("n")."/".date("Y");
+            
+            switch ($datex){
+                case "6/2021" :
+                    $pond = 1.5;
+                    break;
+                case "7/2021" :
+                    $pond = 1.5;
+                    break;
+                case "8/2021" :
+                    $pond = 1.5;
+                    break;
+                case "9/2021" :
+                    $pond = 1.5;
+                    break;
+                case "10/2021" :
+                    $pond = 1.4;
+                    break;
+                case "11/2021" :
+                    $pond = 1.3;
+                    break;
+                case "12/2021" :
+                    $pond = 1.1;
+                    break;
+                case "1/2022" :
+                    $pond = 1.05;
+                    break;
+                default :
+                    $pond = 1;
+            }
+        }else{
+            $num = $con->findByCountnum($periodd,$periode);
+            $pond=1;
+        }
+
+        $n=0;
+        $total = 0;
+        $totalpond = 0 ;
+                       
+        foreach ($num as $x => $a){                   
+            
+                   if(isset(${'num'.$a['NUM']})){
+                     ${'num'.$a['NUM']}++;
+                   }else{
+                    ${'num'.$a['NUM']}=1;
+                    $tab[]=$a['NUM'];
+                    $n++;
+                   }
+            
+        }
+       sort($tab);
+
+       for($i=0; $i<$n ; $i++){           
+           $total = $total + ${'num'.$tab[$i]};
+           $totalpond = $totalpond +  ${'num'.$tab[$i]}*$tab[$i];
+        }
+
+        $n=0;
+        foreach ($pan_moy_data as $l){
+            $cltv_data[] = $totalpond/$total*$pond*$l;
+            $resultat[] = ($totalpond/$total*$pond*$l)-$cac_data[$n];
+            $n++;
+        }
+
+        $cac = array_sum($cac_dep_data)/array_sum($cac_ncn_data);
+        $panier = array_sum($arpu_ca_data)/array_sum($arpu_avpa_data);
+        $cltv = $panier*$totalpond/$total*$pond;
+        $arpu = array_sum($arpu_ca_data)/array_sum($arpu_avpa2_data);
+
+        $n=0;
+        $tt=0;
+        foreach($resultat as $x){
+            if( $x > 0){
+                $tt = $tt+$x;
+                $n++;
+            } 
+        }
+
+        $result = $tt/$n;
+        
+        
+
         return $this->render('admin/stats.html.twig', [
         
         'vol_cols' => $vol_cols,
         'vol_cols2' => json_encode($vol_colnums),
-        'ctlv_data' => $ctlv_data,
-        'ctlv_data2' => json_encode($ctlv_data),             
+        'cltv_data' => $cltv_data,
+        'cltv_data2' => json_encode($cltv_data),             
         'cac_data' => $cac_data,        
         'cac_data2' => json_encode($cac_data), 
         'arpu_data' => $arpu_data,
-        'arpu_data2' => json_encode($arpu_data),      
-        
+        'arpu_data2' => json_encode($arpu_data),
+        'pan_moy_data' => $pan_moy_data,
+        'resultat' => $resultat,
+        'resultat2' => json_encode($resultat),
+        'cltv' => $cltv,
+        'cac' => $cac,         
+        'arpu' => $arpu,
+        'panier' => $panier,
+        'result' => $result,
         ]);
     }
 }

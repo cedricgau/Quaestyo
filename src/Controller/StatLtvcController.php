@@ -149,7 +149,8 @@ class StatLtvcController extends AbstractController
            $total = $total + ${'num'.$tab[$i]};
            $totalpond = $totalpond +  ${'num'.$tab[$i]}*$tab[$i];
         }
-                        
+
+                                
         return $this->render('admin/statltvc.html.twig', [
             'numb' => $numb,
             'pond' => $pond,

@@ -28,8 +28,9 @@
     <th scope="col">Volumétries Nationales QUAESTYO</th>
     {% for col in vol_cols%}
       <th scope="col">{{col}}</th>
-    {% endfor %}      
-    </tr>
+    {% endfor %} 
+    <th scope="col">Moyen</th>     
+    </tr>    
   </thead>
   <tbody>
     <tr>
@@ -37,19 +38,36 @@
       {% for col in cac_data%}
         <th scope="col">{{col}}€</th>
       {% endfor %}
+      <th scope="col">{{cac|round(2)}}€</th>
     </tr>
     <tr>
       <th scope="row">ARPU</th>
       {% for col in arpu_data%}
         <th scope="col">{{col}}€</th>
       {% endfor %}
+      <th scope="col">{{arpu|round(2)}}€</th>
     </tr>
     <tr>
-      <th scope="row">CLTV</th>
-      {% for col in ctlv_data%}
+      <th scope="row">LTVC</th>
+      {% for col in cltv_data%}
+        <th scope="col">{{col|round(2)}}€</th>
+      {% endfor %}
+      <th scope="col">{{cltv|round(2)}}€</th> 
+    </tr>
+    <tr>
+      <th scope="row">Panier Moyen</th>
+      {% for col in pan_moy_data%}
         <th scope="col">{{col}}€</th>
       {% endfor %}
-    </tr>    
+      <th scope="col">{{panier|round(2)}}€</th> 
+    </tr>
+    <tr>
+      <th scope="row">Résultat</th>
+      {% for col in resultat%}
+        <th {% if col<0 %} style="color:red" {% endif %} scope="col">{{col|round(2)}}€</th>
+      {% endfor %}
+      <th {% if result<0 %} style="color:red" {% endif %}>{{result|round(2)}}€</th> 
+    </tr>               
   </tbody>
 </table>
     
@@ -64,17 +82,27 @@
         datasets: [{
             label: 'CAC',
             backgroundColor: 'blue',
+            order: 2,
             data: {{ cac_data2 }}       
             
         },{
             label: 'ARPU',
-            backgroundColor: 'orange',
+            backgroundColor: 'red',
+            order: 2,
             data: {{ arpu_data2 }}
             
         },{
-            label: 'CLTV',
-            backgroundColor: 'grey',
-            data: {{ ctlv_data2 }}
+            label: 'LTVC',
+            backgroundColor: 'yellow',
+            order: 2,
+            data: {{ cltv_data2 }}
+            
+        },{
+            type: 'line',
+            label: 'Résultat',
+            borderColor: 'green',            
+            order: 1,
+            data: {{ resultat2 }}
         
             
         }]

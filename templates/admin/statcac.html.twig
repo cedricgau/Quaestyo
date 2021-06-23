@@ -37,14 +37,14 @@
       <th scope="col">{{total_cc_data}}</th>
     </tr>
     <tr>
-      <th scope="row">Non payé (gratuit et sans aventure )</th>
+      <th scope="row">Non payé (gratuit et sans aventure)</th>
       {% for col in cac_np_data%}
         <th scope="col">{{col}}</th>
       {% endfor %}
       <th scope="col">{{total_np_data}}</th>
     </tr>   
     <tr>
-      <th scope="row">Joué aventure gratuite</th>
+      <th scope="row">Jouée aventure gratuite</th>
       {% for col in cac_jag_data%}
         <th scope="col">{{col}}</th>         
       {% endfor %}
@@ -58,18 +58,18 @@
       <th scope="col">{{total_ncn_data}}</th>
     </tr>
     <tr>
-      <th scope="row">Nvx Clients Parisiens (joueurs €)</th>
-      {% for col in cac_ncnp_data%}
-        <th scope="col">{{col}}</th>
-      {% endfor %}
-      <th scope="col">{{total_ncnp_data}}</th>
-    </tr>    
-    <tr>
       <th scope="row">Nvx Clients transfo %</th>
       {% for col in pourcent3%}
         <th scope="col">{{col}}%</th>
       {% endfor %}
     </tr>
+    <tr>
+      <th scope="row">Nvx Clients Parisiens (joueurs €)</th>
+      {% for col in cac_ncnp_data%}
+        <th scope="col">{{col}}</th>
+      {% endfor %}
+      <th scope="col">{{total_ncnp_data}}</th>
+    </tr> 
     <tr>
       <th scope="row">CAC National</th>
       {% for cac in cac_data %}

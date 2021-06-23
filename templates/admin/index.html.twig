@@ -48,7 +48,7 @@
                             {{form_widget(form_externdatas.date_payed)}}
                         </div>
                         <div class="mt-4">
-                        <button type="submit" class="btn btn-primary">Insérer les datas</button>
+                        <button type="submit" class="btn btn-primary" onclick="return confirm('{{ controller_name }} , êtes vous sûr de vouloir insérer ses 4 valeurs ?')">Insérer les datas</button>
                     </div>                    
                     {{form_end(form_externdatas)}}
                 {% endif %}
@@ -157,7 +157,7 @@
     
     <div class="card border-dark mb-5">
         <div class="card-header text-center">
-            <h5>✅ Modifier l'état d'un compte Joueur ✅</h5>
+            <h5>✅ Modifier l'état d'un compte Joueur ou d'une aventure ✅</h5>
         </div>
         <div class="card-body">            
             {% if form_majp is defined %}      

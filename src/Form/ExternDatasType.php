@@ -25,10 +25,9 @@ class ExternDatasType extends AbstractType
             ->add('date_payed', DateType::class, [
                 'label' => 'Mise à jour mensuelle concernée',
                 'days' => ['disabled' => true],
-                'format' => 'dd-MM-yyyy',
-                'months' => ['data' => date('m')],          
-                'years' => range(2021,2099),
-                'years' => ['data' => date('Y')],])
+                'format' => 'dd-MM-yyyy',                       
+                'years' => range(2021,2099),               
+                ])
             ->add('download', NumberType::class, [
                     'label' => 'Téléchargements',
                     'data' => 0,                

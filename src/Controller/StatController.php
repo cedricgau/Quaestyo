@@ -161,7 +161,9 @@ class StatController extends AbstractController
             } 
         }
 
-        $result = $tt/$n;
+        for($i=0; $i<12 ; $i++){
+            $result[] = $tt/$n;
+        }
         
         
 
@@ -182,7 +184,8 @@ class StatController extends AbstractController
         'cac' => $cac,         
         'arpu' => $arpu,
         'panier' => $panier,
-        'result' => $result,
+        'result' => $result[0],
+        'result2' => json_encode($result),
         ]);
     }
 }

@@ -48,19 +48,19 @@
       <th scope="col">{{arpu|round(2)}}€</th>
     </tr>
     <tr>
-      <th scope="row">LTVC</th>
-      {% for col in cltv_data%}
-        <th scope="col">{{col|round(2)}}€</th>
-      {% endfor %}
-      <th scope="col">{{cltv|round(2)}}€</th> 
-    </tr>
-    <tr>
       <th scope="row">Panier Moyen</th>
       {% for col in pan_moy_data%}
         <th scope="col">{{col}}€</th>
       {% endfor %}
       <th scope="col">{{panier|round(2)}}€</th> 
     </tr>
+    <tr>
+      <th scope="row">LTVC</th>
+      {% for col in cltv_data%}
+        <th scope="col">{{col|round(2)}}€</th>
+      {% endfor %}
+      <th scope="col">{{cltv|round(2)}}€</th> 
+    </tr>    
     <tr>
       <th scope="row">Résultat</th>
       {% for col in resultat%}
@@ -95,8 +95,13 @@
             label: 'LTVC',
             backgroundColor: 'yellow',
             order: 2,
-            data: {{ cltv_data2 }}
-            
+            data: {{ cltv_data2 }}            
+        },{
+            type: 'line',
+            label: 'Résultat Moyen',
+            borderColor: 'orange',
+            order: 1,
+            data: {{ result2 }}            
         },{
             type: 'line',
             label: 'Résultat',

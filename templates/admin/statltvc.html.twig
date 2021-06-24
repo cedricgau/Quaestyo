@@ -1,10 +1,10 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Long Time Value Customer QUAESTYO{% endblock %}
+{% block title %}Customer Long Time Value QUAESTYO{% endblock %}
 {% block stylesheets %}{% endblock %}      
 {% block body %}
 
- <h1 class="text-center">Long Time Value Customer QUAESTYO</h1>
+ <h1 class="text-center">Customer Long Time Value QUAESTYO</h1>
 
 <div class="d-grid gap-3">
   <div class="p-5 bg-white"></div> 
@@ -13,9 +13,11 @@
             <thead>
                 <tr class="table-success">
                 <th>Nombre d'aventure jouée</th>    
-                <th>Clients</th> 
-                <th>Nombre aventure payante</th> 
-                <th>Pondération</th>      
+                <th>Clients</th>
+                <th>% Clients</th> 
+                <th>Nombre aventure payante</th>                  
+                <th>Pondération</th>
+                <th>% Revenus</th>      
                 </tr>
             </thead>
             <tbody>
@@ -23,17 +25,19 @@
                 <tr>    
                 <th scope="col">{{col.champ}}</th>      
                     <th scope="col">{{col.client}}</th>
+                    <th scope="col">{{(col.client/total*100)|round(2)}}%</th>
                     <th scope="col">{{col.nbav}}</th> 
                     <th scope="col">{{col.pond}}</th>  
-                    
+                    <th scope="col">{{(col.pond/totalpond*100)|round(2)}}%</th> 
                 </tr>
                 {% endfor %}
                 <tr>    
                 <th>Totaux</th>      
-                    <th >{{total}}</th>
-                    <th></th> 
+                    <th>{{total}}</th>
+                    <th>100%</th>
+                     <th></th> 
                     <th>{{totalpond}}</th>  
-                    
+                     <th>100%</th>
                 </tr>    
             </tbody>
         </table>
@@ -42,7 +46,7 @@
         <table class="table table-striped">
             <thead>
                 <tr class="table-success">
-                <th>LTVC</th>    
+                <th>CLTV</th>    
                 <th>Total</th>                  
                 </tr>
             </thead>
@@ -52,7 +56,7 @@
                     <th>{{panmoy}}€</th>                   
                 </tr>                
                 <tr>    
-                    <th>LTVC sans pondération</th>   
+                    <th>CLTV sans pondération</th>   
                     <th style="color:red ; font-weight:1000">{{(totalpond/total)|round(2)}}</th>
                 </tr>
                 <tr>    
@@ -60,7 +64,7 @@
                     <th>{{(totalpond/total*pond)|round(2)}}</th>
                 </tr>   
                 <tr>    
-                    <th>LTVC </th>   
+                    <th>CLTV </th>   
                     <th>{{(panmoy*totalpond/total*pond)|round(2)}}€</th>
                 </tr>   
                 <tr>    
@@ -72,7 +76,7 @@
                     <th>{{((panmoy*totalpond/total*pond)-cac)|round(2)}}€</th>
                 </tr>   
                 <tr>    
-                    <th>LTVC/CAC </th>   
+                    <th>CLTV/CAC </th>   
                     <th>{{((panmoy*totalpond/total*pond)/cac)|round(2)}}</th>
                 </tr>       
             </tbody>

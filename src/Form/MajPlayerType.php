@@ -15,7 +15,7 @@ class MajPlayerType extends AbstractType
     {
         $builder
             ->add('id_player', TextType::class, [
-                'label' => 'ID_ Player',
+                'label' => 'ID Joueur',
                 'required' => true])
             ->add('currency3', IntegerType::class, [
                 'label' => 'Currency 3',

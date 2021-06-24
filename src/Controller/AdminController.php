@@ -2,21 +2,22 @@
 
 namespace App\Controller;
 
+use DateTime;
 use App\Entity\Drop;
 use App\Entity\Game;
 use App\Entity\Player;
 use App\Form\DropType;
 use App\Entity\Adventure;
 use App\Entity\ExternDatas;
+use App\Form\AdventureType;
 use App\Form\MajPlayerType;
 use App\Form\ExternDatasType;
-use DateTime;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\File\Exception\FileException;
-use Symfony\Component\Security\Core\User\UserInterface;
 
 class AdminController extends AbstractController
 {
@@ -32,6 +33,7 @@ class AdminController extends AbstractController
         $messagec = "";
         $messaged = "";
         $messagee = "";
+        $messagef = "";
 
         setlocale(LC_TIME, 'fra_fra');
         $affdate = strftime('%A %d %B %Y');        
@@ -55,8 +57,7 @@ class AdminController extends AbstractController
                        
             $exdata = $em->getRepository(ExternDatas::class)->findOneBy(array('date_payed' => $datedem));
 
-            //var_dump($exdata);
-            
+                      
             if (!$exdata){ 
                 $exdata = new ExternDatas();
                 $exdata
@@ -132,6 +133,30 @@ class AdminController extends AbstractController
             }
         }
 
+        // Mise à jour de l'état de l'Adventure
+        
+        $adv = new Adventure();
+        
+        $form_adv = $this->createForm(AdventureType::class, $adv);
+        
+        $form_adv->handleRequest($request);
+
+        if( $form_adv->isSubmitted() && $form_adv->isValid()){           
+
+            $em = $this->getDoctrine()->getManager();            
+            $adventure = $em->getRepository(Adventure::class)->findOneBy(['code_adv' => $form_adv->get('code_adv')->getData()]);
+
+            if (!$adventure) {
+                $messagef = 'Aucune aventure trouvé pour le code : '.$form_adv->get('code_adv')->getData();                
+            }else{
+                $adventure
+                    ->setState($form_adv->get('state')->getData());                          
+                    
+                $em->flush();
+                $messagef = 'Mise à jour de l\'aventure : '.$form_adv->get('code_adv')->getData().' pour un état : '.$form_adv->get('state')->getData();
+            }
+        }
+
         // affichage des stats de la base de données
 
         $em = $this->getDoctrine()->getManager();
@@ -150,8 +175,8 @@ class AdminController extends AbstractController
         if ( $request->query->get('messageb') !== null) $messageb = $request->query->get('messageb');
         if ( $request->query->get('messagec') !== null) $messagec = $request->query->get('messagec');
         if ( $request->query->get('messaged') !== null) $messaged = $request->query->get('messaged');
-        if ( $request->query->get('messagee') !== null) $messagea = $request->query->get('messagee');
-       
+        if ( $request->query->get('messagee') !== null) $messagee = $request->query->get('messagee');
+        if ( $request->query->get('messagef') !== null) $messagef = $request->query->get('messagef');
 
 
         return $this->render('admin/index.html.twig', [
@@ -159,6 +184,7 @@ class AdminController extends AbstractController
             'form_externdatas' => $form_externdatas->createView(),
             'form_drop' => $form_drop->createView(),
             'form_majp' => $form_play->createView(),
+            'form_adv' => $form_adv->createView(),
             'today' =>  $affdate,
             'today2' =>  $affdate2,
             'dm' => $dm,
@@ -170,6 +196,7 @@ class AdminController extends AbstractController
             'messagec' => $messagec,
             'messaged' => $messaged,
             'messagee' => $messagee,
+            'messagef' => $messagef,
         ]);
         
     }

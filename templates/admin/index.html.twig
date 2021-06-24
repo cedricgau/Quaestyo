@@ -136,7 +136,7 @@
                 {{form_start(form_drop)}}
                     {{form_widget(form_drop.file)}}
                     <div>
-                    <span style="font-size: 11px">* Uniquement player.json ou ADV_IND-leaderboard.json ou meta.adventures.json</span>
+                    <span style="font-size: 13px">* Uniquement player.json ou ADV_IND-leaderboard.json ou meta.adventures.json</span>
                     </div>                                    
                         <div class="mt-4">
                             <button type="submit" class="btn btn-warning">Mettre à jour la base</button>
@@ -159,40 +159,69 @@
         <div class="card-header text-center">
             <h5>✅ Modifier l'état d'un compte Joueur ou d'une Aventure ✅</h5>
         </div>
-        <div class="card-body">            
-            {% if form_majp is defined %}      
-                {{form_start(form_majp)}}
-                    <div class="col-sm-6 mb-3">
-                    {{form_label(form_majp.id_player)}}
-                    {{form_widget(form_majp.id_player)}}
+        <div class="card-body">
+            <div class="container">
+                <div class="row">
+                    <div class="col">            
+                        {% if form_majp is defined %}      
+                            {{form_start(form_majp)}}
+                                <div class="col-md-auto mb-3">
+                                    {{form_label(form_majp.id_player)}}
+                                    &nbsp
+                                    {{form_widget(form_majp.id_player)}}
+                                </div>
+                                <div class="col-md-auto mb-3">
+                                    {{form_label(form_majp.currency3)}}
+                                    {{form_widget(form_majp.currency3)}}
+                                </div>
+                                <div class="col-md-auto mb-3">
+                                    {{form_label(form_majp.currency4)}}
+                                    {{form_widget(form_majp.currency4)}}
+                                </div>
+                                <div class="col-md-auto mb-3">
+                                {{form_label(form_majp.currency5)}}
+                                {{form_widget(form_majp.currency5)}}
+                                </div>
+                                <div class="col-md-auto mb-3">
+                                {{form_label(form_majp.currency6)}}
+                                {{form_widget(form_majp.currency6)}}
+                                </div>                   
+                                <div class="mt-3">
+                                <button type="submit" class="btn btn-dark">Modifier le Joueur</button>
+                                </div>
+                            {{form_end(form_majp)}}
+                        {% endif %}
                     </div>
-                    <div class="col-sm-6 mb-3">
-                    {{form_label(form_majp.currency3)}}
-                    {{form_widget(form_majp.currency3)}}
-                     </div>
-                    <div class="col-sm-6 mb-3">
-                    {{form_label(form_majp.currency4)}}
-                    {{form_widget(form_majp.currency4)}}
-                     </div>
-                    <div class="col-sm-6 mb-3">
-                    {{form_label(form_majp.currency5)}}
-                    {{form_widget(form_majp.currency5)}}
-                     </div>
-                    <div class="col-sm-6">
-                    {{form_label(form_majp.currency6)}}
-                    {{form_widget(form_majp.currency6)}}
-                     </div>                   
-                    <div class="mt-3">
-                    <button type="submit" class="btn btn-dark">Modifier le Joueur</button>
+                    <div class="col">            
+                        {% if form_adv is defined %}      
+                            {{form_start(form_adv)}}
+                                <div class="col-md-auto mb-3 ">
+                                {{form_label(form_adv.code_adv)}}
+                                &nbsp&nbsp&nbsp
+                                {{form_widget(form_adv.code_adv)}}                            
+                                </div>
+                                <div class="col-md-auto mb-3 ">
+                                {{form_label(form_adv.state)}}
+                                {{form_widget(form_adv.state)}}                            
+                                </div>                                                             
+                                <div class="col-md-auto mb-3 ">
+                                <button type="submit" class="btn btn-dark">Modifier l'Aventure</button>
+                                </div>
+                            {{form_end(form_adv)}}
+                        {% endif %}
                     </div>
-                {{form_end(form_majp)}}
-            {% endif %}
-            
+                </div>
+            </div>
         </div>                
         <div class="card-footer text-muted">
             {% if messaged is not empty %}
                     <div class="alert alert-warning">
                         <code>{{ messaged }}</code>
+                    </div>
+            {% endif %}
+            {% if messagef is not empty %}
+                    <div class="alert alert-warning">
+                        <code>{{ messagef }}</code>
                     </div>
             {% endif %}
         </div>    

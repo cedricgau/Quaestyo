@@ -55,7 +55,7 @@
       <th scope="col">{{panier|round(2)}}€</th> 
     </tr>
     <tr>
-      <th scope="row">LTVC</th>
+      <th scope="row">CLTV</th>
       {% for col in cltv_data%}
         <th scope="col">{{col|round(2)}}€</th>
       {% endfor %}
@@ -92,7 +92,7 @@
             data: {{ arpu_data2 }}
             
         },{
-            label: 'LTVC',
+            label: 'CLTV',
             backgroundColor: 'yellow',
             order: 2,
             data: {{ cltv_data2 }}            

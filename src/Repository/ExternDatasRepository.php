@@ -49,15 +49,28 @@ class ExternDatasRepository extends ServiceEntityRepository
         
     }
 
-    public function findByCountdepex3($sm,$dm,$fm)
+    public function findByCountdepex3($dm,$fm)
     {   
         $entityManager = $this->getEntityManager();
 
         $query = $entityManager->createQuery(
-            'SELECT e.id
+            'SELECT e.download
             FROM App\Entity\ExternDatas e            
-            WHERE e.date_payed LIKE concat(?3,'/',?1,'/',?2)           
-            ')->setParameter(1, $dm)->setParameter(2, $fm)->setParameter(3, $sm);
+            WHERE e.date_payed BETWEEN ?1 AND ?2            
+            ')->setParameter(1, $dm)->setParameter(2, $fm);
+        return $query->getResult();  
+        
+    }
+
+    public function findByCountdepex4($dm,$fm)
+    {   
+        $entityManager = $this->getEntityManager();
+
+        $query = $entityManager->createQuery(
+            'SELECT e.uninstall
+            FROM App\Entity\ExternDatas e            
+            WHERE e.date_payed BETWEEN ?1 AND ?2            
+            ')->setParameter(1, $dm)->setParameter(2, $fm);
         return $query->getResult();  
         
     }

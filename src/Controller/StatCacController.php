@@ -38,30 +38,23 @@ class StatCacController extends AbstractController
             $periodb = $b.'-'.$j.'-31';
 
             $depex[] = $con2->findByCountdepex($perioda,$periodb);
+            $depex3[] = $con2->findByCountdepex3($perioda,$periodb);
+            $depex4[] = $con2->findByCountdepex4($perioda,$periodb);
             $cc[] = $con->findByCountcc($perioda,$periodb);
             $jag[] = $con->findByCountjag($perioda,$periodb);            
             $ncn[] = $con->findByCountncn($perioda,$periodb);
             $ncnp[] = $con->findByCountncnp($perioda,$periodb);        
         
-        }
-
-               
-        //datas volumétrie hors CAC
-        
-        
-        $tele_data = ['X','X','X','X','X','X','X','X','X','X','X','X'];
-        $nbHCAC_data = ['X','X','X','X','X','X','X','X','X','X','X','X'];
-        $nbcli_data = ['X','X','X','X','X','X','X','X','X','X','X','X'];
-        $nbncli_data = ['X','X','X','X','X','X','X','X','X','X','X','X'];
-        $des_data = ['X','X','X','X','X','X','X','X','X','X','X','X'];
-        $nbapp_data = ['X','X','X','X','X','X','X','X','X','X','X','X'];
-        
+        }             
+           
        
         //datas cac
 
         for($c=0; $c<12 ; $c++){
             if(isset($ncn[$c][0][1]) && $ncn[$c][0][1]!==0 && isset($depex[$c][0]["advert"])){
                  $cac_dep_data[] = $depex[$c][0]["advert"];
+                 $tele_data[] = $depex3[$c][0]["download"];
+                 $des_data[] = $depex4[$c][0]["uninstall"];
                  $cac_cc_data[] = $cc[$c][0][1];
                  $cac_np_data[] = $cc[$c][0][1]-$ncn[$c][0][1];                
                  $cac_jag_data[] = $jag[$c][0][1];                 
@@ -70,6 +63,16 @@ class StatCacController extends AbstractController
                  $pourcent3[] = round($ncn[$c][0][1]/$cc[$c][0][1]*100,2);                 
                  $cac_data[] = round($depex[$c][0]["advert"]/$ncn[$c][0][1],2);
                  $cac_par_data[] = round($depex[$c][0]["advert"]/$ncnp[$c][0][1],2);
+                 $nbncli_data[] = $cc[$c][0][1]-$ncn[$c][0][1];
+                 if($c>0){
+                   
+                    $nbapp_data[] = $nbapp_data[$c-1]+$depex3[$c][0]["download"]+$depex4[$c][0]["uninstall"];
+                    if(!isset($churn[$c-1]) || $churn[$c-1] === 0){
+                        $churn[] = round(abs($depex4[$c][0]["uninstall"]/$depex3[$c][0]["download"]),4)*100;
+                    }else{
+                        $churn[] = round(abs($depex4[$c][0]["uninstall"])/($nbapp_data[$c]),4)*100;
+                    }
+                 }           
                  
 
 
@@ -83,7 +86,11 @@ class StatCacController extends AbstractController
                 $cac_ncnp_data[] = 0;
                 $cac_data [] = 0;
                 $cac_par_data[] = 0;
-                
+                $tele_data[] = 0;
+                $des_data[] = 0;
+                $nbncli_data[] = 0;
+                $nbapp_data[] = 0;
+                $churn[] = 0;
             }
              
         }
@@ -97,18 +104,15 @@ class StatCacController extends AbstractController
         $total_ncnp_data = array_sum($cac_ncnp_data);       
         $total_cac_data = round($total_dep_data/$total_ncn_data,2);       
         $cac_moy_data = [$total_cac_data, $total_cac_data, $total_cac_data, $total_cac_data, $total_cac_data, $total_cac_data,$total_cac_data, $total_cac_data, $total_cac_data, $total_cac_data, $total_cac_data, $total_cac_data];
-         
+        $total_tele = array_sum($tele_data);
+        $total_uninst = array_sum($des_data); 
         
 
         return $this->render('admin/statcac.html.twig', [       
         'cac_cols' => $cac_cols,
         'cac_cols2' => json_encode($vol_colnums),        
         'tele_data' => $tele_data,
-        'tele_data2' => json_encode($tele_data),
-        'nbHCAC__data' => $nbHCAC_data,
-        'nbHCAC__data2' => json_encode($nbHCAC_data),
-        'nbcli_data' => $nbcli_data,
-        'nbcli_data2' => json_encode($nbcli_data),
+        'tele_data2' => json_encode($tele_data),        
         'nbncli_data' => $nbncli_data,
         'nbncli_data2' => json_encode($nbncli_data),
         'des_data' => $des_data,
@@ -123,8 +127,10 @@ class StatCacController extends AbstractController
         'cac_jag_data' => $cac_jag_data,
         'total_jag_data' => $total_jag_data,
         'cac_cc_data' => $cac_cc_data,
+        'cac_cc_data2' => json_encode($cac_cc_data),
         'total_cc_data' => $total_cc_data,
         'cac_ncn_data' => $cac_ncn_data,
+        'cac_ncn_data2' => json_encode($cac_ncn_data),
         'total_ncn_data' => $total_ncn_data, 
         'cac_ncnp_data' => $cac_ncnp_data,
         'total_ncnp_data' => $total_ncnp_data,         
@@ -133,7 +139,10 @@ class StatCacController extends AbstractController
         'cac_data2' => json_encode($cac_data),
         'cac_par_data2' => json_encode($cac_par_data),         
         'cac_moy_data' => $cac_moy_data,
-        'cac_moy_data2' => json_encode($cac_moy_data)        
+        'cac_moy_data2' => json_encode($cac_moy_data),
+        'churn' => $churn,
+        'total_tele' => $total_tele,
+        'total_uninst' => $total_uninst,        
         ]);
     }
 }

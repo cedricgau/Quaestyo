@@ -141,46 +141,112 @@
       {% for col in tele_data%}
         <th scope="col">{{col}}</th>
       {% endfor %}
+        <th scope="col">{{total_tele}}</th>
     </tr>
     <tr>
       <th scope="row">Nombre de comptes créés hors CAC</th>
-      {% for col in nbHCAC__data%}
+      {% for col in cac_cc_data%}
         <th scope="col">{{col}}</th>
       {% endfor %}
+      <th scope="col">{{total_cc_data}}</th>
     </tr>
     <tr>
       <th scope="row">Nombre de clients</th>
-      {% for col in nbcli_data%}
+      {% for col in cac_ncn_data%}
         <th scope="col">{{col}}</th>
       {% endfor %}
+      <th scope="col">{{total_ncn_data}}</th>
     </tr>
     <tr>
       <th scope="row">Nombre de non clients</th>
       {% for col in nbncli_data %}
-        <td>{{ col }}</td>
+        <td>{{ col }}</td>        
       {% endfor %}
+      <th scope="col">{{total_cc_data-total_ncn_data}}</th>
     </tr>
     <tr>
-      <th scope="row">Désinstallation</th>
+      <th scope="row">Désinstallations</th>
       {% for col in des_data %}
         <td>{{ col }}</td>
       {% endfor %}
+      <th scope="col">{{total_uninst}}</th>
     </tr>
     <tr>
       <th scope="row">Nombre d'applications actives</th>
       {% for col in nbapp_data %}
         <td>{{ col }}</td>
       {% endfor %}
+      <th scope="col">{{total_uninst+total_tele}}</th>
+    </tr>
+    <tr>
+      <th scope="row">Taux de churn</th>
+      {% for col in churn %}
+        <td>{{ col }}%</td>
+      {% endfor %}
+      <th scope="col">{{(100*(-1)*total_uninst/total_tele)|round(2)}}%</th>
     </tr>
   </tbody>
-</table>  
-    
+</table>
+<canvas id="hcac" width="400" height="100"></canvas>
+  <script>    
+        let hcac = document.querySelector("#hcac");
+        let hcacGraph = new Chart(hcac, {
+            type: 'line',
+            
+    data: {
+        labels: {{ cac_cols2 }},
+        datasets: [{
+            label: 'Téléchargements',
+            borderColor: 'blue',
+            data: {{ tele_data2 }}
+            
+        },{
+            label: 'Comptes créés',
+            borderColor: 'red',
+            data: {{ cac_cc_data2 }}
+        
+        },{
+            label: 'Clients',
+            borderColor: 'orange',
+            data: {{ cac_ncn_data2 }}
+        },{
+            label: 'Non Clients',
+            borderColor: 'green',
+            data: {{ nbncli_data2 }}
+        },{
+            label: 'Désinstallations',
+            borderColor: 'purple',
+            data: {{ des_data2 }}
+        },{
+            label: 'Applications Actives',
+            borderColor: 'pink',
+            data: {{ nbapp_data2 }}
+            
+        }]
+    },
+    options: {
+        plugins: {
+            legend: {
+                display: true,
+                position: 'bottom',
+            },
+            title: {
+                display: true,
+                text: "Hors CAC"
+            }
+        },
+        scales: {
+            y: {
+                beginAtZero: true
+            }
+        }
+    }
+});  
+</script>    
 </div>
 {% endblock %}
 
 {% block javascripts %}
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.2.1/chart.js" integrity="sha512-or2Rj8rtp6G4AA7LOM1DVfQmzsevkILKgY1LLJ5kEDv3UCiEt9bmHJn7LNmo8BC5hxJCQ3cosqo1t77+p/yOfg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-    
-    
-    
+  
 {% endblock %}

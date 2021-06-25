@@ -28,19 +28,15 @@ class ConverterController extends AbstractController{
             $con = $this->getDoctrine()->getRepository(Player::class);
             $obj2 = $con->findByPlayer(0);
             $con = $this->getDoctrine()->getRepository(Adventure::class);
-            $obj3 = $con->findAll();          
+            $obj3 = $con->findAll(); 
 
-            
            $title = ['ID','MAIL','PSEUDO','DATE_CREATION','VILLE','PREMIER_PAIEMENT','AV1','Statut','Date_AV1'];
 
                for($j=2;$j<$nbcol;$j++){
                    array_push( $title ,'AV'.$j,'Statut','Date_AV'.$j);
                }
-
            array_push( $title ,'Dernière_date_jouée','PAS_JOUEE_DEPUIS','TOT_AV','TOT_AV_PAYANTES','TOT_AV_GRATUITES','TOT_AV_PRIVES','C1','C3','C4','C5','C6','IOS/ANDROID');
            $tab = array ($title);
-
-
 
            foreach($obj2 as $d2) {
 

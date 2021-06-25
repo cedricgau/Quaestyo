@@ -50,7 +50,7 @@ class AdminController extends AbstractController
         if( $form_externdatas->isSubmitted() && $form_externdatas->isValid()){           
 
             $em = $this->getDoctrine()->getManager();
-             // var_dump($form_externdatas->get('date_payed')->getData());
+             
             $equalm = date("m", strtotime($form_externdatas->get('date_payed')->getData()->format('M')));
             $equaly = date("Y", strtotime($form_externdatas->get('date_payed')->getData()->format('Y')));
             $datedem = new DateTime($equaly."-".$equalm."-01");

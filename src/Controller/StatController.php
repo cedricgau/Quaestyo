@@ -183,8 +183,7 @@ class StatController extends AbstractController
         'cltv' => $cltv,
         'cac' => $cac,         
         'arpu' => $arpu,
-        'panier' => $panier,
-        'result' => $result[0],
+        'panier' => $panier,        
         'result2' => json_encode($result),
         ]);
     }

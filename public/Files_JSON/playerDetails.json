@@ -1,0 +1,441 @@
+[
+    {
+        "data": {
+            "email_lower": "agertaldi@gmail.com",
+            "used_coupons": {},
+            "display_name_lower": "adrien gertaldi",
+            "scores": {
+                "ADV_31": {
+                    "score": 0,
+                    "team": "603fa2d6c1ddaa0546354065"
+                }
+            },
+            "user_name": "FB_4390840964266385",
+            "user_name_lower": "fb_4390840964266385",
+            "created_at": 1614688173,
+            "display_name": "Adrien Gertaldi",
+            "email": "agertaldi@gmail.com"
+        },
+        "id": "603e2fad8f08ab054d4a95d8",
+        "ttl": 0,
+        "version": 4
+    },
+    {
+        "data": {
+            "email_lower": "agnesfrapy@gmail.com",
+            "used_coupons": {},
+            "display_name_lower": "agnès frapy",
+            "user_name": "FB_1206955556407539",
+            "user_name_lower": "fb_1206955556407539",
+            "created_at": 1624700387,
+            "display_name": "Agnès Frapy",
+            "email": "agnesfrapy@gmail.com"
+        },
+        "id": "60d6f5e39414c83a25496f81",
+        "ttl": 0,
+        "version": 1
+    },
+    {
+        "data": {
+            "email_lower": "ahlame.walters@hotmail.fr",
+            "used_coupons": {},
+            "display_name_lower": "ahlame walters",
+            "scores": {
+                "ADV_18": {
+                    "score": 1855,
+                    "team": "602bacc222393e0556b53690"
+                },
+                "ADV_45": {
+                    "score": 0,
+                    "team": "602cfac5dcb68d054c0fd0be"
+                }
+            },
+            "user_name": "FB_3734179960004142",
+            "user_name_lower": "fb_3734179960004142",
+            "created_at": 1613474920,
+            "display_name": "Ahlame Walters",
+            "email": "ahlame.walters@hotmail.fr"
+        },
+        "id": "602bac6822393e0556b45e3a",
+        "ttl": 0,
+        "version": 4
+    },
+    {
+        "data": {
+            "email_lower": "aitouna.despicht@edhec.com",
+            "used_coupons": {},
+            "display_name_lower": "aïtouna despicht",
+            "user_name": "FB_2864117580469596",
+            "user_name_lower": "fb_2864117580469596",
+            "created_at": 1616596081,
+            "display_name": "Aïtouna Despicht",
+            "email": "aitouna.despicht@edhec.com"
+        },
+        "id": "605b4c71295e202e97439081",
+        "ttl": 0,
+        "version": 1
+    },
+    {
+        "data": {
+            "email_lower": "alain.blaudet@wanadoo.fr",
+            "used_coupons": {},
+            "display_name_lower": "alain marie-lou blaudet",
+            "user_name": "FB_1550123005330498",
+            "user_name_lower": "fb_1550123005330498",
+            "created_at": 1624181781,
+            "display_name": "Alain Marie-Lou Blaudet",
+            "email": "alain.blaudet@wanadoo.fr"
+        },
+        "id": "60cf0c14d4b0964742d0698e",
+        "ttl": 0,
+        "version": 2
+    },
+    {
+        "data": {
+            "email_lower": "alandu62740@outlook.fr",
+            "used_coupons": {},
+            "display_name_lower": "alan poquet",
+            "user_name": "FB_2568820470085545",
+            "user_name_lower": "fb_2568820470085545",
+            "created_at": 1613738135,
+            "display_name": "Alan Poquet",
+            "email": "alandu62740@outlook.fr"
+        },
+        "id": "602fb0976d24c6054f0d6000",
+        "ttl": 0,
+        "version": 1
+    },
+    {
+        "data": {
+            "email_lower": "alex06510@hotmail.fr",
+            "used_coupons": {},
+            "display_name_lower": "alex busca",
+            "user_name": "FB_3817157115004647",
+            "user_name_lower": "fb_3817157115004647",
+            "created_at": 1615043876,
+            "display_name": "Alex Busca",
+            "email": "alex06510@hotmail.fr"
+        },
+        "id": "60439d2403f973054bb92449",
+        "ttl": 0,
+        "version": 4
+    },
+    {
+        "data": {
+            "email_lower": "alexandre.guagno26@gmail.com",
+            "used_coupons": {},
+            "display_name_lower": "alexandre guagno",
+            "user_name": "FB_147048007456464",
+            "user_name_lower": "fb_147048007456464",
+            "created_at": 1622482656,
+            "display_name": "Alexandre Guagno",
+            "email": "alexandre.guagno26@gmail.com"
+        },
+        "id": "60b51ee09fd51a3e06deae5d",
+        "ttl": 0,
+        "version": 1
+    },
+    {
+        "data": {
+            "email_lower": "aline.kern@gmail.com",
+            "used_coupons": {},
+            "display_name_lower": "aline kern",
+            "user_name": "FB_10221098596548573",
+            "user_name_lower": "fb_10221098596548573",
+            "created_at": 1609169730,
+            "display_name": "Aline Kern",
+            "email": "aline.kern@gmail.com"
+        },
+        "id": "5fe9fb42db8e5905476d2f9b",
+        "ttl": 0,
+        "version": 5
+    },
+    {
+        "data": {
+            "email_lower": "amely-e@live.fr",
+            "used_coupons": {},
+            "display_name_lower": "amelie cleret",
+            "scores": {
+                "ADV_43": {
+                    "score": 672,
+                    "team": "60325a4003f973054ba71604"
+                }
+            },
+            "user_name": "FB_10164708772380401",
+            "user_name_lower": "fb_10164708772380401",
+            "created_at": 1613912613,
+            "display_name": "Amelie Cleret",
+            "email": "amely-e@live.fr"
+        },
+        "id": "60325a2503f973054ba6cd11",
+        "ttl": 0,
+        "version": 2
+    },
+    {
+        "data": {
+            "email_lower": "amira_badache@hotmail.fr",
+            "used_coupons": {},
+            "display_name_lower": "mir ouche",
+            "user_name": "FB_870922693700300",
+            "user_name_lower": "fb_870922693700300",
+            "created_at": 1615024459,
+            "display_name": "Mir Ouche",
+            "email": "amira_badache@hotmail.fr"
+        },
+        "id": "6043514bd259ac054eb1fbcb",
+        "ttl": 0,
+        "version": 1
+    },
+    {
+        "data": {
+            "email_lower": "anais.h@hotmail.com",
+            "used_coupons": {},
+            "display_name_lower": "anaïs hgrl",
+            "scores": {
+                "ADV_18": {
+                    "score": 646,
+                    "team": "607ebcdb55af3a054b56256e"
+                }
+            },
+            "user_name": "FB_10221940770121677",
+            "user_name_lower": "fb_10221940770121677",
+            "created_at": 1618511361,
+            "display_name": "Anaïs Hgrl",
+            "email": "anais.h@hotmail.com"
+        },
+        "id": "6078860107991c0549c46770",
+        "ttl": 0,
+        "version": 8
+    },
+    {
+        "data": {
+            "email_lower": "andra_marina@hotmail.fr",
+            "used_coupons": {},
+            "display_name_lower": "andra henriques medeiros",
+            "user_name": "FB_10222697641223259",
+            "user_name_lower": "fb_10222697641223259",
+            "created_at": 1614455379,
+            "display_name": "Andra Henriques Medeiros",
+            "email": "andra_marina@hotmail.fr"
+        },
+        "id": "603aa253d259ac054e825bc3",
+        "ttl": 0,
+        "version": 1
+    },
+    {
+        "data": {
+            "email_lower": "anissarwayane@hotmail.fr",
+            "used_coupons": {},
+            "display_name_lower": "anissa rwayane",
+            "scores": {
+                "ADV_3": {
+                    "score": 1612,
+                    "team": "60b24171b7101f44d4a619b4"
+                }
+            },
+            "user_name": "FB_10225625643768779",
+            "user_name_lower": "fb_10225625643768779",
+            "created_at": 1622293914,
+            "display_name": "Anissa Rwayane",
+            "email": "anissarwayane@hotmail.fr"
+        },
+        "id": "60b23d9a9fd51a3e060be34e",
+        "ttl": 0,
+        "version": 28
+    },
+    {
+        "data": {
+            "email_lower": "annyheritier@yahoo.fr",
+            "used_coupons": {},
+            "display_name_lower": "anny aguilar",
+            "user_name": "FB_3236553849904794",
+            "user_name_lower": "fb_3236553849904794",
+            "created_at": 1624539885,
+            "display_name": "Anny Aguilar",
+            "email": "annyheritier@yahoo.fr"
+        },
+        "id": "60d482ed9414c83a2500f89c",
+        "ttl": 0,
+        "version": 5
+    },
+    {
+        "data": {
+            "email_lower": "arsouille7378@gmail.com",
+            "used_coupons": {},
+            "display_name_lower": "véro l'arsouille ",
+            "updated_at": 1595336430,
+            "scores": {
+                "ADV_45": {
+                    "score": 3325,
+                    "team": "5fdcba539a7ef2055346aeee"
+                }
+            },
+            "user_name": "FB_3354238341274546",
+            "user_name_lower": "fb_3354238341274546",
+            "created_at": 1595246355,
+            "display_name": "Véro l'Arsouille ",
+            "email": "arsouille7378@gmail.com"
+        },
+        "id": "5f1587137369d952ca1c9dae",
+        "ttl": 0,
+        "version": 17
+    },
+    {
+        "data": {
+            "email_lower": "aude.malfait78@gmail.com",
+            "used_coupons": {},
+            "display_name_lower": "qudette waude",
+            "scores": {
+                "ADV_27": {
+                    "score": 189,
+                    "team": "609e39bfefd2025c32e27a34"
+                }
+            },
+            "user_name": "FB_10223932245761432",
+            "user_name_lower": "fb_10223932245761432",
+            "created_at": 1620925368,
+            "display_name": "Qudette Waude",
+            "email": "aude.malfait78@gmail.com"
+        },
+        "id": "609d5bb826fb6f370cd59477",
+        "ttl": 0,
+        "version": 6
+    },
+    {
+        "data": {
+            "email_lower": "audrey95cent@hotmail.fr",
+            "used_coupons": {},
+            "display_name_lower": "audrey rolland oliveira",
+            "user_name": "FB_10225926760054795",
+            "user_name_lower": "fb_10225926760054795",
+            "created_at": 1613644284,
+            "display_name": "Audrey Rolland Oliveira",
+            "email": "audrey95cent@hotmail.fr"
+        },
+        "id": "602e41fc5098da0553d1caa7",
+        "ttl": 0,
+        "version": 1
+    },
+    {
+        "data": {
+            "email_lower": "audreyromer@live.fr",
+            "used_coupons": {},
+            "display_name_lower": "audrey romer",
+            "user_name": "FB_4885135778226782",
+            "user_name_lower": "fb_4885135778226782",
+            "created_at": 1610438420,
+            "display_name": "Audrey Romer",
+            "email": "audreyromer@live.fr"
+        },
+        "id": "5ffd57130bb726054ac86ff0",
+        "ttl": 0,
+        "version": 1
+    },
+    {
+        "data": {
+            "email_lower": "aurelie-du-38@live.fr",
+            "used_coupons": {},
+            "display_name_lower": "aurélie chopin",
+            "scores": {
+                "ADV_18": {
+                    "score": 136,
+                    "team": "603a31316d24c6054f7dd9c5"
+                }
+            },
+            "user_name": "FB_10225199798372141",
+            "user_name_lower": "fb_10225199798372141",
+            "created_at": 1614425714,
+            "display_name": "Aurélie Chopin",
+            "email": "aurelie-du-38@live.fr"
+        },
+        "id": "603a2e7284bd5d054a31d23f",
+        "ttl": 0,
+        "version": 9
+    },
+    {
+        "data": {
+            "email_lower": "aurelie2.carre@wanadoo.fr",
+            "used_coupons": {},
+            "display_name_lower": "aurélie carré",
+            "scores": {
+                "ADV_18": {
+                    "score": 74,
+                    "team": "60b6a18d2d476c0dca21e5c2"
+                }
+            },
+            "user_name": "FB_4224142537624201",
+            "user_name_lower": "fb_4224142537624201",
+            "created_at": 1622581539,
+            "display_name": "Aurélie Carré",
+            "email": "aurelie2.carre@wanadoo.fr"
+        },
+        "id": "60b6a1232d476c0dca202213",
+        "ttl": 0,
+        "version": 2
+    },
+    {
+        "data": {
+            "email_lower": "aurelien.lopes@gmail.com",
+            "used_coupons": {},
+            "display_name_lower": "auréliano poles",
+            "scores": {
+                "ADV_2": {
+                    "score": 88,
+                    "team": "605609afd259ac048af6e55c"
+                },
+                "ADV_43": {
+                    "score": 56,
+                    "team": "604dca9805e84a054c2731b2"
+                },
+                "ADV_53": {
+                    "score": 10,
+                    "team": "605763ab5a74de2cbc8d312d"
+                }
+            },
+            "user_name": "FB_10160824837454447",
+            "user_name_lower": "fb_10160824837454447",
+            "created_at": 1615710730,
+            "display_name": "Auréliano Poles",
+            "email": "aurelien.lopes@gmail.com"
+        },
+        "id": "604dca0a05e84a054c260135",
+        "ttl": 0,
+        "version": 14
+    },
+    {
+        "data": {
+            "email_lower": "aurore.eglyjouve@gmail.com",
+            "used_coupons": {},
+            "display_name_lower": "aurore egly-jouve prandi",
+            "scores": {
+                "ADV_31": {
+                    "score": 1070,
+                    "team": "603f5b1c76746e054c2e6551"
+                }
+            },
+            "user_name": "FB_10221675466130425",
+            "user_name_lower": "fb_10221675466130425",
+            "created_at": 1614765365,
+            "display_name": "Aurore Egly-Jouve Prandi",
+            "email": "aurore.eglyjouve@gmail.com"
+        },
+        "id": "603f5d35d65fe6054a468b86",
+        "ttl": 0,
+        "version": 5
+    },
+    {
+        "data": {
+            "email_lower": "axel-coassin@hotmail.com",
+            "used_coupons": {},
+            "display_name_lower": "axel coassin",
+            "user_name": "FB_1915813408578849",
+            "user_name_lower": "fb_1915813408578849",
+            "created_at": 1624087963,
+            "display_name": "Axel Coassin",
+            "email": "axel-coassin@hotmail.com"
+        },
+        "id": "60cd9d9ba819e150de885194",
+        "ttl": 0,
+        "version": 3
+    }
+]

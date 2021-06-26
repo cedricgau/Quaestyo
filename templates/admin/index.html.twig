@@ -187,7 +187,7 @@
                                 {{form_widget(form_majp.currency6)}}
                                 </div>                   
                                 <div class="mt-3">
-                                <button type="submit" class="btn btn-dark">Modifier le Joueur</button>
+                                <button type="submit" class="btn btn-dark">Modifier les Currencies</button>
                                 </div>
                             {{form_end(form_majp)}}
                         {% endif %}
@@ -205,9 +205,26 @@
                                 {{form_widget(form_adv.state)}}                            
                                 </div>                                                             
                                 <div class="col-md-auto mb-3 ">
-                                <button type="submit" class="btn btn-dark">Modifier l'Aventure</button>
+                                <button type="submit" class="btn btn-dark">Modifier l'Etat de l'Aventure</button>
                                 </div>
                             {{form_end(form_adv)}}
+                        {% endif %}
+                        {% if form_mail_player is defined %}      
+                            {{form_start(form_mail_player)}}
+                                <div class="col-md-auto mb-3 ">
+                                {{form_label(form_mail_player.id_player)}}
+                                &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp                               
+                                {{form_widget(form_mail_player.id_player)}}                            
+                                </div>
+                                <div class="col-md-auto mb-3 ">
+                                {{form_label(form_mail_player.mail)}}
+                                &nbsp&nbsp&nbsp&nbsp
+                                {{form_widget(form_mail_player.mail)}}                            
+                                </div>                                                             
+                                <div class="col-md-auto mb-3 ">
+                                <button type="submit" class="btn btn-dark">Modifier le Mail</button>
+                                </div>
+                            {{form_end(form_mail_player)}}
                         {% endif %}
                     </div>
                 </div>
@@ -222,6 +239,11 @@
             {% if messagef is not empty %}
                     <div class="alert alert-warning">
                         <code>{{ messagef }}</code>
+                    </div>
+            {% endif %}
+            {% if messageg is not empty %}
+                    <div class="alert alert-warning">
+                        <code>{{ messageg }}</code>
                     </div>
             {% endif %}
         </div>    

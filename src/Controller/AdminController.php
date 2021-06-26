@@ -11,6 +11,7 @@ use App\Entity\Adventure;
 use App\Entity\ExternDatas;
 use App\Form\AdventureType;
 use App\Form\MajPlayerType;
+use App\Form\PlayerMailType;
 use App\Form\ExternDatasType;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -34,6 +35,7 @@ class AdminController extends AbstractController
         $messaged = "";
         $messagee = "";
         $messagef = "";
+        $messageg = "";
 
         setlocale(LC_TIME, 'fra_fra');
         $affdate = strftime('%A %d %B %Y');        
@@ -126,10 +128,48 @@ class AdminController extends AbstractController
                     ->setCurrency3($form_play->get('currency3')->getData())      
                     ->setCurrency4($form_play->get('currency4')->getData())   
                     ->setCurrency5($form_play->get('currency5')->getData())
-                    ->setCurrency6($form_play->get('currency6')->getData());        
+                    ->setCurrency6($form_play->get('currency6')->getData());                   
                     
                 $em->flush();
-                $messaged = 'Mise à jour ID Player : '.$player->getIdPlayer().' currencies 3,4,5,6 : '.$player->getCurrency3().','.$player->getCurrency4().','.$player->getCurrency5().','.$player->getCurrency6();
+                $messaged = 'Mise à jour ID Player : '.$player->getIdPlayer().'des currencies 3,4,5,6 : '.$player->getCurrency3().','.$player->getCurrency4().','.$player->getCurrency5().','.$player->getCurrency6();
+            }
+        }
+
+        // Mise à jour du mail du Player
+
+        $playmail = new Player();
+        
+        $form_mail_player = $this->createForm(PlayerMailType::class, $playmail);
+        
+        $form_mail_player->handleRequest($request);
+
+        if( $form_mail_player->isSubmitted() && $form_mail_player->isValid()){           
+
+            $em = $this->getDoctrine()->getManager();
+        
+            $player = $em->getRepository(Player::class)->find($form_mail_player->get('id_player')->getData());
+
+            if (!$player) {
+                // $messaged = 'Aucun Joueur trouvé pour l\'ID : '.$form_play->get('id_player')->getData();
+                $file = '..\public\Files_JSON\playerDetails.json'; 
+                $data = file_get_contents($file);
+                $obj = json_decode($data);
+                
+                foreach($obj as $d) {                    
+                    if(substr($d->{'data'}->{'user_name'},0,3) === "FB_" || substr($d->{'data'}->{'user_name'},0,3) === "GP_" ){
+                        $player = $em->getRepository(Player::class)->find($d->{'id'});
+                        if ($player) {
+                            $player->setMail($d->{'data'}->{'email'});
+                            $em->flush();
+                        }  
+                    }
+                }
+            }else{
+                $player
+                    ->setMail($form_play->get('mail')->getData());        
+                    
+                $em->flush();
+                $messageg = 'Mise à jour ID Player : '.$player->getIdPlayer().' du mail : '.$player->getMail();
             }
         }
 
@@ -159,8 +199,7 @@ class AdminController extends AbstractController
 
         // affichage des stats de la base de données
 
-        $em = $this->getDoctrine()->getManager();
-        
+        $em = $this->getDoctrine()->getManager();        
         $p = $em->getRepository(Player::class)->findAll();
         $cp = count($p);
         $g = $em->getRepository(Game::class)->findAll();        
@@ -177,6 +216,7 @@ class AdminController extends AbstractController
         if ( $request->query->get('messaged') !== null) $messaged = $request->query->get('messaged');
         if ( $request->query->get('messagee') !== null) $messagee = $request->query->get('messagee');
         if ( $request->query->get('messagef') !== null) $messagef = $request->query->get('messagef');
+        if ( $request->query->get('messageg') !== null) $messageg = $request->query->get('messageg');
 
 
         return $this->render('admin/index.html.twig', [
@@ -185,6 +225,7 @@ class AdminController extends AbstractController
             'form_drop' => $form_drop->createView(),
             'form_majp' => $form_play->createView(),
             'form_adv' => $form_adv->createView(),
+            'form_mail_player' => $form_mail_player->createView(),
             'today' =>  $affdate,
             'today2' =>  $affdate2,
             'dm' => $dm,
@@ -197,6 +238,7 @@ class AdminController extends AbstractController
             'messaged' => $messaged,
             'messagee' => $messagee,
             'messagef' => $messagef,
+            'messageg' => $messageg,
         ]);
         
     }

@@ -66,7 +66,7 @@
       {% for col in resultat%}
         <th {% if col<0 %} style="color:red" {% endif %} scope="col">{{col|round(2)}}€</th>
       {% endfor %}
-      <th {% if result<0 %} style="color:red" {% endif %}>{{result|round(2)}}€</th> 
+      <th {% if cltv-cac<0 %} style="color:red" {% endif %}>{{(cltv-cac)|round(2)}}€</th> 
     </tr>               
   </tbody>
 </table>

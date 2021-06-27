@@ -160,6 +160,7 @@ class AdminController extends AbstractController
                         $player = $em->getRepository(Player::class)->find($d->{'id'});
                         if ($player) {
                             $player->setMail($d->{'data'}->{'email'});
+                            var_dump($d->{'data'}->{'email'});
                             $em->flush();
                         }  
                     }

@@ -125,6 +125,8 @@ class AdminController extends AbstractController
                 $messaged = 'Aucun Joueur trouvé pour l\'ID : '.$form_play->get('id_player')->getData();                
             }else{
                 $player
+                    ->setCurrency1($form_play->get('currency1')->getData())
+                    ->setCurrency2($form_play->get('currency2')->getData())
                     ->setCurrency3($form_play->get('currency3')->getData())      
                     ->setCurrency4($form_play->get('currency4')->getData())   
                     ->setCurrency5($form_play->get('currency5')->getData())
@@ -150,7 +152,7 @@ class AdminController extends AbstractController
             $player = $em->getRepository(Player::class)->find($form_mail_player->get('id_player')->getData());
 
             if (!$player) {
-                $messaged = 'Aucun Joueur trouvé pour l\'ID : '.$form_play->get('id_player')->getData();
+                $messaged = 'Aucun Joueur trouvé pour l\'ID : '.$form_mail_player->get('id_player')->getData();
                 /* $file = '..\public\Files_JSON\playerDetails.json'; 
                 $data = file_get_contents($file);
                 $obj = json_decode($data);
@@ -167,7 +169,7 @@ class AdminController extends AbstractController
                 } */
             }else{
                 $player
-                    ->setMail($form_play->get('mail')->getData());        
+                    ->setMail($form_mail_player->get('mail')->getData());        
                     
                 $em->flush();
                 $messageg = 'Mise à jour ID Player : '.$player->getIdPlayer().' du mail : '.$player->getMail();

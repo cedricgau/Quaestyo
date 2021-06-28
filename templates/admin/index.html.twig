@@ -171,6 +171,14 @@
                                     {{form_widget(form_majp.id_player)}}
                                 </div>
                                 <div class="col-md-auto mb-3">
+                                    {{form_label(form_majp.currency1)}}
+                                    {{form_widget(form_majp.currency1)}}
+                                </div>
+                                <div class="col-md-auto mb-3">
+                                    {{form_label(form_majp.currency2)}}
+                                    {{form_widget(form_majp.currency2)}}
+                                </div>
+                                <div class="col-md-auto mb-3">
                                     {{form_label(form_majp.currency3)}}
                                     {{form_widget(form_majp.currency3)}}
                                 </div>
@@ -209,6 +217,9 @@
                                 </div>
                             {{form_end(form_adv)}}
                         {% endif %}
+                            <div class="container">
+                                <br><br><br><p></p>
+                            </div>
                         {% if form_mail_player is defined %}      
                             {{form_start(form_mail_player)}}
                                 <div class="col-md-auto mb-3 ">

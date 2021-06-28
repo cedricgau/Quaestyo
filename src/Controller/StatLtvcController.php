@@ -143,9 +143,10 @@ class StatLtvcController extends AbstractController
             
         }
        sort($tab);
-
-       for($i=0; $i<$n ; $i++){
-           $numb[] = array('champ' => $tab[$i].' aventures jouées','client' => ${'num'.$tab[$i]},'nbav' => $tab[$i],'pond' => ${'num'.$tab[$i]}*$tab[$i]);           
+       $plur="";
+       for($i=0; $i<$n ; $i++){           
+           if($tab[$i]>1) $plur="s";
+           $numb[] = array('champ' => $tab[$i].' aventure jouée'.$plur,'client' => ${'num'.$tab[$i]},'nbav' => $tab[$i],'pond' => ${'num'.$tab[$i]}*$tab[$i]);           
            $total = $total + ${'num'.$tab[$i]};
            $totalpond = $totalpond +  ${'num'.$tab[$i]}*$tab[$i];
         }

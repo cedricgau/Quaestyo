@@ -23,10 +23,11 @@ class ConverterController extends AbstractController{
             $crea = $request->request->get('datecrea');
             $nbcol = $request->request->get('nbcol');
 
+            
             $con = $this->getDoctrine()->getRepository(Game::class);
             $obj = $con->findByAdventure(0);
             $con = $this->getDoctrine()->getRepository(Player::class);
-            $obj2 = $con->findByPlayer(0);
+            $obj2 = $con->findByPlayer($apres,$avant);
             $con = $this->getDoctrine()->getRepository(Adventure::class);
             $obj3 = $con->findAll(); 
 
@@ -48,12 +49,10 @@ class ConverterController extends AbstractController{
                $dlpr=null; // date la plus récente
                $gdc = date_format($d2->getDateCreation(),'Y-m-d'); // conversion format date YYYY-MM-DD
                $p=0;              
-               $line = null;                
-
-                   foreach($obj as $d1) {                       
-                     $gdp = date_format($d1->getDatePlayed(),'Y-m-d'); // conversion format date YYYY-MM-DD
+               $line = null; 
+                   foreach($obj as $d1) { 
                      $u=0;                         
-                       if (($d2->getIdPlayer()===$d1->getIdPlayer()) && $gdp >= $apres && $gdp <= $avant) { // si l'aventure a été faite après le ... et avant le ....
+                       if (($d2->getIdPlayer()===$d1->getIdPlayer())) { // si l'aventure a été faite après le ... et avant le ....
                           
                            foreach($obj3 as $d3){
                                
@@ -178,13 +177,10 @@ class ConverterController extends AbstractController{
                             for($j=0;$j<$nbcol+1;$j++){
                                 array_push ($line,'','','');
                             }
-
-                            
                             $col16 = $d2->getcurrency3();
                             $col17 = $d2->getcurrency4();
                             $col18 = $d2->getcurrency5();
                             $col19 = $d2->getcurrency6();
-
 
                             array_push ($line,'',$col16,$col17,$col18,$col19);
                             array_push ($tab,$line);

@@ -191,7 +191,7 @@ class GameRepository extends ServiceEntityRepository
             ')->setParameter(1, $dm)->setParameter(2, $fm);
         return $query->getResult();  
         
-    }
+    }    
 
     /*
     public function findOneBySomeField($value): ?Game

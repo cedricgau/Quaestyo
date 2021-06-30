@@ -184,7 +184,7 @@ class AdminController extends AbstractController
                     
                 }else if( $form_mail_player->get('city')->getData()!==null){
                     $player
-                        ->setMail($form_mail_player->get('city')->getData());
+                        ->setCity($form_mail_player->get('city')->getData());
                         $em->flush();
                     $messageg = 'Mise à jour ID Player : '.$player->getIdPlayer().' de la ville : '.$player->getCity();
 

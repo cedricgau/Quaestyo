@@ -15,11 +15,14 @@ class PlayerMailType extends AbstractType
     {
         $builder
             ->add('id_player', TextType::class, [
-            'label' => 'ID Joueur',
-            'required' => true])
+                'label' => 'ID Joueur',
+                'required' => true])
             ->add('mail', EmailType::class, [
                 'label' => 'Mail du Joueur',
-                'required' => true])
+                'required' => false])
+            ->add('city', TextType::class, [
+                'label' => 'Ville du Joueur',
+                'required' => false])
             ;
     }
 

@@ -137,7 +137,7 @@ class AdminController extends AbstractController
             }
         }
 
-        // Mise à jour du mail du Player
+        // Mise à jour du mail/ville du Player
 
         $playmail = new Player();
         
@@ -168,11 +168,29 @@ class AdminController extends AbstractController
                     }
                 } */
             }else{
-                $player
-                    ->setMail($form_mail_player->get('mail')->getData());        
+                if($form_mail_player->get('mail')->getData()!==null && $form_mail_player->get('city')->getData()!==null){
+                    $player
+                        ->setMail($form_mail_player->get('mail')->getData())
+                        ->setCity($form_mail_player->get('city')->getData());        
+                        
+                    $em->flush();
+                    $messageg = 'Mise à jour ID Player : '.$player->getIdPlayer().' du mail : '.$player->getMail().' et de la ville : '.$player->getCity();
+
+                }else if( $form_mail_player->get('mail')->getData()!==null){
+                    $player
+                        ->setMail($form_mail_player->get('mail')->getData());
+                        $em->flush();
+                    $messageg = 'Mise à jour ID Player : '.$player->getIdPlayer().' du mail : '.$player->getMail();
                     
-                $em->flush();
-                $messageg = 'Mise à jour ID Player : '.$player->getIdPlayer().' du mail : '.$player->getMail();
+                }else if( $form_mail_player->get('city')->getData()!==null){
+                    $player
+                        ->setMail($form_mail_player->get('city')->getData());
+                        $em->flush();
+                    $messageg = 'Mise à jour ID Player : '.$player->getIdPlayer().' de la ville : '.$player->getCity();
+
+                }else{
+                    $messageg = 'Mise à jour ID Player : '.$player->getIdPlayer().' RIEN puisque rien n\'est renseigné ! ';
+                }
             }
         }
 

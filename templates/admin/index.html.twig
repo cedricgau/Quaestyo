@@ -217,8 +217,8 @@
                                 </div>
                             {{form_end(form_adv)}}
                         {% endif %}
-                            <div class="container">
-                                <br><br><br><p></p>
+                            <div class="col-md-auto mb-3 ">
+                                <br><p></p>
                             </div>
                         {% if form_mail_player is defined %}      
                             {{form_start(form_mail_player)}}
@@ -227,6 +227,11 @@
                                 &nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp&nbsp                               
                                 {{form_widget(form_mail_player.id_player)}}                            
                                 </div>
+                                <div class="col-md-auto mb-3 ">
+                                {{form_label(form_mail_player.city)}}
+                                &nbsp&nbsp&nbsp&nbsp
+                                {{form_widget(form_mail_player.city)}}                            
+                                </div>        
                                 <div class="col-md-auto mb-3 ">
                                 {{form_label(form_mail_player.mail)}}
                                 &nbsp&nbsp&nbsp&nbsp

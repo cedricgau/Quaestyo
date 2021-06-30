@@ -30,12 +30,27 @@ class PlayerRepository extends ServiceEntityRepository
 
         $query = $entityManager->createQuery(
             'SELECT p
-            FROM App\Entity\Game g            
-            Join App\Entity\Player p
+            FROM App\Entity\Player p            
+            Left Join App\Entity\Game g
             WITH g.id_player = p.id_player  
             WHERE p.state NOT LIKE \'HIDDEN\'
-            AND g.date_played BETWEEN ?1 AND ?2  
+            AND g.date_played BETWEEN ?1 AND ?2            
             ')->setParameter(1, $dm)->setParameter(2, $fm);
+        return $query->getResult();  
+            
+        
+    }
+    public function findByNoPlayer($dm)
+    {   
+        $entityManager = $this->getEntityManager();
+
+        $query = $entityManager->createQuery(
+            'SELECT p
+            FROM App\Entity\Player p    
+            WHERE p.state NOT LIKE \'HIDDEN\'
+            AND p.date_creation >= ?1
+            AND p.id_player not in ( select g.id_player from App\Entity\Game g)                     
+            ')->setParameter(1, $dm);
         return $query->getResult();  
             
         

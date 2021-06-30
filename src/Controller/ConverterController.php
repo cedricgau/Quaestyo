@@ -29,7 +29,9 @@ class ConverterController extends AbstractController{
             $con = $this->getDoctrine()->getRepository(Player::class);
             $obj2 = $con->findByPlayer($apres,$avant);
             $con = $this->getDoctrine()->getRepository(Adventure::class);
-            $obj3 = $con->findAll(); 
+            $obj3 = $con->findAll();
+            $con2 = $this->getDoctrine()->getRepository(Player::class);
+            $obj4 = $con2->findByNoPlayer($crea);
 
            $title = ['ID','MAIL','PSEUDO','DATE_CREATION','VILLE','PREMIER_PAIEMENT','AV1','Statut','Date_AV1'];
 
@@ -48,11 +50,12 @@ class ConverterController extends AbstractController{
                $gfp=null;
                $dlpr=null; // date la plus récente
                $gdc = date_format($d2->getDateCreation(),'Y-m-d'); // conversion format date YYYY-MM-DD
-               $p=0;              
+               $p=0;                            
                $line = null; 
-                   foreach($obj as $d1) { 
-                     $u=0;                         
-                       if (($d2->getIdPlayer()===$d1->getIdPlayer())) { // si l'aventure a été faite après le ... et avant le ....
+                   foreach($obj as $d1) {                      
+                       $u=0;
+                                    
+                       if (($d2->getIdPlayer()===$d1->getIdPlayer())) { 
                           
                            foreach($obj3 as $d3){
                                
@@ -147,48 +150,49 @@ class ConverterController extends AbstractController{
                             array_push ($line, $col13, $col14, $total, $totalpa, $totalg, $totalpr, $col15, $col16, $col17, $col18, $col19, $col20);
                             array_push ($tab,$line);
 
-                       }else if ( $gdc >= $crea){
-
-                            if ($d2->getFirstPurchase()!==null) $gfp=date_format($d2->getFirstPurchase(),'Y-m-d');
-
-                            $col1 = $d2->getIdPlayer(); // Colonne 1 : ID   
-                            $col2 = $d2->getMail();    // Colonne 2 : MAIL
-            
-                            if ($d2->getPseudo()!==null){
-                                $col3 = $d2->getPseudo(); // Colonne 3 : PSEUDO
-                            }else{
-                                $col3 = 'INCONNU'; 
-                            }
-            
-                            $col4 = $gdc; // Colonne 4 : DATE DE CREATION DU COMPTE UTILISATEUR
-            
-                            if ($d2->getLatitude()===48.858200073242 && $d2->getLongitude()===2.338700056076 ){ // Colonne 5 : VILLE DE CREATION DU COMPTE UTILISATEUR
-                                $col5 = "Paris";
-                            }elseif (is_null($d2->getCity())){
-                                $col5 = "???";
-                            }else{
-                                $col5 = $d2->getCity();
-                            } 
-                            
-                            $col6 = $gfp; // Colonne 8 : DATE DU PREMIER PAIEMENT                            
-                            
-                            $line = array ($col1,$col2,$col3,$col4,$col5,$col6);
-
-                            for($j=0;$j<$nbcol+1;$j++){
-                                array_push ($line,'','','');
-                            }
-                            $col16 = $d2->getcurrency3();
-                            $col17 = $d2->getcurrency4();
-                            $col18 = $d2->getcurrency5();
-                            $col19 = $d2->getcurrency6();
-
-                            array_push ($line,'',$col16,$col17,$col18,$col19);
-                            array_push ($tab,$line);
-                       } 
+                       }
                        
-                   }                            
+                   }                 
                   
-                   
+                  
+                  foreach($obj4 as $d4) {
+                                                     
+                    if ($d4->getFirstPurchase()!==null) $gfp=date_format($d4->getFirstPurchase(),'Y-m-d');
+
+                    $col1 = $d4->getIdPlayer(); // Colonne 1 : ID   
+                    $col2 = $d4->getMail();    // Colonne 2 : MAIL
+    
+                    if ($d4->getPseudo()!==null){
+                        $col3 = $d4->getPseudo(); // Colonne 3 : PSEUDO
+                    }else{
+                        $col3 = 'INCONNU'; 
+                    }
+    
+                    $col4 = $gdc; // Colonne 4 : DATE DE CREATION DU COMPTE UTILISATEUR
+    
+                    if ($d4->getLatitude()===48.858200073242 && $d4->getLongitude()===2.338700056076 ){ // Colonne 5 : VILLE DE CREATION DU COMPTE UTILISATEUR
+                        $col5 = "Paris";
+                    }elseif (is_null($d4->getCity())){
+                        $col5 = "???";
+                    }else{
+                        $col5 = $d4->getCity();
+                    } 
+                    
+                    $col6 = $gfp; // Colonne 8 : DATE DU PREMIER PAIEMENT                            
+                    
+                    $line = array ($col1,$col2,$col3,$col4,$col5,$col6);
+
+                    for($j=0;$j<$nbcol+1;$j++){
+                        array_push ($line,'','','');
+                    }
+                    $col16 = $d4->getcurrency3();
+                    $col17 = $d4->getcurrency4();
+                    $col18 = $d4->getcurrency5();
+                    $col19 = $d4->getcurrency6();
+
+                    array_push ($line,'',$col16,$col17,$col18,$col19);
+                    array_push ($tab,$line);
+               }        
          
            $path = '..\public\Files_CSV\Quaestyo.csv';
            $file = fopen($path , 'w');

@@ -42,7 +42,7 @@ class StatController extends AbstractController
             $ncn[] = $con->findByCountncn($perioda,$periodb);            
             $avpa[] = $con->findByCountavpa($perioda,$periodb);
             $avpa2[] = $con->findByCountnc($perioda,$periodb);
-            $num1_data[]=5.59;//$num[] = $con->findByCountnum($perioda,$periodb);
+            
         }	
         
         

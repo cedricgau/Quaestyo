@@ -29,8 +29,7 @@ class StatLtvcController extends AbstractController
         		$b=$a;
        			$j=$i; 
     		}
-            
-            	    
+        
             $perioda = $b.'-'.$j.'-01';
             $periodb = $b.'-'.$j.'-31';            
             
@@ -48,14 +47,12 @@ class StatLtvcController extends AbstractController
         for($c=0; $c<12 ; $c++){
             if(isset($avpa[$c][0][1]) && $avpa[$c][0][1]!==0 && isset($depex2[$c][0]["CA"])){
                  $arpu_ca_data[] = $depex2[$c][0]["CA"];
-                 $arpu_avpa_data[] = $avpa[$c][0][1];                 
-                 $pan_moy_data[] = round($depex2[$c][0]["CA"]/$avpa[$c][0][1],2);                 
+                 $arpu_avpa_data[] = $avpa2[$c][0][1]; 
                  $arpu_data[] = round($depex2[$c][0]["CA"]/$avpa2[$c][0][1],2);            
             
              }else{
                 $arpu_ca_data[] = 0;
-                $arpu_avpa_data[] = 0;
-                $pan_moy_data[] = 0;
+                $arpu_avpa_data[] = 0;                
                 $arpu_data[] = 0;                      
             }
              
@@ -70,18 +67,14 @@ class StatLtvcController extends AbstractController
                  
              }else{
                 $cac_dep_data[]= 0;               
-                $cac_ncn_data[] = 0;              
-                
+                $cac_ncn_data[] = 0;           
+           
             }
              
         }
-        
-        $total_dep_data = array_sum($cac_dep_data);
-        $total_ncn_data = array_sum($cac_ncn_data);
-        $total_cac_data = round($total_dep_data/$total_ncn_data,2);   
-        $total_ca_data = array_sum($arpu_ca_data);        
-        $total_avpa_data = array_sum($arpu_avpa_data);
-        $total_moy_data = round($total_ca_data/$total_avpa_data,2);
+                
+        $total_cac_data = array_sum($cac_dep_data)/array_sum($cac_ncn_data); 
+        $total_moy_data = array_sum($arpu_ca_data)/array_sum($arpu_avpa_data);
        
         // cas particulier du calcul avec pondération avant le 1/02/2022
         

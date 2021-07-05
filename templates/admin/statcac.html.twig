@@ -37,6 +37,13 @@
       <th scope="col">{{total_cc_data}}</th>
     </tr>
     <tr>
+      <th scope="row">Dépenses Pub/Compte</th>
+      {% for col in cac_dpc_data%}
+        <th scope="col">{{col|round(2)}}€</th>
+      {% endfor %}
+      <th scope="col">{{total_dpc_data|round(2)}}€</th>
+    </tr>
+    <tr>
       <th scope="row">Non payé (gratuit et sans aventure)</th>
       {% for col in cac_np_data%}
         <th scope="col">{{col}}</th>

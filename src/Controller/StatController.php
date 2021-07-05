@@ -147,10 +147,10 @@ class StatController extends AbstractController
             $n++;
         }
 
-        $cac = array_sum($cac_dep_data)/array_sum($cac_ncn_data);
-        $panier = array_sum($arpu_ca_data)/array_sum($arpu_avpa_data);
-        $cltv = $panier*$totalpond/$total*$pond;
+        $cac = array_sum($cac_dep_data)/array_sum($cac_ncn_data);        
+         
         $arpu = array_sum($arpu_ca_data)/array_sum($arpu_avpa2_data);
+        $cltv = $arpu*$totalpond/$total*$pond;
 
         $n=0;
         $tt=0;
@@ -176,14 +176,12 @@ class StatController extends AbstractController
         'cac_data' => $cac_data,        
         'cac_data2' => json_encode($cac_data), 
         'arpu_data' => $arpu_data,
-        'arpu_data2' => json_encode($arpu_data),
-        'pan_moy_data' => $pan_moy_data,
+        'arpu_data2' => json_encode($arpu_data),        
         'resultat' => $resultat,
         'resultat2' => json_encode($resultat),
         'cltv' => $cltv,
         'cac' => $cac,         
-        'arpu' => $arpu,
-        'panier' => $panier,        
+        'arpu' => $arpu,  
         'result2' => json_encode($result),
         ]);
     }

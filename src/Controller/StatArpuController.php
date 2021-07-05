@@ -51,18 +51,14 @@ class StatArpuController extends AbstractController
                  $arpu_ca_data[] = $depex2[$c][0]["CA"];
                  $arpu_avpa_data[] = $avpa[$c][0][1];
                  $arpu_avpa2_data[] = $avpa2[$c][0][1];
-                 $pan_moy_data[] = round($depex2[$c][0]["CA"]/$avpa[$c][0][1],2);
                  $resultat[] = round($depex2[$c][0]["CA"]-$depex[$c][0]["advert"],2);
                  $pourcent1[] = round(($depex2[$c][0]["CA"]-$depex[$c][0]["advert"])/$depex2[$c][0]["CA"]*100,2);
-                 $arpu_data[] = round($depex2[$c][0]["CA"]/$avpa2[$c][0][1],2);             
-                 
-
-
+                 $arpu_data[] = round($depex2[$c][0]["CA"]/$avpa2[$c][0][1],2);       
+  
              }else{
                 $arpu_ca_data[] = 0;
                  $arpu_avpa_data[] = 0;
-                 $arpu_avpa2_data[] = 0;
-                 $pan_moy_data[] = 0;
+                 $arpu_avpa2_data[] = 0;                 
                  $resultat[] = 0;
                  $pourcent1[] = 0;
                  $arpu_data[] = 0;      
@@ -73,14 +69,11 @@ class StatArpuController extends AbstractController
         
         $total_ca_data = array_sum($arpu_ca_data);        
         $total_avpa_data = array_sum($arpu_avpa_data);        
-        $total_avpa2_data = array_sum($arpu_avpa2_data);        
-        $total_moy_data = round($total_ca_data/$total_avpa_data,2);
+        $total_avpa2_data = array_sum($arpu_avpa2_data); 
         $total_arpu_data = round($total_ca_data/$total_avpa2_data,2);
         $total_resultat = array_sum($resultat);
         $serie_data = [$total_arpu_data, $total_arpu_data, $total_arpu_data, $total_arpu_data, $total_arpu_data,$total_arpu_data,$total_arpu_data,$total_arpu_data,$total_arpu_data,$total_arpu_data,$total_arpu_data,$total_arpu_data];
 
-        
-        
 
         return $this->render('admin/statarpu.html.twig', [        
         'arpu_cols' => $arpu_cols,
@@ -90,17 +83,13 @@ class StatArpuController extends AbstractController
         'arpu_avpa_data' => $arpu_avpa_data,
         'total_avpa_data' => $total_avpa_data,
         'arpu_avpa2_data' => $arpu_avpa2_data,
-        'total_avpa2_data' => $total_avpa2_data, 
-        'pan_moy_data' => $pan_moy_data,
-        'pan_moy_data2' => json_encode($pan_moy_data),
-        'total_moy_data' => $total_moy_data,
+        'total_avpa2_data' => $total_avpa2_data,            
         'resultat' => $resultat,
         'total_resultat' => $total_resultat,
         'pourcent1' => $pourcent1, 
         'arpu_data' => $arpu_data,
         'arpu_data2' => json_encode($arpu_data),
-        'total_arpu_data' => $total_arpu_data, 
-        'serie_data' => $serie_data,
+        'total_arpu_data' => $total_arpu_data,     
         'serie_data2' => json_encode($serie_data)
         ]);
     }

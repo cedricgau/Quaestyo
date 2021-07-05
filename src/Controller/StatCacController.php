@@ -56,6 +56,7 @@ class StatCacController extends AbstractController
                  $tele_data[] = $depex3[$c][0]["download"];
                  $des_data[] = $depex4[$c][0]["uninstall"];
                  $cac_cc_data[] = $cc[$c][0][1];
+                 $cac_dpc_data[] = $depex[$c][0]["advert"]/$cc[$c][0][1];
                  $cac_np_data[] = $cc[$c][0][1]-$ncn[$c][0][1];                
                  $cac_jag_data[] = $jag[$c][0][1];                 
                  $cac_ncn_data[] = $ncn[$c][0][1];  
@@ -79,6 +80,7 @@ class StatCacController extends AbstractController
              }else{
                 $cac_dep_data[]= 0;
                 $cac_cc_data[] = 0;
+                $cac_dpc_data[] = 0;
                 $cac_np_data[] = 0;               
                 $pourcent3[] = 0;                
                 $cac_jag_data[] = 0;
@@ -105,7 +107,8 @@ class StatCacController extends AbstractController
         $total_cac_data = round($total_dep_data/$total_ncn_data,2);       
         $cac_moy_data = [$total_cac_data, $total_cac_data, $total_cac_data, $total_cac_data, $total_cac_data, $total_cac_data,$total_cac_data, $total_cac_data, $total_cac_data, $total_cac_data, $total_cac_data, $total_cac_data];
         $total_tele = array_sum($tele_data);
-        $total_uninst = array_sum($des_data); 
+        $total_uninst = array_sum($des_data);
+        $total_dpc_data =  $total_dep_data/$total_cc_data;
         
 
         return $this->render('admin/statcac.html.twig', [       
@@ -121,6 +124,8 @@ class StatCacController extends AbstractController
         'nbapp_data2' => json_encode($nbapp_data),                 
         'cac_dep_data' => $cac_dep_data,
         'total_dep_data' => $total_dep_data,
+        'cac_dpc_data' => $cac_dpc_data,
+        'total_dpc_data' => $total_dpc_data,
         'cac_np_data' => $cac_np_data,
         'total_np_data' => $total_np_data,
         'pourcent3' => $pourcent3,

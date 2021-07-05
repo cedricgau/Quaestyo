@@ -40,14 +40,7 @@
         <th scope="col">{{col}}</th>
       {% endfor %}
       <th scope="col">{{total_avpa2_data}}</th>  
-    </tr>
-    <tr>
-      <th scope="row">Panier Moyen</th>
-      {% for col in pan_moy_data%}
-        <th scope="col">{{col}}€</th>
-      {% endfor %}
-      <th scope="col">{{total_moy_data}}€</th>  
-    </tr>
+    </tr>    
     <tr>
       <th scope="row">Résultat</th>
       {% for col in resultat%}
@@ -83,10 +76,6 @@
             borderColor: 'blue',
             data: {{ arpu_data2 }}
         
-        },{
-            label: 'Panier Moyen',
-            borderColor: 'red',
-            data: {{ pan_moy_data2 }}
         },{
           label: 'ARPU Moyen',            
             borderColor: 'yellow',

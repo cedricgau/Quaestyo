@@ -56,7 +56,14 @@
         <th scope="col">{{col}}</th>         
       {% endfor %}
       <th scope="col">{{total_jag_data}}</th>
-    </tr>    
+    </tr>
+    <tr>
+      <th scope="row">Jouée QUAESTYO DEMO</th>
+      {% for col in cac_jagQD_data%}
+        <th scope="col">{{col}}</th>         
+      {% endfor %}
+      <th scope="col">{{total_jagQD_data}}</th>
+    </tr>       
     <tr>
       <th scope="row">Nvx Clients Nationaux (joueurs €)</th>
       {% for col in cac_ncn_data%}
@@ -67,8 +74,9 @@
     <tr>
       <th scope="row">Nvx Clients transfo %</th>
       {% for col in pourcent3%}
-        <th scope="col">{{col}}%</th>
+        <th scope="col">{{col}}%</th>        
       {% endfor %}
+      <th scope="col">{{(total_ncn_data/total_cc_data*100)|round(2)}}%</th>
     </tr>
     <tr>
       <th scope="row">Nvx Clients Parisiens (joueurs €)</th>
@@ -152,10 +160,10 @@
     </tr>
     <tr>
       <th scope="row">Nombre de comptes créés hors CAC</th>
-      {% for col in cac_cc_data%}
+      {% for col in cac_cch_data%}
         <th scope="col">{{col}}</th>
       {% endfor %}
-      <th scope="col">{{total_cc_data}}</th>
+      <th scope="col">{{total_cch_data}}</th>
     </tr>
     <tr>
       <th scope="row">Nombre de clients</th>
@@ -169,7 +177,7 @@
       {% for col in nbncli_data %}
         <td>{{ col }}</td>        
       {% endfor %}
-      <th scope="col">{{total_cc_data-total_ncn_data}}</th>
+      <th scope="col">{{total_cch_data-total_ncn_data}}</th>
     </tr>
     <tr>
       <th scope="row">Désinstallations</th>
@@ -210,7 +218,7 @@
         },{
             label: 'Comptes créés',
             borderColor: 'red',
-            data: {{ cac_cc_data2 }}
+            data: {{ cac_cch_data2 }}
         
         },{
             label: 'Clients',

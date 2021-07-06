@@ -59,6 +59,30 @@ class GameRepository extends ServiceEntityRepository
         
     }
 
+    public function findByCountjagQD($dm,$fm)
+    {   
+        $entityManager = $this->getEntityManager();
+
+        $query = $entityManager->createQuery(
+            'SELECT count(distinct p.id_player)
+            FROM App\Entity\Game g
+            Join App\Entity\Adventure a
+            WITH g.code_adv = a.code_adv
+            Join App\Entity\Player p
+            WITH g.id_player = p.id_player  
+            WHERE p.state NOT LIKE \'HIDDEN\'
+            AND p.date_creation BETWEEN ?1 AND ?2
+            AND a.state LIKE \'GRATUIT\'
+            AND a.code_adv LIKE \'ADV_18\'            
+            AND p.currency3=0
+            AND p.currency4=0
+            AND p.currency5=0
+            AND p.currency6=0            
+            ')->setParameter(1, $dm)->setParameter(2, $fm);
+        return $query->getResult();  
+        
+    }
+
     public function findByCountncnp($dm,$fm)
     {   
         $entityManager = $this->getEntityManager();
@@ -117,6 +141,24 @@ class GameRepository extends ServiceEntityRepository
             AND p.date_creation BETWEEN ?1 AND ?2
             AND p.currency3=0
             AND p.currency4=0
+            AND p.currency5=0
+            AND p.currency6=0
+            ')->setParameter(1, $dm)->setParameter(2, $fm);
+        return $query->getResult();  
+        
+    }
+
+    // comptes créés hors cac
+
+    public function findByCountcch($dm,$fm)
+    {   
+        $entityManager = $this->getEntityManager();
+
+        $query = $entityManager->createQuery(
+            'SELECT count(p)
+            FROM App\Entity\Player p            
+            WHERE p.state NOT LIKE \'HIDDEN\'
+            AND p.date_creation BETWEEN ?1 AND ?2           
             AND p.currency5=0
             AND p.currency6=0
             ')->setParameter(1, $dm)->setParameter(2, $fm);

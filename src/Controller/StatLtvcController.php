@@ -139,7 +139,7 @@ class StatLtvcController extends AbstractController
        $plur="";
        for($i=0; $i<$n ; $i++){           
            if($tab[$i]>1) $plur="s";
-           $numb[] = array('champ' => $tab[$i].' aventure jouée'.$plur,'client' => ${'num'.$tab[$i]},'nbav' => $tab[$i],'pond' => ${'num'.$tab[$i]}*$tab[$i]);           
+           $numb[] = array('champ' => $tab[$i].' aventure'.$plur.' jouée'.$plur,'client' => ${'num'.$tab[$i]},'nbav' => $tab[$i],'pond' => ${'num'.$tab[$i]}*$tab[$i]);           
            $total = $total + ${'num'.$tab[$i]};
            $totalpond = $totalpond +  ${'num'.$tab[$i]}*$tab[$i];
         }
@@ -151,8 +151,7 @@ class StatLtvcController extends AbstractController
             'total'=> $total,
             'totalpond' => $totalpond,
             'panmoy' => $total_moy_data,
-            'cac' => $total_cac_data,
-        
+            'cac' => $total_cac_data,        
         ]);
     }
 }

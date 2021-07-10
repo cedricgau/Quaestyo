@@ -15,82 +15,92 @@
   <thead>
     <tr class="table-success">
     <th scope="col">CAC</th>
-    {% for col in cac_cols%}
+    {% for col in cac_cols%}      
+      {% if(cac_cols|last==col and nb is defined) %} <th scope="col">Total</th>   {% endif %}     
       <th scope="col">{{col}}</th>
+      {% set nb=0 %}
     {% endfor %}
-    <th scope="col">Total</th>      
+       
     </tr>
   </thead>
   <tbody>
     <tr>
       <th scope="row">Dépenses Pub</th>
       {% for col in cac_dep_data%}
+        {% if(cac_dep_data|last==col) %} <th scope="col" style="background-color: lightyellow">{{total_dep_data}}€</th>{% endif %}
         <th scope="col">{{col}}€</th>
       {% endfor %}
-      <th scope="col">{{total_dep_data}}€</th>
+      
     </tr>
     <tr>
       <th scope="row">Comptes créés</th>
       {% for col in cac_cc_data%}
+      {% if(cac_cc_data|last==col) %} <th scope="col" style="background-color: lightyellow">{{total_cc_data}}€</th>{% endif %}
         <th scope="col">{{col}}</th>
-      {% endfor %}
-      <th scope="col">{{total_cc_data}}</th>
+      {% endfor %}      
     </tr>
     <tr>
       <th scope="row">Dépenses Pub/Compte</th>
       {% for col in cac_dpc_data%}
+        {% if(cac_dpc_data|last==col) %} <th scope="col" style="background-color: lightyellow">{{total_dpc_data|round(2)}}€</th>{% endif %}
         <th scope="col">{{col|round(2)}}€</th>
       {% endfor %}
-      <th scope="col">{{total_dpc_data|round(2)}}€</th>
+      
     </tr>
     <tr>
       <th scope="row">Non payé (gratuit et sans aventure)</th>
       {% for col in cac_np_data%}
+      {% if(cac_np_data|last==col) %} <th scope="col" style="background-color: lightyellow">{{total_np_data}}</th>{% endif %}
         <th scope="col">{{col}}</th>
       {% endfor %}
-      <th scope="col">{{total_np_data}}</th>
+      
     </tr>   
     <tr>
       <th scope="row">Jouée aventure gratuite</th>
       {% for col in cac_jag_data%}
+      {% if(cac_jag_data|last==col) %} <th scope="col" style="background-color: lightyellow">{{total_jag_data}}</th>{% endif %}
         <th scope="col">{{col}}</th>         
       {% endfor %}
-      <th scope="col">{{total_jag_data}}</th>
+      
     </tr>
     <tr>
       <th scope="row">Jouée QUAESTYO DEMO</th>
       {% for col in cac_jagQD_data%}
+      {% if(cac_jagQD_data|last==col) %} <th scope="col" style="background-color: lightyellow">{{total_jagQD_data}}</th>{% endif %}
         <th scope="col">{{col}}</th>         
-      {% endfor %}
-      <th scope="col">{{total_jagQD_data}}</th>
+      {% endfor %}      
     </tr>       
     <tr>
-      <th scope="row">Nvx Clients Nationaux (joueurs €)</th>
+      <th scope="row">Nvx Clients Nationaux</th>
       {% for col in cac_ncn_data%}
+       {% if(cac_ncn_data|last==col) %}<th scope="col" style="background-color: lightyellow">{{total_ncn_data}}</th>{% endif %}
         <th scope="col">{{col}}</th>
       {% endfor %}
-      <th scope="col">{{total_ncn_data}}</th>
+     
     </tr>
     <tr>
       <th scope="row">Nvx Clients transfo %</th>
       {% for col in pourcent3%}
+      {% if(pourcent3|last==col) %}<th scope="col" style="background-color: lightyellow">{{(total_ncn_data/total_cc_data*100)|round(2)}}%</th>{% endif %}
         <th scope="col">{{col}}%</th>        
       {% endfor %}
-      <th scope="col">{{(total_ncn_data/total_cc_data*100)|round(2)}}%</th>
+      
     </tr>
     <tr>
-      <th scope="row">Nvx Clients Parisiens (joueurs €)</th>
+      <th scope="row">Nvx Clients Parisiens</th>
       {% for col in cac_ncnp_data%}
+      {% if(cac_ncnp_data|last==col) %}<th scope="col" style="background-color: lightyellow">{{total_ncnp_data}}</th>{% endif %}
         <th scope="col">{{col}}</th>
       {% endfor %}
-      <th scope="col">{{total_ncnp_data}}</th>
+      
     </tr> 
     <tr>
       <th scope="row">CAC National</th>
-      {% for cac in cac_data %}
-        <td>{{ cac }}€</td>
+      {% for col in cac_data %}
+      {% if(cac_data|last==col) %}<th scope="col" style="background-color: lightyellow">{{total_cac_data}}€</th>{% endif %} 
+        <td>{{ col }}€</td>
       {% endfor %}
-      <th scope="col">{{total_cac_data}}€</th>      
+           
     </tr>
   </tbody>
 </table>
@@ -145,60 +155,76 @@
     <tr class="table-success">
     <th scope="col">Volumétrie Hors CAC</th>
     {% for col in cac_cols%}
+      {% if(cac_cols|last==col and nb is defined) %} <th scope="col">Total</th>   {% endif %}     
       <th scope="col">{{col}}</th>
-    {% endfor %}
-     <th scope="col">Total</th>      
+      {% set nb=0 %}
+    {% endfor %}     
     </tr>
   </thead>
   <tbody>
     <tr>
       <th scope="row">Téléchargements</th>
       {% for col in tele_data%}
+       {% if(tele_data|last==col) %} <th scope="col" style="background-color: lightyellow">{{total_tele}}</th>{% endif %} 
         <th scope="col">{{col}}</th>
       {% endfor %}
-        <th scope="col">{{total_tele}}</th>
+      
     </tr>
     <tr>
-      <th scope="row">Nombre de comptes créés hors CAC</th>
+      <th scope="row">Comptes créés hors CAC</th>
       {% for col in cac_cch_data%}
+      {% if(cac_cch_data|last==col) %} <th scope="col" style="background-color: lightyellow">{{total_cch_data}}</th>{% endif %} 
         <th scope="col">{{col}}</th>
       {% endfor %}
-      <th scope="col">{{total_cch_data}}</th>
+     
+    </tr>
+    <tr>
+      <th scope="row">Comptes créés</th>
+      {% for col in cac_cc_data%}
+       {% if(cac_cc_data|last==col) %} <th scope="col" style="background-color: lightyellow">{{total_cc_data}}</th>{% endif %} 
+        <th scope="col">{{col}}</th>
+      {% endfor %}
+    
     </tr>
     <tr>
       <th scope="row">Nombre de clients</th>
       {% for col in cac_ncn_data%}
+       {% if(cac_ncn_data|last==col) %}<th scope="col" style="background-color: lightyellow">{{total_ncn_data}}</th>{% endif %} 
         <th scope="col">{{col}}</th>
       {% endfor %}
-      <th scope="col">{{total_ncn_data}}</th>
+     
     </tr>
     <tr>
       <th scope="row">Nombre de non clients</th>
       {% for col in nbncli_data %}
+      {% if(nbncli_data|last==col) %}<th scope="col" style="background-color: lightyellow">{{total_cc_data-total_ncn_data}}</th>{% endif %} 
         <td>{{ col }}</td>        
       {% endfor %}
-      <th scope="col">{{total_cch_data-total_ncn_data}}</th>
+      
     </tr>
     <tr>
       <th scope="row">Désinstallations</th>
       {% for col in des_data %}
+      {% if(des_data|last==col) %}<th scope="col" style="background-color: lightyellow">{{total_uninst}}</th>{% endif %} 
         <td>{{ col }}</td>
       {% endfor %}
-      <th scope="col">{{total_uninst}}</th>
+      
     </tr>
     <tr>
       <th scope="row">Nombre d'applications actives</th>
       {% for col in nbapp_data %}
+      {% if(nbapp_data|last==col) %}<th scope="col" style="background-color: lightyellow">{{total_uninst+total_tele}}</th>{% endif %} 
         <td>{{ col }}</td>
       {% endfor %}
-      <th scope="col">{{total_uninst+total_tele}}</th>
+      
     </tr>
     <tr>
       <th scope="row">Taux de churn</th>
       {% for col in churn %}
+      {% if(churn|last==col) %}<th scope="col" style="background-color: lightyellow">{{(100*(-1)*total_uninst/total_tele)|round(2)}}%</th>{% endif %} 
         <td>{{ col }}%</td>
       {% endfor %}
-      <th scope="col">{{(100*(-1)*total_uninst/total_tele)|round(2)}}%</th>
+      
     </tr>
   </tbody>
 </table>
@@ -212,31 +238,46 @@
         labels: {{ cac_cols2 }},
         datasets: [{
             label: 'Téléchargements',
-            borderColor: 'blue',
+            type: 'bar',
+            backgroundColor: 'blue',
+            order : 2,
             data: {{ tele_data2 }}
             
         },{
-            label: 'Comptes créés',
+            label: 'Désinstallations',
+            type: 'bar',
+            backgroundColor: 'purple',
+            order : 2,
+            data: {{ des_data2 }}
+        },{
+            label: 'Applications Actives',
+            type: 'bar',
+            backgroundColor: 'pink',
+            order : 2,
+            data: {{ nbapp_data2 }}
+            
+        },{
+            label: 'Comptes créés hors CAC',
             borderColor: 'red',
+            order : 1,
             data: {{ cac_cch_data2 }}
+        
+        },{
+            label: 'Comptes créés ',
+            borderColor: 'black',
+            order : 1,
+            data: {{ cac_cc_data2 }}
         
         },{
             label: 'Clients',
             borderColor: 'orange',
+            order : 1,
             data: {{ cac_ncn_data2 }}
         },{
             label: 'Non Clients',
             borderColor: 'green',
+            order : 1,
             data: {{ nbncli_data2 }}
-        },{
-            label: 'Désinstallations',
-            borderColor: 'purple',
-            data: {{ des_data2 }}
-        },{
-            label: 'Applications Actives',
-            borderColor: 'pink',
-            data: {{ nbapp_data2 }}
-            
         }]
     },
     options: {

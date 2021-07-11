@@ -30,8 +30,7 @@ class StatCacController extends AbstractController
        			$j=$i; 
     		}
             
-            $vol_colnums[] = $j;
-            //$j++;
+            $vol_colnums[] = $j;            
 		    setlocale(LC_TIME, 'fra_fra');  
     		$cac_cols[]  = utf8_encode(strftime('%B', mktime(0, 0, 0, $i)));
             $perioda = $b.'-'.$j.'-01';

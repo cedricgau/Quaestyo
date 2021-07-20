@@ -21,6 +21,8 @@
 </div>
 <div class="d-grid gap-3">
   <div class="p-5 bg-white"></div>
+  <div class="container">
+<a href="{{ path('quaestyo_homeland')}}">Retour à la page d'accueuil</a></div>
  <div class="container">
 <table class="table table-striped">
   <thead>
@@ -36,30 +38,32 @@
     <tr>
       <th scope="row">CAC</th>
       {% for col in cac_data%}
-        <th scope="col">{{col}}€</th>
+        {% if(cac_data|last==col) %} <th scope="col" style="background-color: lightyellow">{{cac|round(2)}}€</th>{% endif %} 
+        <th scope="col">{{col|round(2)}}€</th>
       {% endfor %}
-      <th scope="col">{{cac|round(2)}}€</th>
+      
     </tr>
     <tr>
       <th scope="row">ARPU</th>
       {% for col in arpu_data%}
-        <th scope="col">{{col}}€</th>
-      {% endfor %}
-      <th scope="col">{{arpu|round(2)}}€</th>
+        {% if(arpu_data|last==col) %} <th scope="col" style="background-color: lightyellow">{{arpu|round(2)}}€</th>{% endif %} 
+        <th scope="col">{{col|round(2)}}€</th>
+      {% endfor %}      
     </tr>    
     <tr>
       <th scope="row">CLTV</th>
       {% for col in cltv_data%}
+        {% if(cltv_data|last==col) %} <th scope="col" style="background-color: lightyellow">{{cltv|round(2)}}€</th>{% endif %} 
         <th scope="col">{{col|round(2)}}€</th>
-      {% endfor %}
-      <th scope="col">{{cltv|round(2)}}€</th> 
+      {% endfor %}      
     </tr>    
     <tr>
       <th scope="row">Résultat</th>
       {% for col in resultat%}
-        <th {% if col<0 %} style="color:red" {% endif %} scope="col">{{col|round(2)}}€</th>
+        {% if(resultat|last==col) %} <th scope="col" style="background-color: lightyellow;{% if cltv-cac<0 %}color:red;{% endif %}">{{(cltv-cac)|round(2)}}€</th>{% endif %}        
+        <th {% if col<0 %} style="color:red" {% endif %}>{{(col)|round(2)}}€</th>
       {% endfor %}
-      <th {% if cltv-cac<0 %} style="color:red" {% endif %}>{{(cltv-cac)|round(2)}}€</th> 
+       
     </tr>               
   </tbody>
 </table>

@@ -142,10 +142,12 @@ class ConverterController extends AbstractController{
                             $col18 = $d2->getcurrency5();
                             $col19 = $d2->getcurrency6();
                            
-                            if ( $d2->getPhone()!==null && strcasecmp($d2->getPhone(),"iOS") == 0){ 
+                            if ($d2->getPhone()!==null && strcasecmp($d2->getPhone(),"iOS") === 0){ 
                                 $col20 = 'IOS';
+                            }else if($d2->getPhone()!==null && strcasecmp($d2->getPhone(),"ANDROID") === 0){
+                                $col20 = 'ANDROID';                            
                             }else{
-                                $col20 = 'ANDROID';
+                                $col20 = $d2->getPhone();
                             }
                             array_push ($line, $col13, $col14, $total, $totalpa, $totalg, $totalpr, $col15, $col16, $col17, $col18, $col19, $col20);
                             array_push ($tab,$line);

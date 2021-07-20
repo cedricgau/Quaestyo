@@ -66,7 +66,8 @@ class StatCacController extends AbstractController
                  $pourcent3[] = round($ncn[$c][0][1]/$cc[$c][0][1]*100,2);                 
                  $cac_data[] = round($depex[$c][0]["advert"]/$ncn[$c][0][1],2);
                  $cac_par_data[] = round($depex[$c][0]["advert"]/$ncnp[$c][0][1],2);
-                 $nbncli_data[] = $cc[$c][0][1]-$ncn[$c][0][1];
+                 $nbncli_data[] = $cch[$c][0][1]+$cc[$c][0][1]-$ncn[$c][0][1];
+                 $psc_data[] = $depex3[$c][0]["download"]-$cch[$c][0][1]-$cc[$c][0][1]-$ncn[$c][0][1];
                  if($c>0){
                    
                     $nbapp_data[] = $nbapp_data[$c-1]+$depex3[$c][0]["download"]+$depex4[$c][0]["uninstall"];
@@ -95,6 +96,7 @@ class StatCacController extends AbstractController
                 $nbncli_data[] = 0;
                 $nbapp_data[] = 0;
                 $churn[] = 0;
+                $psc_data[] = 0;
             }
              
         }
@@ -107,7 +109,8 @@ class StatCacController extends AbstractController
         $total_jag_data = array_sum($cac_jag_data)-($cac_jag_data[count($cac_jag_data)-1]); 
         $total_jagQD_data = array_sum($cac_jagQD_data)-($cac_jagQD_data[count($cac_jagQD_data)-1]);    
         $total_ncn_data = array_sum($cac_ncn_data)-($cac_ncn_data[count($cac_ncn_data)-1]);         
-        $total_ncnp_data = array_sum($cac_ncnp_data)-($cac_ncnp_data[count($cac_ncnp_data)-1]);        
+        $total_ncnp_data = array_sum($cac_ncnp_data)-($cac_ncnp_data[count($cac_ncnp_data)-1]);
+        $total_psc =  array_sum($psc_data)-($psc_data[count($psc_data)-1]);       
         $total_cac_data = round($total_dep_data/$total_ncn_data,2);       
         $cac_moy_data = [$total_cac_data, $total_cac_data, $total_cac_data, $total_cac_data, $total_cac_data, $total_cac_data,$total_cac_data, $total_cac_data, $total_cac_data, $total_cac_data, $total_cac_data, $total_cac_data, $total_cac_data];
         $total_tele = array_sum($tele_data)-($tele_data[count($tele_data)-1]);
@@ -156,7 +159,9 @@ class StatCacController extends AbstractController
         'cac_moy_data2' => json_encode($cac_moy_data),
         'churn' => $churn,
         'total_tele' => $total_tele,
-        'total_uninst' => $total_uninst,              
+        'total_uninst' => $total_uninst,
+        'psc_data' => $psc_data,
+        'total_psc' => $total_psc,             
         ]);
     }
 }

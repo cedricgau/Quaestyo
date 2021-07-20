@@ -21,7 +21,7 @@ class StatController extends AbstractController
         $con = $this->getDoctrine()->getRepository(Game::class);
         $con2 = $this->getDoctrine()->getRepository(ExternDatas::class);
 
-        for($i=$i+1; $i<$k+13 ; $i++){
+        for($i=$i+1; $i<$k+14 ; $i++){
     		if ($i>12){
         		$j=$i-12;
         		$b=$a+1;
@@ -49,7 +49,7 @@ class StatController extends AbstractController
 
         //datas cac/arpu/cltv
         
-        for($c=0; $c<12 ; $c++){
+        for($c=0; $c<13 ; $c++){
             if(isset($ncn[$c][0][1]) && $ncn[$c][0][1]!==0 && isset($depex[$c][0]["advert"]) && isset($depex2[$c][0]["CA"])){                                
                  $cac_data[] = round($depex[$c][0]["advert"]/$ncn[$c][0][1],2);
                  $arpu_data[] = round($depex2[$c][0]["CA"]/$avpa2[$c][0][1],2);

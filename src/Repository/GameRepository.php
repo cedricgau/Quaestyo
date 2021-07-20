@@ -159,8 +159,7 @@ class GameRepository extends ServiceEntityRepository
             FROM App\Entity\Player p            
             WHERE p.state NOT LIKE \'HIDDEN\'
             AND p.date_creation BETWEEN ?1 AND ?2           
-            AND p.currency5=0
-            AND p.currency6=0
+            AND ( p.currency3>0 OR p.currency4>0 OR p.currency5>0 OR p.currency6>0 )
             ')->setParameter(1, $dm)->setParameter(2, $fm);
         return $query->getResult();  
         

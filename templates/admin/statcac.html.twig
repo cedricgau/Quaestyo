@@ -8,8 +8,8 @@
 
 <div class="d-grid gap-3">
   <div class="p-5 bg-white"></div>
-
-
+<div class="container">
+<a href="{{ path('quaestyo_homeland')}}">Retour à la page d'accueuil</a></div>
 <div class="container">
 <table class="table table-striped">
   <thead>
@@ -35,7 +35,7 @@
     <tr>
       <th scope="row">Comptes créés</th>
       {% for col in cac_cc_data%}
-      {% if(cac_cc_data|last==col) %} <th scope="col" style="background-color: lightyellow">{{total_cc_data}}€</th>{% endif %}
+      {% if(cac_cc_data|last==col) %} <th scope="col" style="background-color: lightyellow">{{total_cc_data}}</th>{% endif %}
         <th scope="col">{{col}}</th>
       {% endfor %}      
     </tr>
@@ -147,8 +147,8 @@
     </script> 
 <div class="d-grid gap-3">
   <div class="p-5 bg-white"></div>
-
-
+<div class="container">
+<a href="{{ path('quaestyo_homeland')}}">Retour à la page d'accueuil</a></div>
 <div class="container">
 <table class="table table-striped">
   <thead>
@@ -171,6 +171,14 @@
       
     </tr>
     <tr>
+      <th scope="row">Pers n'ayant pas créé de compte</th>
+      {% for col in psc_data%}
+       {% if(psc_data|last==col) %} <th scope="col" style="background-color: lightyellow">{{total_psc}}</th>{% endif %} 
+        <th scope="col">{{col}}</th>
+      {% endfor %}
+      
+    </tr>
+    <tr>
       <th scope="row">Comptes créés hors CAC</th>
       {% for col in cac_cch_data%}
       {% if(cac_cch_data|last==col) %} <th scope="col" style="background-color: lightyellow">{{total_cch_data}}</th>{% endif %} 
@@ -179,7 +187,7 @@
      
     </tr>
     <tr>
-      <th scope="row">Comptes créés</th>
+      <th scope="row">Comptes créés dans le CAC</th>
       {% for col in cac_cc_data%}
        {% if(cac_cc_data|last==col) %} <th scope="col" style="background-color: lightyellow">{{total_cc_data}}</th>{% endif %} 
         <th scope="col">{{col}}</th>
@@ -195,9 +203,9 @@
      
     </tr>
     <tr>
-      <th scope="row">Nombre de non clients</th>
+      <th scope="row">Nombre de prospects</th>
       {% for col in nbncli_data %}
-      {% if(nbncli_data|last==col) %}<th scope="col" style="background-color: lightyellow">{{total_cc_data-total_ncn_data}}</th>{% endif %} 
+      {% if(nbncli_data|last==col) %}<th scope="col" style="background-color: lightyellow">{{total_cch_data+total_cc_data-total_ncn_data}}</th>{% endif %} 
         <td>{{ col }}</td>        
       {% endfor %}
       
@@ -274,7 +282,7 @@
             order : 1,
             data: {{ cac_ncn_data2 }}
         },{
-            label: 'Non Clients',
+            label: 'Prospects',
             borderColor: 'green',
             order : 1,
             data: {{ nbncli_data2 }}

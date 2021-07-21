@@ -1,316 +1,400 @@
 {% extends 'base.html.twig' %}
 
 {% block title %}Cout d'Acquisition Client QUAESTYO{% endblock %}
-{% block stylesheets %}{% endblock %}      
+{% block stylesheets %}{% endblock %}
 {% block body %}
 
- <h1 class="text-center">Cout d'Acquisition Client QUAESTYO</h1> 
+  <h1 class="text-center">Cout d'Acquisition Client QUAESTYO</h1>
 
-<div class="d-grid gap-3">
-  <div class="p-5 bg-white"></div>
-<div class="container">
-<a href="{{ path('quaestyo_homeland')}}">Retour à la page d'accueuil</a></div>
-<div class="container">
-<table class="table table-striped">
-  <thead>
-    <tr class="table-success">
-    <th scope="col">CAC</th>
-    {% for col in cac_cols%}      
-      {% if(cac_cols|last==col and nb is defined) %} <th scope="col">Total</th>   {% endif %}     
-      <th scope="col">{{col}}</th>
-      {% set nb=0 %}
-    {% endfor %}
-       
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <th scope="row">Dépenses Pub</th>
-      {% for col in cac_dep_data%}
-        {% if(cac_dep_data|last==col) %} <th scope="col" style="background-color: lightyellow">{{total_dep_data}}€</th>{% endif %}
-        <th scope="col">{{col}}€</th>
-      {% endfor %}
-      
-    </tr>
-    <tr>
-      <th scope="row">Comptes créés</th>
-      {% for col in cac_cc_data%}
-      {% if(cac_cc_data|last==col) %} <th scope="col" style="background-color: lightyellow">{{total_cc_data}}</th>{% endif %}
-        <th scope="col">{{col}}</th>
-      {% endfor %}      
-    </tr>
-    <tr>
-      <th scope="row">Dépenses Pub/Compte</th>
-      {% for col in cac_dpc_data%}
-        {% if(cac_dpc_data|last==col) %} <th scope="col" style="background-color: lightyellow">{{total_dpc_data|round(2)}}€</th>{% endif %}
-        <th scope="col">{{col|round(2)}}€</th>
-      {% endfor %}
-      
-    </tr>
-    <tr>
-      <th scope="row">Non payé (gratuit et sans aventure)</th>
-      {% for col in cac_np_data%}
-      {% if(cac_np_data|last==col) %} <th scope="col" style="background-color: lightyellow">{{total_np_data}}</th>{% endif %}
-        <th scope="col">{{col}}</th>
-      {% endfor %}
-      
-    </tr>   
-    <tr>
-      <th scope="row">Jouée aventure gratuite</th>
-      {% for col in cac_jag_data%}
-      {% if(cac_jag_data|last==col) %} <th scope="col" style="background-color: lightyellow">{{total_jag_data}}</th>{% endif %}
-        <th scope="col">{{col}}</th>         
-      {% endfor %}
-      
-    </tr>
-    <tr>
-      <th scope="row">Jouée QUAESTYO DEMO</th>
-      {% for col in cac_jagQD_data%}
-      {% if(cac_jagQD_data|last==col) %} <th scope="col" style="background-color: lightyellow">{{total_jagQD_data}}</th>{% endif %}
-        <th scope="col">{{col}}</th>         
-      {% endfor %}      
-    </tr>       
-    <tr>
-      <th scope="row">Nvx Clients Nationaux</th>
-      {% for col in cac_ncn_data%}
-       {% if(cac_ncn_data|last==col) %}<th scope="col" style="background-color: lightyellow">{{total_ncn_data}}</th>{% endif %}
-        <th scope="col">{{col}}</th>
-      {% endfor %}
-     
-    </tr>
-    <tr>
-      <th scope="row">Nvx Clients transfo %</th>
-      {% for col in pourcent3%}
-      {% if(pourcent3|last==col) %}<th scope="col" style="background-color: lightyellow">{{(total_ncn_data/total_cc_data*100)|round(2)}}%</th>{% endif %}
-        <th scope="col">{{col}}%</th>        
-      {% endfor %}
-      
-    </tr>
-    <tr>
-      <th scope="row">Nvx Clients Parisiens</th>
-      {% for col in cac_ncnp_data%}
-      {% if(cac_ncnp_data|last==col) %}<th scope="col" style="background-color: lightyellow">{{total_ncnp_data}}</th>{% endif %}
-        <th scope="col">{{col}}</th>
-      {% endfor %}
-      
-    </tr> 
-    <tr>
-      <th scope="row">CAC National</th>
-      {% for col in cac_data %}
-      {% if(cac_data|last==col) %}<th scope="col" style="background-color: lightyellow">{{total_cac_data}}€</th>{% endif %} 
-        <td>{{ col }}€</td>
-      {% endfor %}
-           
-    </tr>
-  </tbody>
-</table>
-    
-    <canvas id="cac" width="400" height="100"></canvas>
-  <script>    
+  <div class="d-grid gap-3">
+    <div class="p-5 bg-white"></div>
+    <div class="container">
+      <a href="{{ path('quaestyo_homeland')}}">Retour à la page d'accueuil</a>
+    </div>
+    <div class="container">
+      <table class="table table-striped">
+        <thead>
+          <tr class="table-success">
+            <th scope="col">CAC</th>
+            {% for col in cac_cols%}
+              {% if (cac_cols | last == col and nb is defined) %}
+                <th scope="col">Total</th>
+              {% endif %}
+              <th scope="col">{{col}}</th>
+              {% set nb = 0 %}
+            {% endfor %}
+
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <th scope="row">Dépenses Pub</th>
+            {% set x = 1 %}
+            {% for col in cac_dep_data%}
+              {% if (cac_dep_data | last == col and cac_dep_data | length == x) %}
+                <th scope="col" style="background-color: lightyellow">{{total_dep_data}}€</th>
+              {% endif %}
+              {% set x = x + 1 %}
+              <th scope="col">{{col}}€</th>
+            {% endfor %}
+
+          </tr>
+          <tr>
+            <th scope="row">Comptes créés</th>
+            {% set x = 1 %}
+            {% for col in cac_cc_data%}
+              {% if (cac_cc_data | last == col and cac_cc_data | length == x) %}
+                <th scope="col" style="background-color: lightyellow">{{total_cc_data}}</th>
+              {% endif %}
+              {% set x = x + 1 %}
+              <th scope="col">{{col}}</th>
+            {% endfor %}
+          </tr>
+          <tr>
+            <th scope="row">Dépenses Pub/Compte</th>
+            {% set x = 1 %}
+            {% for col in cac_dpc_data%}
+              {% if (cac_dpc_data | last == col and cac_dpc_data | length == x) %}
+                <th scope="col" style="background-color: lightyellow">{{total_dpc_data|round(2)}}€</th>
+              {% endif %}
+              {% set x = x + 1 %}
+              <th scope="col">{{col|round(2)}}€</th>
+            {% endfor %}
+
+          </tr>
+          <tr>
+            <th scope="row">Non payé (gratuit et sans aventure)</th>
+            {% set x = 1 %}
+            {% for col in cac_np_data%}
+              {% if (cac_np_data | last == col and cac_np_data | length == x) %}
+                <th scope="col" style="background-color: lightyellow">{{total_np_data}}</th>
+              {% endif %}
+              {% set x = x + 1 %}
+              <th scope="col">{{col}}</th>
+            {% endfor %}
+
+          </tr>
+          <tr>
+            <th scope="row">Jouée aventure gratuite</th>
+            {% set x = 1 %}
+            {% for col in cac_jag_data%}
+              {% if (cac_jag_data | last == col and cac_jag_data | length == x) %}
+                <th scope="col" style="background-color: lightyellow">{{total_jag_data}}</th>
+              {% endif %}
+              {% set x = x + 1 %}
+              <th scope="col">{{col}}</th>
+            {% endfor %}
+
+          </tr>
+          <tr>
+            <th scope="row">Jouée QUAESTYO DEMO</th>
+            {% set x = 1 %}
+            {% for col in cac_jagQD_data%}
+              {% if (cac_jagQD_data | last == col and cac_jagQD_data | length == x) %}
+                <th scope="col" style="background-color: lightyellow">{{total_jagQD_data}}</th>
+              {% endif %}
+              {% set x = x + 1 %}
+              <th scope="col">{{col}}</th>
+            {% endfor %}
+          </tr>
+          <tr>
+            <th scope="row">Nvx Clients Nationaux</th>
+            {% set x = 1 %}
+            {% for col in cac_ncn_data%}
+              {% if (cac_ncn_data | last == col and cac_ncn_data | length == x) %}
+                <th scope="col" style="background-color: lightyellow">{{total_ncn_data}}</th>
+              {% endif %}
+              {% set x = x + 1 %}
+              <th scope="col">{{col}}</th>
+            {% endfor %}
+          </tr>
+          <tr>
+            <th scope="row">Nvx Clients transfo %</th>
+            {% set x = 1 %}
+            {% for col in pourcent3%}
+              {% if (pourcent3 | last == col and pourcent3 | length == x) %}
+                <th scope="col" style="background-color: lightyellow">{{(total_ncn_data/total_cc_data*100)|round(2)}}%</th>
+              {% endif %}
+              {% set x = x + 1 %}
+              <th scope="col">{{col}}%</th>
+            {% endfor %}
+
+          </tr>
+          <tr>
+            <th scope="row">Nvx Clients Parisiens</th>
+            {% set x = 1 %}
+            {% for col in cac_ncnp_data%}
+              {% if (cac_ncnp_data | last == col and cac_ncnp_data | length == x) %}
+                <th scope="col" style="background-color: lightyellow">{{total_ncnp_data}}</th>
+              {% endif %}
+              {% set x = x + 1 %}
+              <th scope="col">{{col}}</th>
+            {% endfor %}
+
+          </tr>
+          <tr>
+            <th scope="row">CAC National</th>
+            {% set x = 1 %}
+            {% for col in cac_data %}
+              {% if (cac_data | last == col and cac_data | length == x) %}
+                <th scope="col" style="background-color: lightyellow">{{total_cac_data}}€</th>
+              {% endif %}
+              {% set x = x + 1 %}
+              <td>{{ col }}€</td>
+            {% endfor %}
+
+          </tr>
+        </tbody>
+      </table>
+
+      <canvas id="cac" width="400" height="100"></canvas>
+      <script>
         let cac = document.querySelector("#cac");
         let cacGraph = new Chart(cac, {
-            type: 'line',
-            
-    data: {
-        labels: {{ cac_cols2 }},
-        datasets: [{
-            label: 'CAC',
-            borderColor: 'blue',
-            data: {{ cac_data2 }}
-            
-        },{
-            label: 'CAC Moyen',
-            borderColor: 'red',
-            data: {{ cac_moy_data2 }}
-            
-        }]
-    },
-    options: {
-        plugins: {
-            legend: {
+          type: 'line',
+
+          data: {
+            labels: {{ cac_cols2 }},
+            datasets: [
+              {
+                label: 'CAC',
+                borderColor: 'blue',
+                data: {{ cac_data2 }}
+
+              }, {
+                label: 'CAC Moyen',
+                borderColor: 'red',
+                data: {{ cac_moy_data2 }}
+
+              }
+            ]
+          },
+          options: {
+            plugins: {
+              legend: {
                 display: true,
-                position: 'bottom',
-            },
-            title: {
+                position: 'bottom'
+              },
+              title: {
                 display: true,
                 text: "CAC"
-            }
-        },
-        scales: {
-            y: {
-                beginAtZero: true
-            }
-        }
-    }
-});
-
-    </script> 
-<div class="d-grid gap-3">
-  <div class="p-5 bg-white"></div>
-<div class="container">
-<a href="{{ path('quaestyo_homeland')}}">Retour à la page d'accueuil</a></div>
-<div class="container">
-<table class="table table-striped">
-  <thead>
-    <tr class="table-success">
-    <th scope="col">Volumétrie Hors CAC</th>
-    {% for col in cac_cols%}
-      {% if(cac_cols|last==col and nb is defined) %} <th scope="col">Total</th>   {% endif %}     
-      <th scope="col">{{col}}</th>
-      {% set nb=0 %}
-    {% endfor %}     
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <th scope="row">Téléchargements</th>
-      {% for col in tele_data%}
-       {% if(tele_data|last==col) %} <th scope="col" style="background-color: lightyellow">{{total_tele}}</th>{% endif %} 
-        <th scope="col">{{col}}</th>
-      {% endfor %}
-      
-    </tr>
-    <tr>
-      <th scope="row">Pers n'ayant pas créé de compte</th>
-      {% for col in psc_data%}
-       {% if(psc_data|last==col) %} <th scope="col" style="background-color: lightyellow">{{total_psc}}</th>{% endif %} 
-        <th scope="col">{{col}}</th>
-      {% endfor %}
-      
-    </tr>
-    <tr>
-      <th scope="row">Comptes créés hors CAC</th>
-      {% for col in cac_cch_data%}
-      {% if(cac_cch_data|last==col) %} <th scope="col" style="background-color: lightyellow">{{total_cch_data}}</th>{% endif %} 
-        <th scope="col">{{col}}</th>
-      {% endfor %}
-     
-    </tr>
-    <tr>
-      <th scope="row">Comptes créés dans le CAC</th>
-      {% for col in cac_cc_data%}
-       {% if(cac_cc_data|last==col) %} <th scope="col" style="background-color: lightyellow">{{total_cc_data}}</th>{% endif %} 
-        <th scope="col">{{col}}</th>
-      {% endfor %}
-    
-    </tr>
-    <tr>
-      <th scope="row">Nombre de clients</th>
-      {% for col in cac_ncn_data%}
-       {% if(cac_ncn_data|last==col) %}<th scope="col" style="background-color: lightyellow">{{total_ncn_data}}</th>{% endif %} 
-        <th scope="col">{{col}}</th>
-      {% endfor %}
-     
-    </tr>
-    <tr>
-      <th scope="row">Nombre de prospects</th>
-      {% for col in nbncli_data %}
-      {% if(nbncli_data|last==col) %}<th scope="col" style="background-color: lightyellow">{{total_cch_data+total_cc_data-total_ncn_data}}</th>{% endif %} 
-        <td>{{ col }}</td>        
-      {% endfor %}
-      
-    </tr>
-    <tr>
-      <th scope="row">Désinstallations</th>
-      {% for col in des_data %}
-      {% if(des_data|last==col) %}<th scope="col" style="background-color: lightyellow">{{total_uninst}}</th>{% endif %} 
-        <td>{{ col }}</td>
-      {% endfor %}
-      
-    </tr>
-    <tr>
-      <th scope="row">Nombre d'applications actives</th>
-      {% for col in nbapp_data %}
-      {% if(nbapp_data|last==col) %}<th scope="col" style="background-color: lightyellow">{{total_uninst+total_tele}}</th>{% endif %} 
-        <td>{{ col }}</td>
-      {% endfor %}
-      
-    </tr>
-    <tr>
-      <th scope="row">Taux de churn</th>
-      {% for col in churn %}
-      {% if(churn|last==col) %}<th scope="col" style="background-color: lightyellow">{{(100*(-1)*total_uninst/total_tele)|round(2)}}%</th>{% endif %} 
-        <td>{{ col }}%</td>
-      {% endfor %}
-      
-    </tr>
-  </tbody>
-</table>
-<canvas id="hcac" width="400" height="100"></canvas>
-  <script>    
-        let hcac = document.querySelector("#hcac");
-        let hcacGraph = new Chart(hcac, {
-            type: 'line',
-            
-    data: {
-        labels: {{ cac_cols2 }},
-        datasets: [{
-            label: 'Téléchargements',
-            type: 'bar',
-            backgroundColor: 'blue',
-            order : 2,
-            data: {{ tele_data2 }}
-            
-        },{
-            label: 'Désinstallations',
-            type: 'bar',
-            backgroundColor: 'purple',
-            order : 2,
-            data: {{ des_data2 }}
-        },{
-            label: 'Applications Actives',
-            type: 'bar',
-            backgroundColor: 'pink',
-            order : 2,
-            data: {{ nbapp_data2 }}
-            
-        },{
-            label: 'Comptes créés hors CAC',
-            borderColor: 'red',
-            order : 1,
-            data: {{ cac_cch_data2 }}
-        
-        },{
-            label: 'Comptes créés ',
-            borderColor: 'black',
-            order : 1,
-            data: {{ cac_cc_data2 }}
-        
-        },{
-            label: 'Clients',
-            borderColor: 'orange',
-            order : 1,
-            data: {{ cac_ncn_data2 }}
-        },{
-            label: 'Prospects',
-            borderColor: 'green',
-            order : 1,
-            data: {{ nbncli_data2 }}
-        }]
-    },
-    options: {
-        plugins: {
-            legend: {
-                display: true,
-                position: 'bottom',
+              }
             },
-            title: {
-                display: true,
-                text: "Hors CAC"
-            }
-        },
-        scales: {
-            y: {
+            scales: {
+              y: {
                 beginAtZero: true
+              }
             }
-        }
-    }
-});  
-</script>    
-</div>
-{% endblock %}
+          }
+        });
+      </script>
+      <div class="d-grid gap-3">
+        <div class="p-5 bg-white"></div>
+        <div class="container">
+          <a href="{{ path('quaestyo_homeland')}}">Retour à la page d'accueuil</a>
+        </div>
+        <div class="container">
+          <table class="table table-striped">
+            <thead>
+              <tr class="table-success">
+                <th scope="col">Volumétrie Hors CAC</th>
+                {% for col in cac_cols%}
+                  {% if (cac_cols | last == col and nb is defined) %}
+                    <th scope="col">Total</th>
+                  {% endif %}
+                  <th scope="col">{{col}}</th>
+                  {% set nb = 0 %}
+                {% endfor %}
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <th scope="row">Téléchargements</th>
+                {% set x = 1 %}
+                {% for col in tele_data%}
+                  {% if (tele_data | last == col and tele_data | length == x) %}
+                    <th scope="col" style="background-color: lightyellow">{{total_tele}}</th>
+                  {% endif %}
+                  {% set x = x + 1 %}
+                  <th scope="col">{{col}}</th>
+                {% endfor %}
 
-{% block javascripts %}
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.2.1/chart.js" integrity="sha512-or2Rj8rtp6G4AA7LOM1DVfQmzsevkILKgY1LLJ5kEDv3UCiEt9bmHJn7LNmo8BC5hxJCQ3cosqo1t77+p/yOfg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-  
-{% endblock %}
+              </tr>
+              <tr>
+                <th scope="row">Pers n'ayant pas créé de compte</th>
+                {% set x = 1 %}
+                {% for col in psc_data%}
+                  {% if (psc_data | last == col and psc_data | length == x) %}
+                    <th scope="col" style="background-color: lightyellow">{{total_psc}}</th>
+                  {% endif %}
+                  {% set x = x + 1 %}
+                  <th scope="col">{{col}}</th>
+                {% endfor %}
+
+              </tr>
+              <tr>
+                <th scope="row">Comptes créés hors CAC</th>
+                {% set x = 1 %}
+                {% for col in cac_cch_data%}
+                  {% if (cac_cch_data | last == col and cac_cch_data | length == x) %}
+                    <th scope="col" style="background-color: lightyellow">{{total_cch_data}}</th>
+                  {% endif %}
+                  {% set x = x + 1 %}
+                  <th scope="col">{{col}}</th>
+                {% endfor %}
+
+              </tr>
+              <tr>
+                <th scope="row">Comptes créés dans le CAC</th>
+                {% set x = 1 %}
+                {% for col in cac_cc_data%}
+                  {% if (cac_cc_data | last == col and cac_cc_data | length == x) %}
+                    <th scope="col" style="background-color: lightyellow">{{total_cc_data}}</th>
+                  {% endif %}
+                  {% set x = x + 1 %}
+                  <th scope="col">{{col}}</th>
+                {% endfor %}
+
+              </tr>
+              <tr>
+                <th scope="row">Nombre de clients</th>
+                {% set x = 1 %}
+                {% for col in cac_ncn_data%}
+                  {% if (cac_ncn_data | last == col and cac_ncn_data | length == x) %}
+                    <th scope="col" style="background-color: lightyellow">{{total_ncn_data}}</th>
+                  {% endif %}
+                  {% set x = x + 1 %}
+                  <th scope="col">{{col}}</th>
+                {% endfor %}
+
+              </tr>
+              <tr>
+                <th scope="row">Nombre de prospects</th>
+                {% set x = 1 %}
+                {% for col in nbncli_data %}
+                  {% if (nbncli_data | last == col and nbncli_data | length == x) %}
+                    <th scope="col" style="background-color: lightyellow">{{total_cch_data+total_cc_data-total_ncn_data}}</th>
+                  {% endif %}
+                  {% set x = x + 1 %}
+                  <td>{{ col }}</td>
+                {% endfor %}
+
+              </tr>
+              <tr>
+                <th scope="row">Désinstallations</th>
+                {% set x = 1 %}
+                {% for col in des_data %}
+                  {% if (des_data | last == col and des_data | length == x) %}
+                    <th scope="col" style="background-color: lightyellow">{{total_uninst}}</th>
+                  {% endif %}
+                  {% set x = x + 1 %}
+                  <td>{{ col }}</td>
+                {% endfor %}
+
+              </tr>
+              <tr>
+                <th scope="row">Nombre d'applications actives</th>
+                {% set x = 1 %}
+                {% for col in nbapp_data %}
+                  {% if (nbapp_data | last == col and nbapp_data | length == x) %}
+                    <th scope="col" style="background-color: lightyellow">{{total_uninst+total_tele}}</th>
+                  {% endif %}
+                  {% set x = x + 1 %}
+                  <td>{{ col }}</td>
+                {% endfor %}
+
+              </tr>
+              <tr>
+                <th scope="row">Taux de churn</th>
+                {% set x = 1 %}
+                {% for col in churn %}
+                  {% if (churn | last == col and churn | length == x) %}
+                    <th scope="col" style="background-color: lightyellow">{{(100*(-1)*total_uninst/total_tele)|round(2)}}%</th>
+                  {% endif %}
+                  {% set x = x + 1 %}
+                  <td>{{ col }}%</td>
+                {% endfor %}
+
+              </tr>
+            </tbody>
+          </table>
+          <canvas id="hcac" width="400" height="100"></canvas>
+          <script>
+            let hcac = document.querySelector("#hcac");
+            let hcacGraph = new Chart(hcac, {
+              type: 'line',
+
+              data: {
+                labels: {{ cac_cols2 }},
+                datasets: [
+                  {
+                    label: 'Téléchargements',
+                    type: 'bar',
+                    backgroundColor: 'blue',
+                    order: 2,
+                    data: {{ tele_data2 }}
+
+                  }, {
+                    label: 'Désinstallations',
+                    type: 'bar',
+                    backgroundColor: 'purple',
+                    order: 2,
+                    data: {{ des_data2 }}
+                  }, {
+                    label: 'Applications Actives',
+                    type: 'bar',
+                    backgroundColor: 'pink',
+                    order: 2,
+                    data: {{ nbapp_data2 }}
+
+                  }, {
+                    label: 'Comptes créés hors CAC',
+                    borderColor: 'red',
+                    order: 1,
+                    data: {{ cac_cch_data2 }}
+
+                  }, {
+                    label: 'Comptes créés ',
+                    borderColor: 'black',
+                    order: 1,
+                    data: {{ cac_cc_data2 }}
+
+                  }, {
+                    label: 'Clients',
+                    borderColor: 'orange',
+                    order: 1,
+                    data: {{ cac_ncn_data2 }}
+                  }, {
+                    label: 'Prospects',
+                    borderColor: 'green',
+                    order: 1,
+                    data: {{ nbncli_data2 }}
+                  }
+                ]
+              },
+              options: {
+                plugins: {
+                  legend: {
+                    display: true,
+                    position: 'bottom'
+                  },
+                  title: {
+                    display: true,
+                    text: "Hors CAC"
+                  }
+                },
+                scales: {
+                  y: {
+                    beginAtZero: true
+                  }
+                }
+              }
+            });
+          </script>
+        </div>
+      {% endblock %}
+
+      {% block javascripts %}
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.2.1/chart.js" integrity="sha512-or2Rj8rtp6G4AA7LOM1DVfQmzsevkILKgY1LLJ5kEDv3UCiEt9bmHJn7LNmo8BC5hxJCQ3cosqo1t77+p/yOfg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+      {% endblock %}

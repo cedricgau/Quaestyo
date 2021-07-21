@@ -1,122 +1,148 @@
 {% extends 'base.html.twig' %}
 
 {% block title %}Average Revenu Per User QUAESTYO{% endblock %}
-{% block stylesheets %}{% endblock %}      
+{% block stylesheets %}{% endblock %}
 {% block body %}
 
- <h1 class="text-center">Average Revenu Per User QUAESTYO</h1>
- 
-<div class="d-grid gap-3">
-  <div class="p-5 bg-white"></div>
-  <div class="container">
-<a href="{{ path('quaestyo_homeland')}}">Retour à la page d'accueuil</a></div>
-<div class="container">
-<table class="table table-striped">
-  <thead>
-    <tr class="table-success">
-    <th scope="col">ARPU</th>
-    {% for col in arpu_cols%}
-      {% if(arpu_cols|last==col and nb is defined) %} <th scope="col">Total</th>   {% endif %}     
-      <th scope="col">{{col}}</th>
-      {% set nb=0 %}
-      {% endfor %}       
-    </tr>    
-  </thead>
-  <tbody>
-    <tr>
-      <th scope="row">CA</th>
-      {% for col in arpu_ca_data%}
-        {% if(arpu_ca_data|last==col) %} <th scope="col" style="background-color: lightyellow">{{total_ca_data}}€</th>{% endif %}
-        <th scope="col">{{col}}€</th>
-      {% endfor %}
-         
-    </tr>
-    <tr>
-      <th scope="row">Nombre de commandes</th>
-      {% for col in arpu_avpa_data%}
-        {% if(arpu_avpa_data|last==col) %} <th scope="col" style="background-color: lightyellow">{{total_avpa_data}}</th>{% endif %}
-        <th scope="col">{{col}}</th>
-      {% endfor %}
-        
-    </tr>
-    <tr>
-      <th scope="row">Nombre de clients</th>
-      {% for col in arpu_avpa2_data%}
-        {% if(arpu_avpa2_data|last==col) %} <th scope="col" style="background-color: lightyellow">{{total_avpa2_data}}</th>{% endif %}
-        <th scope="col">{{col}}</th>
-      {% endfor %}
-        
-    </tr>    
-    <tr>
-      <th scope="row">Résultat</th>
-      {% for col in resultat%}
-        {% if(resultat|last==col) %} <th scope="col" style="background-color: lightyellow; {%if total_resultat<0 %} color:red; {% endif %}">{{total_resultat|round(2)}}€</th>{% endif %}
-        <th scope="col" {%if col<0 %} style='color:red;' {% endif %}>{{col|round(2)}}€</th>
-      {% endfor %}
-        
-    </tr>   
-    <tr>
-      <th scope="row">Pourcentage</th>
-      {% for col in pourcent1%}
-        {% if(pourcent1|last==col) %} <th scope="col" style="background-color: lightyellow; {%if total_resultat<0 %} color:red; {% endif %}">{{(total_resultat/total_ca_data*100)|round(2)}}%</th>{% endif %}
-        <th scope="col" >{{col|round(2)}}%</th>
-      {% endfor %}
-      
-    </tr>   
-    <tr>
-      <th scope="row">ARPU</th>
-      {% for col in arpu_data%}
-        {% if(arpu_data|last==col) %} <th scope="col" style="background-color: lightyellow">{{total_arpu_data|round(2)}}€</th>{% endif %} 
-        <th scope="col">{{col|round(2)}}€</th>
-      {% endfor %}       
-    </tr>    
-  </tbody>
-</table>
-   
-    <canvas id="arpu" width="400" height="100"></canvas>
-  <script>    
+  <h1 class="text-center">Average Revenu Per User QUAESTYO</h1>
+
+  <div class="d-grid gap-3">
+    <div class="p-5 bg-white"></div>
+    <div class="container">
+      <a href="{{ path('quaestyo_homeland')}}">Retour à la page d'accueuil</a>
+    </div>
+    <div class="container">
+      <table class="table table-striped">
+        <thead>
+          <tr class="table-success">
+            <th scope="col">ARPU</th>
+            {% for col in arpu_cols%}
+              {% if (arpu_cols | last == col and nb is defined) %}
+                <th scope="col">Total</th>
+              {% endif %}
+              <th scope="col">{{col}}</th>
+              {% set nb = 0 %}
+            {% endfor %}
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <th scope="row">CA</th>
+            {% set x = 1 %}
+            {% for col in arpu_ca_data%}
+              {% if (arpu_ca_data | last == col and arpu_ca_data | length == x) %}
+                <th scope="col" style="background-color: lightyellow">{{total_ca_data}}€</th>
+              {% endif %}
+              {% set x = x + 1 %}
+              <th scope="col">{{col}}€</th>
+            {% endfor %}
+
+          </tr>
+          <tr>
+            <th scope="row">Nombre de commandes</th>
+            {% set x = 1 %}
+            {% for col in arpu_avpa_data%}
+              {% if (arpu_avpa_data | last == col and arpu_avpa_data | length == x) %}
+                <th scope="col" style="background-color: lightyellow">{{total_avpa_data}}</th>
+              {% endif %}
+              {% set x = x + 1 %}
+              <th scope="col">{{col}}</th>
+            {% endfor %}
+
+          </tr>
+          <tr>
+            <th scope="row">Nombre de clients</th>
+            {% set x = 1 %}
+            {% for col in arpu_avpa2_data%}
+              {% if (arpu_avpa2_data | last == col and arpu_avpa2_data | length == x) %}
+                <th scope="col" style="background-color: lightyellow">{{total_avpa2_data}}</th>
+              {% endif %}
+              {% set x = x + 1 %}
+              <th scope="col">{{col}}</th>
+            {% endfor %}
+
+          </tr>
+          <tr>
+            <th scope="row">Résultat</th>
+            {% set x = 1 %}
+            {% for col in resultat%}
+              {% if (resultat | last == col and resultat | length == x) %}
+                <th scope="col" style="background-color: lightyellow; {%if total_resultat<0 %} color:red; {% endif %}">{{total_resultat|round(2)}}€</th>
+              {% endif %}
+              {% set x = x + 1 %}
+              <th scope="col" {%if col<0 %} style='color:red;' {% endif %}>{{col|round(2)}}€</th>
+            {% endfor %}
+
+          </tr>
+          <tr>
+            <th scope="row">Pourcentage</th>
+            {% set x = 1 %}
+            {% for col in pourcent1%}
+              {% if (pourcent1 | last == col and pourcent1 | length == x) %}
+                <th scope="col" style="background-color: lightyellow; {% if total_resultat<0 %} color:red; {% endif %}">{{(total_resultat/total_ca_data*100)|round(2)}}%</th>
+              {% endif %}
+              {% set x = x + 1 %}
+              <th scope="col" {% if col<0 %} style="color:red;" {% endif %}>{{col|round(2)}}%</th>
+            {% endfor %}
+
+          </tr>
+          <tr>
+            <th scope="row">ARPU</th>
+            {% set x = 1 %}
+            {% for col in arpu_data%}
+              {% if (arpu_data | last == col and arpu_data | length == x) %}
+                <th scope="col" style="background-color: lightyellow">{{total_arpu_data|round(2)}}€</th>
+              {% endif %}
+              {% set x = x + 1 %}
+              <th scope="col">{{col|round(2)}}€</th>
+            {% endfor %}
+          </tr>
+        </tbody>
+      </table>
+
+      <canvas id="arpu" width="400" height="100"></canvas>
+      <script>
         let arpu = document.querySelector("#arpu");
         let arpuGraph = new Chart(arpu, {
-            type: 'line',
-    data: {
-        labels: {{ arpu_cols2}},
-        datasets: [{
-            label: 'ARPU',            
-            borderColor: 'blue',
-            data: {{ arpu_data2 }}
-        
-        },{
-          label: 'ARPU Moyen',            
-            borderColor: 'green',
-            data: {{ serie_data2 }}            
-        }]
-    },
-    options: {
-        plugins: {
-            legend: {
+          type: 'line',
+          data: {
+            labels: {{ arpu_cols2}},
+            datasets: [
+              {
+                label: 'ARPU',
+                borderColor: 'blue',
+                data: {{ arpu_data2 }}
+
+              }, {
+                label: 'ARPU Moyen',
+                borderColor: 'green',
+                data: {{ serie_data2 }}
+              }
+            ]
+          },
+          options: {
+            plugins: {
+              legend: {
                 display: true,
-                position: 'bottom',
-            },
-            title: {
+                position: 'bottom'
+              },
+              title: {
                 display: true,
                 text: "ARPU"
-            }
-        },
-        scales: {
-            y: {
+              }
+            },
+            scales: {
+              y: {
                 beginAtZero: true
+              }
             }
-        }
-    }
-});
+          }
+        });
+      </script>
+    </div>
+  {% endblock %}
 
-    </script>  
-</div>
-{% endblock %}
-
-{% block javascripts %}
+  {% block javascripts %}
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.2.1/chart.js" integrity="sha512-or2Rj8rtp6G4AA7LOM1DVfQmzsevkILKgY1LLJ5kEDv3UCiEt9bmHJn7LNmo8BC5hxJCQ3cosqo1t77+p/yOfg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-    
-    
-    
-{% endblock %}
+
+  {% endblock %}

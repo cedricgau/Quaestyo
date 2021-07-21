@@ -1,146 +1,164 @@
 {% extends 'base.html.twig' %}
 
 {% block title %}Key Performance Indicators QUAESTYO{% endblock %}
-{% block stylesheets %}{% endblock %}      
+{% block stylesheets %}{% endblock %}
 {% block body %}
 
- <h1 class="text-center">Key Performance Indicators QUAESTYO</h1>
- <div class="text-center">
-    <div class="spinner-border text-primary" role="status"></div>  
-    <div class="spinner-border text-secondary" role="status"></div>    
-    <div class="spinner-border text-success" role="status"></div>     
-    <div class="spinner-border text-danger" role="status"></div>     
-    <div class="spinner-border text-warning" role="status"></div>    
-    <div class="spinner-border text-info" role="status"></div>     
-    <div class="spinner-border text-light" role="status"></div>    
+  <h1 class="text-center">Key Performance Indicators QUAESTYO</h1>
+  <div class="text-center">
+    <div class="spinner-border text-primary" role="status"></div>
+    <div class="spinner-border text-secondary" role="status"></div>
+    <div class="spinner-border text-success" role="status"></div>
+    <div class="spinner-border text-danger" role="status"></div>
+    <div class="spinner-border text-warning" role="status"></div>
+    <div class="spinner-border text-info" role="status"></div>
+    <div class="spinner-border text-light" role="status"></div>
     <div class="spinner-border text-dark" role="status"></div>
-    <div class="spinner-border text-primary" role="status"></div>  
-    <div class="spinner-border text-secondary" role="status"></div>    
-    <div class="spinner-border text-success" role="status"></div>     
-    <div class="spinner-border text-danger" role="status"></div>     
-</div>
-<div class="d-grid gap-3">
-  <div class="p-5 bg-white"></div>
-  <div class="container">
-<a href="{{ path('quaestyo_homeland')}}">Retour à la page d'accueuil</a></div>
- <div class="container">
-<table class="table table-striped">
-  <thead>
-    <tr class="table-success">
-    <th scope="col">Volumétries Nationales QUAESTYO</th>
-    {% for col in vol_cols%}
-      <th scope="col">{{col}}</th>
-    {% endfor %} 
-    <th scope="col">Moyen</th>     
-    </tr>    
-  </thead>
-  <tbody>
-    <tr>
-      <th scope="row">CAC</th>
-      {% for col in cac_data%}
-        {% if(cac_data|last==col) %} <th scope="col" style="background-color: lightyellow">{{cac|round(2)}}€</th>{% endif %} 
-        <th scope="col">{{col|round(2)}}€</th>
-      {% endfor %}
-      
-    </tr>
-    <tr>
-      <th scope="row">ARPU</th>
-      {% for col in arpu_data%}
-        {% if(arpu_data|last==col) %} <th scope="col" style="background-color: lightyellow">{{arpu|round(2)}}€</th>{% endif %} 
-        <th scope="col">{{col|round(2)}}€</th>
-      {% endfor %}      
-    </tr>    
-    <tr>
-      <th scope="row">CLTV</th>
-      {% for col in cltv_data%}
-        {% if(cltv_data|last==col) %} <th scope="col" style="background-color: lightyellow">{{cltv|round(2)}}€</th>{% endif %} 
-        <th scope="col">{{col|round(2)}}€</th>
-      {% endfor %}      
-    </tr>    
-    <tr>
-      <th scope="row">Résultat</th>
-      {% for col in resultat%}
-        {% if(resultat|last==col) %} <th scope="col" style="background-color: lightyellow;{% if cltv-cac<0 %}color:red;{% endif %}">{{(cltv-cac)|round(2)}}€</th>{% endif %}        
-        <th {% if col<0 %} style="color:red" {% endif %}>{{(col)|round(2)}}€</th>
-      {% endfor %}
-       
-    </tr>               
-  </tbody>
-</table>
-    
-    <canvas id="volg" width="400" height="100"></canvas>
-  <script>    
+    <div class="spinner-border text-primary" role="status"></div>
+    <div class="spinner-border text-secondary" role="status"></div>
+    <div class="spinner-border text-success" role="status"></div>
+    <div class="spinner-border text-danger" role="status"></div>
+  </div>
+  <div class="d-grid gap-3">
+    <div class="p-5 bg-white"></div>
+    <div class="container">
+      <a href="{{ path('quaestyo_homeland')}}">Retour à la page d'accueuil</a>
+    </div>
+    <div class="container">
+      <table class="table table-striped">
+        <thead>
+          <tr class="table-success">
+            <th scope="col">Volumétries Nationales QUAESTYO</th>
+            {% for col in vol_cols%}
+              {% if (vol_cols | last == col and nb is defined) %}
+                <th scope="col">Moyen</th>
+              {% endif %}
+              <th scope="col">{{col}}</th>
+              {% set nb = 0 %}
+            {% endfor %}
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <th scope="row">CAC</th>
+            {% set x = 1 %}
+            {% for col in cac_data%}
+              {% if (cac_data | last == col and cac_data | length == x) %}
+                <th scope="col" style="background-color: lightyellow">{{cac|round(2)}}€</th>
+              {% endif %}
+              {% set x = x + 1 %}
+              <th scope="col">{{col|round(2)}}€</th>
+            {% endfor %}
+
+          </tr>
+          <tr>
+            <th scope="row">ARPU</th>
+            {% set x = 1 %}
+            {% for col in arpu_data%}
+              {% if (arpu_data | last == col and arpu_data | length == x) %}
+                <th scope="col" style="background-color: lightyellow">{{arpu|round(2)}}€</th>
+              {% endif %}
+              {% set x = x + 1 %}
+              <th scope="col">{{col|round(2)}}€</th>
+            {% endfor %}
+          </tr>
+          <tr>
+            <th scope="row">CLTV</th>
+            {% set x = 1 %}
+            {% for col in cltv_data%}
+              {% if (cltv_data | last == col and cltv_data | length == x) %}
+                <th scope="col" style="background-color: lightyellow">{{cltv|round(2)}}€</th>
+              {% endif %}
+              {% set x = x + 1 %}
+              <th scope="col">{{col|round(2)}}€</th>
+            {% endfor %}
+          </tr>
+          <tr>
+            <th scope="row">Résultat</th>
+            {% set x = 1 %}
+            {% for col in resultat%}
+              {% if (resultat | last == col and resultat | length == x) %}
+                <th scope="col" style="background-color: lightyellow;{% if cltv-cac<0 %}color:red;{% endif %}">{{(cltv-cac)|round(2)}}€</th>
+              {% endif %}
+              {% set x = x + 1 %}
+              <th {% if col<0 %} style="color:red" {% endif %}>{{(col)|round(2)}}€</th>
+            {% endfor %}
+
+          </tr>
+        </tbody>
+      </table>
+
+      <canvas id="volg" width="400" height="100"></canvas>
+      <script>
         let volg = document.querySelector("#volg");
         let volgGraph = new Chart(volg, {
-            type: 'bar',
-            
-    data: {
-        labels: {{ vol_cols2 }},
-        datasets: [{
-            label: 'CAC',
-            backgroundColor: 'blue',
-            order: 2,
-            data: {{ cac_data2 }}       
-            
-        },{
-            label: 'ARPU',
-            backgroundColor: 'red',
-            order: 2,
-            data: {{ arpu_data2 }}
-            
-        },{
-            label: 'CLTV',
-            backgroundColor: 'yellow',
-            order: 2,
-            data: {{ cltv_data2 }}            
-        },{
-            type: 'line',
-            label: 'Résultat Moyen',
-            borderColor: 'orange',
-            order: 1,
-            data: {{ result2 }}            
-        },{
-            type: 'line',
-            label: 'Résultat',
-            borderColor: 'green',            
-            order: 1,
-            data: {{ resultat2 }}
-        
-            
-        }]
-    },
-    options: {
-        plugins: {
-            legend: {
+          type: 'bar',
+
+          data: {
+            labels: {{ vol_cols2 }},
+            datasets: [
+              {
+                label: 'CAC',
+                backgroundColor: 'blue',
+                order: 2,
+                data: {{ cac_data2 }}
+
+              }, {
+                label: 'ARPU',
+                backgroundColor: 'red',
+                order: 2,
+                data: {{ arpu_data2 }}
+
+              }, {
+                label: 'CLTV',
+                backgroundColor: 'yellow',
+                order: 2,
+                data: {{ cltv_data2 }}
+              }, {
+                type: 'line',
+                label: 'Résultat Moyen',
+                borderColor: 'orange',
+                order: 1,
+                data: {{ result2 }}
+              }, {
+                type: 'line',
+                label: 'Résultat',
+                borderColor: 'green',
+                order: 1,
+                data: {{ resultat2 }}
+
+              }
+            ]
+          },
+          options: {
+            plugins: {
+              legend: {
                 display: true,
-                position: 'bottom',
+                position: 'bottom'
+              },
+              title: {
+                display: true,
+                text: "Volumétries Nationales QUAESTYO"
+              }
             },
-            title: {
-                display: true,
-                text: "Volumétries Nationales QUAESTYO" 
-            }
-        },
-        scales: {
-            y: {
+            scales: {
+              y: {
                 beginAtZero: true
-            },
-            x: {
-                
+              },
+              x: {
+
                 //type: 'category',
                 //labels: {{ vol_cols2 }}
+              }
             }
-        }
-    }
-});
+          }
+        });
+      </script>
 
-    </script>    
+    </div>
+  {% endblock %}
 
-</div>
-{% endblock %}
-
-{% block javascripts %}
+  {% block javascripts %}
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.2.1/chart.js" integrity="sha512-or2Rj8rtp6G4AA7LOM1DVfQmzsevkILKgY1LLJ5kEDv3UCiEt9bmHJn7LNmo8BC5hxJCQ3cosqo1t77+p/yOfg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-    
-    
-    
-{% endblock %}
+
+  {% endblock %}

@@ -73,7 +73,7 @@
                 <div class="row">
                     <h5 class="card-title"><cite>-  qui ont joué au moins à une aventure (dates comprises) du :</cite></h5>
                         <div class="col-sm-3 ">
-                            <input type="date" class="form-control" name="datedeb" value="2021-02-01" min="2021-02-01" required>
+                            <input type="date" class="form-control" name="datedeb" value="2021-02-01" min="2018-06-08" required>
                         </div>
                         <div class="col-sm-1">
                             <label class="form-label">  au  </label>
@@ -83,7 +83,7 @@
                         </div>                        
                     <h5 class="card-title"><cite>-  qui n'ont jamais joué avec un compte créé depuis le :</cite></h5>
                         <div class="col-sm-3"> 
-                            <input type="date" class="form-control" name="datecrea" value="2100-01-01" required>                            
+                            <input type="date" class="form-control" name="datecrea" value="{{ today2 }}" min="2018-06-08" required>                            
                         </div>
                         <div class="col-sm-10 mb-3">
                             <span style="font-size: 11px">* Possible aucun résultat en mettant la date de demain</span> 

@@ -25,7 +25,7 @@ class ConverterController extends AbstractController{
 
             
             $con = $this->getDoctrine()->getRepository(Game::class);
-            $obj = $con->findByAdventure(0);
+            $obj = $con->findAll();
             $con = $this->getDoctrine()->getRepository(Player::class);
             $obj2 = $con->findByPlayer($apres,$avant);
             $con = $this->getDoctrine()->getRepository(Adventure::class);

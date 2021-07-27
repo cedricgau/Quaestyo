@@ -169,7 +169,7 @@ class ConverterController extends AbstractController{
                     }else{
                         $col3 = 'INCONNU'; 
                     }
-    
+                    $gdc = date_format($d4->getDateCreation(),'Y-m-d');
                     $col4 = $gdc; // Colonne 4 : DATE DE CREATION DU COMPTE UTILISATEUR
     
                     if ($d4->getLatitude()===48.858200073242 && $d4->getLongitude()===2.338700056076 ){ // Colonne 5 : VILLE DE CREATION DU COMPTE UTILISATEUR

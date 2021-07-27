@@ -130,6 +130,30 @@ class GameRepository extends ServiceEntityRepository
         
     }
 
+    public function findByCountncnQV($dm,$fm)
+    {   
+        $entityManager = $this->getEntityManager();
+
+        $query = $entityManager->createQuery(
+            'SELECT count(distinct p.id_player)
+            FROM App\Entity\Game g
+            Join App\Entity\Adventure a
+            WITH g.code_adv = a.code_adv
+            Join App\Entity\Player p
+            WITH g.id_player = p.id_player  
+            WHERE p.state NOT LIKE \'HIDDEN\'
+            AND p.date_creation BETWEEN ?1 AND ?2
+            AND exists ( select ga.code_adv from App\Entity\Game ga Join App\Entity\Adventure ad WITH ga.code_adv = ad.code_adv where ga.code_adv LIKE \'ADV_49\')
+            AND a.state LIKE \'PAYANT\'
+            AND p.currency3=0
+            AND p.currency4=0
+            AND p.currency5=0
+            AND p.currency6=0
+            ')->setParameter(1, $dm)->setParameter(2, $fm);
+        return $query->getResult();  
+        
+    }
+
     public function findByCountcc($dm,$fm)
     {   
         $entityManager = $this->getEntityManager();

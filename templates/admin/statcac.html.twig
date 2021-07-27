@@ -75,6 +75,18 @@
 
           </tr>
           <tr>
+            <th scope="row">Comptes sans aventure</th>
+            {% set x = 1 %}
+            {% for col in csa%}
+              {% if (csa | last == col and csa | length == x) %}
+                <th scope="col" style="background-color: lightyellow">{{total_csa}}</th>
+              {% endif %}
+              {% set x = x + 1 %}
+              <th scope="col">{{col}}</th>
+            {% endfor %}
+
+          </tr>
+          <tr>
             <th scope="row">Jouée aventure gratuite</th>
             {% set x = 1 %}
             {% for col in cac_jag_data%}
@@ -103,6 +115,17 @@
             {% for col in cac_ncn_data%}
               {% if (cac_ncn_data | last == col and cac_ncn_data | length == x) %}
                 <th scope="col" style="background-color: lightyellow">{{total_ncn_data}}</th>
+              {% endif %}
+              {% set x = x + 1 %}
+              <th scope="col">{{col}}</th>
+            {% endfor %}
+          </tr>          
+          <tr>
+            <th scope="row">Nvx Clients Nationaux ayant joués à QD ou VSO</th>
+            {% set x = 1 %}
+            {% for col in cac_ncnQV_data%}
+              {% if (cac_ncnQV_data | last == col and cac_ncnQV_data | length == x) %}
+                <th scope="col" style="background-color: lightyellow">{{total_ncnQV_data}}</th>
               {% endif %}
               {% set x = x + 1 %}
               <th scope="col">{{col}}</th>

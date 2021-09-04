@@ -39,6 +39,8 @@ class StatController extends AbstractController
             
             $depex[] = $con2->findByCountdepex($perioda,$periodb);
             $depex2[] = $con2->findByCountdepex2($perioda,$periodb);
+            $depex3[] = $con2->findByCountdepex3($perioda,$periodb);
+            $depex4[] = $con2->findByCountdepex4($perioda,$periodb);
             $ncn[] = $con->findByCountncn($perioda,$periodb);            
             $avpa[] = $con->findByCountavpa($perioda,$periodb);
             $avpa2[] = $con->findByCountnc($perioda,$periodb);
@@ -53,6 +55,8 @@ class StatController extends AbstractController
             if(isset($ncn[$c][0][1]) && $ncn[$c][0][1]!==0 && isset($depex[$c][0]["advert"]) && isset($depex2[$c][0]["CA"])){                                
                  $cac_data[] = round($depex[$c][0]["advert"]/$ncn[$c][0][1],2);
                  $arpu_data[] = round($depex2[$c][0]["CA"]/$avpa2[$c][0][1],2);
+                 $tele_data[] = $depex3[$c][0]["download"];
+                 $des_data[] = $depex4[$c][0]["uninstall"];
                  $pan_moy_data[] = round($depex2[$c][0]["CA"]/$avpa[$c][0][1],2);
                  $arpu_ca_data[] = $depex2[$c][0]["CA"];
                  $arpu_avpa_data[] = $avpa[$c][0][1];
@@ -70,6 +74,8 @@ class StatController extends AbstractController
                 $cac_dep_data[] = 0;
                 $cac_ncn_data[] = 0;
                 $arpu_avpa2_data[] = 0;
+                $tele_data[] = 0;
+                $des_data[] = 0;
             }
              
         }
@@ -165,7 +171,8 @@ class StatController extends AbstractController
             $result[] = $tt/$n;
         }
         
-        
+        $total_tele = array_sum($tele_data)-($tele_data[count($tele_data)-1]);
+        $total_uninst = array_sum($des_data)-($des_data[count($des_data)-1]);
 
         return $this->render('admin/stats.html.twig', [
         
@@ -183,6 +190,12 @@ class StatController extends AbstractController
         'cac' => $cac,         
         'arpu' => $arpu,  
         'result2' => json_encode($result),
+        'tele_data' => $tele_data,
+        'tele_data2' => json_encode($tele_data),
+        'des_data' => $des_data,
+        'des_data2' => json_encode($des_data),
+        'total_tele' => $total_tele,
+        'total_uninst' => $total_uninst,    
         ]);
     }
 }

@@ -110,7 +110,7 @@
             {% endfor %}
           </tr>
           <tr>
-            <th scope="row">Nvx Clients Nationaux</th>
+            <th scope="row">Nouveaux Clients Nationaux</th>
             {% set x = 1 %}
             {% for col in cac_ncn_data%}
               {% if (cac_ncn_data | last == col and cac_ncn_data | length == x) %}
@@ -119,18 +119,7 @@
               {% set x = x + 1 %}
               <th scope="col">{{col}}</th>
             {% endfor %}
-          </tr>          
-          <tr>
-            <th scope="row">Nvx Clients Nationaux ayant joués à QD ou VSO</th>
-            {% set x = 1 %}
-            {% for col in cac_ncnQV_data%}
-              {% if (cac_ncnQV_data | last == col and cac_ncnQV_data | length == x) %}
-                <th scope="col" style="background-color: lightyellow">{{total_ncnQV_data}}</th>
-              {% endif %}
-              {% set x = x + 1 %}
-              <th scope="col">{{col}}</th>
-            {% endfor %}
-          </tr>
+          </tr>  
           <tr>
             <th scope="row">Nvx Clients transfo %</th>
             {% set x = 1 %}

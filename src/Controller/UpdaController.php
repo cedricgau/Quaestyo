@@ -32,9 +32,11 @@ class UpdaController extends AbstractController
 
         // chemin d'accès aux fichiers JSON
          
-        $file = '..\public\Files_JSON\\'.$nameFile;
-        
+        $file = $this->getParameter('json_dir').'/'.$nameFile;
+
+                
         if (file_exists($file)){
+            
 
             $data = file_get_contents($file);
             $obj = json_decode($data); // Fichier 
@@ -119,13 +121,28 @@ class UpdaController extends AbstractController
                         $dtc = new DateTime(date('Y-m-d', $dt));                        
                     }else{
                         $dtc=null;
-                    }                                      
+                    }
+
+                    // Aventure 33 , 36 et 46 met le player en currency4 = 444
+                    
+                    if( $d->{'SHORT_CODE'} === ('ADV_33') || $d->{'SHORT_CODE'} === ('ADV_36') || $d->{'SHORT_CODE'} === ('ADV_46')){
+                        $nvcurr = $em->getRepository(Player::class)->find($d->{'userId'});
+                        $nvcurr->setCurrency4(444);
+                        $em->flush();
+                    }
+
+                    $advstate = $em->getRepository(Adventure::class)->findOneBy(['code_adv' => $d->{'SHORT_CODE'}]);
+                    if($advstate){
+                        $st = $advstate->getState();
+                    }else{
+                        $st = "PAYANT";
+                    }
                                         
                             $game
                                 ->setCodeAdv($d->{'SHORT_CODE'})
                                 ->setIdPlayer($d->{'userId'})
                                 ->setDatePlayed($dtc)
-                                ->setState("PAYANT");
+                                ->setState($st);
 
                         
                             $em->persist($game);

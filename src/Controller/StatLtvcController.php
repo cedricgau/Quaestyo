@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Game;
 use App\Entity\ExternDatas;
+use App\Entity\Adventure;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
@@ -20,8 +21,9 @@ class StatLtvcController extends AbstractController
 
         $con = $this->getDoctrine()->getRepository(Game::class);
         $con2 = $this->getDoctrine()->getRepository(ExternDatas::class);
+        $con3 = $this->getDoctrine()->getRepository(Adventure::class);
 
-        for($i=$i+1; $i<$k+13 ; $i++){
+        for($i=$i+1; $i<$k+14 ; $i++){
     		if ($i>12){
         		$j=$i-12;
         		$b=$a+1;
@@ -29,15 +31,21 @@ class StatLtvcController extends AbstractController
         		$b=$a;
        			$j=$i; 
     		}
+
+            $vol_colnums[] = $j;
+
+		    setlocale(LC_TIME, 'fra_fra');  
+    		$vol_cols[]  = utf8_encode(strftime('%B', mktime(0, 0, 0, $i)));
         
             $perioda = $b.'-'.$j.'-01';
-            $periodb = $b.'-'.$j.'-31';            
+            $periodb = $b.'-'.$j.'-31';
             
             $depex[] = $con2->findByCountdepex($perioda,$periodb);
             $depex2[] = $con2->findByCountdepex2($perioda,$periodb);            
             $avpa[] = $con->findByCountavpa($perioda,$periodb);
             $avpa2[] = $con->findByCountnc($perioda,$periodb);         
             $ncn[] = $con->findByCountncn($perioda,$periodb);
+            $nadv[] = $con3->findByCountadv($perioda,$periodb);
             
         }
 
@@ -60,20 +68,24 @@ class StatLtvcController extends AbstractController
         
         //datas cac
 
-        for($c=0; $c<12 ; $c++){
+        for($c=0; $c<13 ; $c++){
             if(isset($ncn[$c][0][1]) && $ncn[$c][0][1]!==0 && isset($depex[$c][0]["advert"])){
                  $cac_dep_data[] = $depex[$c][0]["advert"];                              
-                 $cac_ncn_data[] = $ncn[$c][0][1];               
+                 $cac_ncn_data[] = $ncn[$c][0][1];
+                 $cac_nadv_data[] = $nadv[$c][0][1];
+                 $cltv_data[] = $nadv[$c][0][1]/$ncn[$c][0][1];               
                  
              }else{
                 $cac_dep_data[]= 0;               
-                $cac_ncn_data[] = 0;           
+                $cac_ncn_data[] = 0;
+                $cac_nadv_data[] = 0;
+                $cltv_data[] = 0;           
            
             }
              
         }
                 
-        $total_cac_data = array_sum($cac_dep_data)/array_sum($cac_ncn_data); 
+        $total_cac_data = array_sum($cac_dep_data)/array_sum($cac_ncn_data);        
         $total_moy_data = array_sum($arpu_ca_data)/array_sum($arpu_avpa_data);
        
         // cas particulier du calcul avec pondération avant le 1/02/2022
@@ -144,6 +156,10 @@ class StatLtvcController extends AbstractController
            $totalpond = $totalpond +  ${'num'.$tab[$i]}*$tab[$i];
         }
 
+
+
+        $total_ncn_data = array_sum($cac_ncn_data)-($cac_ncn_data[count($cac_ncn_data)-1]);
+        $total_nadv_data = array_sum($cac_nadv_data)-($cac_nadv_data[count($cac_nadv_data)-1]);
                                 
         return $this->render('admin/statltvc.html.twig', [
             'numb' => $numb,
@@ -151,7 +167,15 @@ class StatLtvcController extends AbstractController
             'total'=> $total,
             'totalpond' => $totalpond,
             'panmoy' => $total_moy_data,
-            'cac' => $total_cac_data,        
+            'cac' => $total_cac_data,
+            'vol_colnums' =>  $vol_cols,
+            'cac_ncn_data' => $cac_ncn_data,
+            'cac_ncn_data2' => json_encode($cac_ncn_data),
+            'total_ncn_data' => $total_ncn_data,
+            'cac_nadv_data' => $cac_nadv_data,
+            'cac_nadv_data2' => json_encode($cac_nadv_data),
+            'total_nadv_data' => $total_nadv_data,
+            'cltv_data' => $cltv_data,     
         ]);
     }
 }

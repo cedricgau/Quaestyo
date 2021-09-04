@@ -196,7 +196,10 @@ class ConverterController extends AbstractController{
                     array_push ($tab,$line);
                }        
          
-           $path = '..\public\Files_CSV\Quaestyo.csv';
+           // $path = '..\public\Files_CSV\Quaestyo.csv';
+
+           $path = $this->getParameter('csv_dir').'/Quaestyo.csv';
+
            $file = fopen($path , 'w');
            fputs( $file, "\xEF\xBB\xBF" );
 

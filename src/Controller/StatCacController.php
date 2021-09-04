@@ -43,8 +43,7 @@ class StatCacController extends AbstractController
             $cch[] = $con->findByCountcch($perioda,$periodb);
             $jag[] = $con->findByCountjag($perioda,$periodb);
             $jagQD[] = $con->findByCountjagQD($perioda,$periodb);            
-            $ncn[] = $con->findByCountncn($perioda,$periodb);
-            $ncnQV[] = $con->findByCountncnQV($perioda,$periodb);
+            $ncn[] = $con->findByCountncn($perioda,$periodb);            
             $ncnp[] = $con->findByCountncnp($perioda,$periodb);        
         
         }             
@@ -63,8 +62,7 @@ class StatCacController extends AbstractController
                  $cac_jag_data[] = $jag[$c][0][1];
                  $cac_jagQD_data[] = $jagQD[$c][0][1];                 
                  $cac_ncn_data[] = $ncn[$c][0][1];  
-                 $cac_ncnp_data[] = $ncnp[$c][0][1];
-                 $cac_ncnQV_data[] = $ncnQV[$c][0][1];
+                 $cac_ncnp_data[] = $ncnp[$c][0][1];                
                  $csa[] = $cc[$c][0][1]-$ncn[$c][0][1]-$jag[$c][0][1];
                  $pourcent3[] = round($ncn[$c][0][1]/$cc[$c][0][1]*100,2);                 
                  $cac_data[] = round($depex[$c][0]["advert"]/$ncn[$c][0][1],2);
@@ -77,7 +75,7 @@ class StatCacController extends AbstractController
                     if(!isset($churn[$c-1]) || $churn[$c-1] === 0){
                         $churn[] = round(abs($depex4[$c][0]["uninstall"]/$depex3[$c][0]["download"]),4)*100;
                     }else{
-                        $churn[] = round(abs($depex4[$c][0]["uninstall"])/($nbapp_data[$c]),4)*100;
+                        $churn[] = round(abs($depex4[$c][0]["uninstall"]/$depex3[$c][0]["download"]),4)*100;
                     }
                  }        
                  
@@ -100,8 +98,7 @@ class StatCacController extends AbstractController
                 $nbapp_data[] = 0;
                 $churn[] = 0;
                 $psc_data[] = 0;
-                $csa[] = 0;
-                $cac_ncnQV_data[] = 0;
+                $csa[] = 0;                
             }
              
         }
@@ -111,8 +108,7 @@ class StatCacController extends AbstractController
         $total_cc_data = array_sum($cac_cc_data)-($cac_cc_data[count($cac_cc_data)-1]); 
         $total_cch_data = array_sum($cac_cch_data)-($cac_cch_data[count($cac_cch_data)-1]); 
         $total_np_data = array_sum($cac_np_data)-($cac_np_data[count($cac_np_data)-1]);
-        $total_csa = array_sum($csa)-($csa[count($csa)-1]);
-        $total_ncnQV_data = array_sum($cac_ncnQV_data)-($cac_ncnQV_data[count($cac_ncnQV_data)-1]);       
+        $total_csa = array_sum($csa)-($csa[count($csa)-1]);           
         $total_jag_data = array_sum($cac_jag_data)-($cac_jag_data[count($cac_jag_data)-1]); 
         $total_jagQD_data = array_sum($cac_jagQD_data)-($cac_jagQD_data[count($cac_jagQD_data)-1]);    
         $total_ncn_data = array_sum($cac_ncn_data)-($cac_ncn_data[count($cac_ncn_data)-1]);         
@@ -170,9 +166,7 @@ class StatCacController extends AbstractController
         'psc_data' => $psc_data,
         'total_psc' => $total_psc,
         'csa' => $csa,
-        'total_csa' => $total_csa,
-        'cac_ncnQV_data' => $cac_ncnQV_data,
-        'total_ncnQV_data' => $total_ncnQV_data,             
+        'total_csa' => $total_csa,                  
         ]);
     }
 }

@@ -48,7 +48,7 @@
         <table class="table table-striped">
             <thead>
                 <tr class="table-success">
-                <th>CLTV</th>    
+                <th>CLTV actuel</th>    
                 <th>Total</th>                  
                 </tr>
             </thead>
@@ -59,7 +59,7 @@
                 </tr>                
                 <tr>    
                     <th>CLTV sans pondération</th>   
-                    <th style="color:red ; font-weight:1000">{{(totalpond/total)|round(4)}}</th>
+                    <th style="color:red ; font-weight:1000">{{(total_nadv_data/total_ncn_data)|round(4)}}</th>
                 </tr>
                 <tr>    
                     <th>Pondération</th>   
@@ -82,8 +82,65 @@
                     <th>{{((panmoy*totalpond/total*pond)/cac)|round(2)}}</th>
                 </tr>       
             </tbody>
-        </table>
-    </div>    
+        </table>        
+    </div>
+    <div class="container">
+      <table class="table table-striped">
+        <thead>
+          <tr class="table-success">
+            <th scope="col">CLTV réel</th>
+            {% for col in vol_colnums%}
+              {% if (vol_colnums | last == col and nb is defined) %}
+                <th scope="col">Total</th>
+              {% endif %}
+              <th scope="col">{{col}}</th>
+              {% set nb = 0 %}
+            {% endfor %}
+          </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <th scope="row">Nb de parties payantes jouées</th>
+            {% set x = 1 %}
+            {% for col in cac_nadv_data%}
+              {% if (cac_nadv_data | last == col and cac_nadv_data | length == x) %}
+                <th scope="col" style="background-color: lightyellow">{{total_nadv_data}}</th>
+              {% endif %}
+              {% set x = x + 1 %}
+              <th scope="col">{{col}}</th>
+            {% endfor %}
+
+          </tr>
+          <tr>
+            <th scope="row">Nombre de clients</th>
+            {% set x = 1 %}
+            {% for col in cac_ncn_data%}
+              {% if (cac_ncn_data | last == col and cac_ncn_data | length == x) %}
+                <th scope="col" style="background-color: lightyellow">{{total_ncn_data}}</th>
+              {% endif %}
+              {% set x = x + 1 %}
+              <th scope="col">{{col}}</th>
+            {% endfor %}
+
+          </tr>
+          
+          <tr>
+            <th scope="row">CLTV réel</th>
+            {% set x = 1 %}
+            {% for col in cltv_data%}
+              {% if (cltv_data | last == col and cltv_data | length == x) %}
+                <th scope="col" style="background-color: lightyellow">{{(total_nadv_data/total_ncn_data)|round(4)}}</th>
+              {% endif %}
+              {% set x = x + 1 %}
+              <th scope="col">{{col|round(4)}}</th>
+            {% endfor %}
+
+          </tr>
+          
+        </tbody>
+      </table>
+      </div>
+
 </div>
 
 {% endblock %}

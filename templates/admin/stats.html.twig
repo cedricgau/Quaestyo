@@ -1,10 +1,10 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Key Performance Indicators QUAESTYO{% endblock %}
+{% block title %}Key Performance Indicator QUAESTYO{% endblock %}
 {% block stylesheets %}{% endblock %}
 {% block body %}
 
-  <h1 class="text-center">Key Performance Indicators QUAESTYO</h1>
+  <h1 class="text-center">Key Performance Indicator QUAESTYO</h1>
   <div class="text-center">
     <div class="spinner-border text-primary" role="status"></div>
     <div class="spinner-border text-secondary" role="status"></div>
@@ -85,6 +85,30 @@
             {% endfor %}
 
           </tr>
+          <tr>
+              <th scope="row">Téléchargements</th>
+                {% set x = 1 %}
+                {% for col in tele_data%}
+                  {% if (tele_data | last == col and tele_data | length == x) %}
+                    <th scope="col" style="background-color: lightyellow">{{total_tele}}</th>
+                  {% endif %}
+                  {% set x = x + 1 %}
+                  <th scope="col">{{col}}</th>
+                {% endfor %}
+
+            </tr>
+            <tr>
+                <th scope="row">Désinstallations</th>
+                {% set x = 1 %}
+                {% for col in des_data %}
+                  {% if (des_data | last == col and des_data | length == x) %}
+                    <th scope="col" style="background-color: lightyellow">{{total_uninst}}</th>
+                  {% endif %}
+                  {% set x = x + 1 %}
+                  <td>{{ col }}</td>
+                {% endfor %}
+
+              </tr>
         </tbody>
       </table>
 

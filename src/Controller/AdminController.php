@@ -241,7 +241,7 @@ class AdminController extends AbstractController
 
 
         return $this->render('admin/index.html.twig', [
-            'controller_name' => $user->getUsername().',',
+            'controller_name' => strstr($user->getUsername(),"@",true).',',
             'form_externdatas' => $form_externdatas->createView(),
             'form_drop' => $form_drop->createView(),
             'form_majp' => $form_play->createView(),

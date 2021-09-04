@@ -127,8 +127,10 @@ class UpdaController extends AbstractController
                     
                     if( $d->{'SHORT_CODE'} === ('ADV_33') || $d->{'SHORT_CODE'} === ('ADV_36') || $d->{'SHORT_CODE'} === ('ADV_46')){
                         $nvcurr = $em->getRepository(Player::class)->find($d->{'userId'});
-                        $nvcurr->setCurrency4(444);
-                        $em->flush();
+                        if($nvcurr!=null){
+                            $nvcurr->setCurrency4(444);
+                            $em->flush();
+                        }
                     }
 
                     $advstate = $em->getRepository(Adventure::class)->findOneBy(['code_adv' => $d->{'SHORT_CODE'}]);

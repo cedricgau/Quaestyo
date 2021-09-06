@@ -5,15 +5,17 @@ namespace App\Controller;
 use App\Entity\Game;
 use App\Entity\ExternDatas;
 use App\Entity\Adventure;
+use App\Controller\CltvController;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Request;
 
 class StatLtvcController extends AbstractController
 {
     /**
      * @Route("/stat/ltvc", name="stat_ltvc")
      */
-    public function statistiques(){
+    public function statistiques(Request $request){
 
         $a = date("Y")-1;
         $i = date("n")-1;
@@ -157,9 +159,11 @@ class StatLtvcController extends AbstractController
         }
 
 
-
         $total_ncn_data = array_sum($cac_ncn_data)-($cac_ncn_data[count($cac_ncn_data)-1]);
         $total_nadv_data = array_sum($cac_nadv_data)-($cac_nadv_data[count($cac_nadv_data)-1]);
+
+        $cltv_temp = new CltvController();
+        
                                 
         return $this->render('admin/statltvc.html.twig', [
             'numb' => $numb,
@@ -175,7 +179,8 @@ class StatLtvcController extends AbstractController
             'cac_nadv_data' => $cac_nadv_data,
             'cac_nadv_data2' => json_encode($cac_nadv_data),
             'total_nadv_data' => $total_nadv_data,
-            'cltv_data' => $cltv_data,     
+            'cltv_data' => $cltv_data,
+            'cltv_temp' => $cltv_temp->cltv(),    
         ]);
     }
 }

@@ -62,7 +62,16 @@ class StatController extends AbstractController
                  $arpu_avpa_data[] = $avpa[$c][0][1];
                  $cac_dep_data[] = $depex[$c][0]["advert"];
                  $cac_ncn_data[] = $ncn[$c][0][1];
-                 $arpu_avpa2_data[] = $avpa2[$c][0][1];                  
+                 $arpu_avpa2_data[] = $avpa2[$c][0][1];
+                 if($c>0){
+                   
+                    $nbapp_data[] = $nbapp_data[$c-1]+$depex3[$c][0]["download"]+$depex4[$c][0]["uninstall"];
+                    if(!isset($churn[$c-1]) || $churn[$c-1] === 0){
+                        $churn[] = round(abs($depex4[$c][0]["uninstall"]/$depex3[$c][0]["download"]),4)*100;
+                    }else{
+                        $churn[] = round(abs($depex4[$c][0]["uninstall"]/$depex3[$c][0]["download"]),4)*100;
+                    }
+                 }                         
                  
                  
              }else{           
@@ -76,6 +85,7 @@ class StatController extends AbstractController
                 $arpu_avpa2_data[] = 0;
                 $tele_data[] = 0;
                 $des_data[] = 0;
+                $nbapp_data[] = 0;
             }
              
         }
@@ -195,7 +205,9 @@ class StatController extends AbstractController
         'des_data' => $des_data,
         'des_data2' => json_encode($des_data),
         'total_tele' => $total_tele,
-        'total_uninst' => $total_uninst,    
+        'total_uninst' => $total_uninst,
+        'nbapp_data' => $nbapp_data,
+        'nbapp_data2' => json_encode($nbapp_data),    
         ]);
     }
 }

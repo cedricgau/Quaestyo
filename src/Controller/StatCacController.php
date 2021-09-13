@@ -2,8 +2,9 @@
 
 namespace App\Controller;
 
-use App\Entity\ExternDatas;
 use App\Entity\Game;
+use App\Entity\ExternDatas;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
@@ -12,7 +13,7 @@ class StatCacController extends AbstractController
     /**
      * @Route("/stat/cac", name="stat_cac")
      */
-    public function statistiques(){
+    public function statistiques(Request $request){
 
         $a = date("Y")-1;
         $i = date("n")-1;
@@ -69,8 +70,7 @@ class StatCacController extends AbstractController
                  $cac_par_data[] = round($depex[$c][0]["advert"]/$ncnp[$c][0][1],2);
                  $nbncli_data[] = $cch[$c][0][1]+$cc[$c][0][1]-$ncn[$c][0][1];
                  $psc_data[] = $depex3[$c][0]["download"]-$cch[$c][0][1]-$cc[$c][0][1]-$ncn[$c][0][1];
-                 if($c>0){
-                   
+                 if($c>0){                   
                     $nbapp_data[] = $nbapp_data[$c-1]+$depex3[$c][0]["download"]+$depex4[$c][0]["uninstall"];
                     if(!isset($churn[$c-1]) || $churn[$c-1] === 0){
                         $churn[] = round(abs($depex4[$c][0]["uninstall"]/$depex3[$c][0]["download"]),4)*100;
@@ -119,7 +119,60 @@ class StatCacController extends AbstractController
         $total_tele = array_sum($tele_data)-($tele_data[count($tele_data)-1]);
         $total_uninst = array_sum($des_data)-($des_data[count($des_data)-1]);
         $total_dpc_data =  $total_dep_data/$total_cc_data;
+
+        // Calcul du CAC avec période temporaire choisie
         
+        if($request->request->get('dated') !== null && $request->request->get('datef') !== null){
+            $periodh = $request->request->get('dated');
+            $periodi = $request->request->get('datef');            
+
+        }else{
+            $periodh = '2021-02-01';  
+            $periodi = '2021-07-31';            
+        }
+        if($request->request->get('dated2') !== null && $request->request->get('datef2') !== null){
+            $periodj = $request->request->get('dated2');
+            $periodk = $request->request->get('datef2');
+        }else{
+            $periodj = '2021-02-01';  
+            $periodk = '2021-07-31';  
+        }
+
+
+        $advert1[] = $con2->findByCountdepex($periodh,$periodi);
+        $nc1[] = $con->findByCountncn($periodh,$periodi);
+        $advert2[] = $con2->findByCountdepex($periodj,$periodk);
+        $nc2[] = $con->findByCountncn($periodj,$periodk);
+
+        $c=0;
+        $total1=0;
+        $total2=0;
+
+        while(isset($advert1[0][$c]["advert"])){
+            $total1 += $advert1[0][$c]["advert"];                       
+            $c++;
+        }
+
+        $c=0;
+
+        while(isset($advert2[0][$c]["advert"])){
+            $total2 += $advert2[0][$c]["advert"];                       
+            $c++;
+        }
+              
+        if(array_sum($nc1[0][0]) !==0 ){
+            $cac_temp1 = $total1/array_sum($nc1[0][0]);
+        }else{
+            $cac_temp1 = 0;
+        }
+
+        if(array_sum($nc2[0][0])!==0){ 
+            $cac_temp2 = $total2/array_sum($nc2[0][0]);
+        }else{
+            $cac_temp2 = 0; 
+        }
+               
+                        
 
         return $this->render('admin/statcac.html.twig', [       
         'cac_cols' => $cac_cols,
@@ -166,7 +219,13 @@ class StatCacController extends AbstractController
         'psc_data' => $psc_data,
         'total_psc' => $total_psc,
         'csa' => $csa,
-        'total_csa' => $total_csa,                  
+        'total_csa' => $total_csa,
+        'cac_temp1' => $cac_temp1,
+        'cac_temp2' => $cac_temp2,
+        'periodh' => $periodh,
+        'periodi' => $periodi,
+        'periodj' => $periodj,
+        'periodk' => $periodk,                    
         ]);
     }
 }

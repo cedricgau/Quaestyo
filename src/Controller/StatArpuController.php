@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Game;
 use App\Entity\ExternDatas;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
@@ -12,7 +13,7 @@ class StatArpuController extends AbstractController
     /**
      * @Route("/stat/arpu", name="stat_arpu")
      */
-    public function statistiques(){
+    public function statistiques(Request $request){
 
         $a = date("Y")-1;
         $i = date("n")-1;
@@ -75,6 +76,58 @@ class StatArpuController extends AbstractController
         $serie_data = [$total_arpu_data, $total_arpu_data, $total_arpu_data, $total_arpu_data, $total_arpu_data,$total_arpu_data,$total_arpu_data,$total_arpu_data,$total_arpu_data,$total_arpu_data,$total_arpu_data,$total_arpu_data,$total_arpu_data];
 
 
+        // Calcul du ARPU avec période temporaire choisie
+        
+        if($request->request->get('dated') !== null && $request->request->get('datef') !== null){
+            $periodh = $request->request->get('dated');
+            $periodi = $request->request->get('datef');            
+
+        }else{
+            $periodh = '2021-02-01';  
+            $periodi = '2021-07-31';            
+        }
+
+        if($request->request->get('dated2') !== null && $request->request->get('datef2') !== null){
+                    $periodj = $request->request->get('dated2');
+                    $periodk = $request->request->get('datef2');
+        }else{
+                    $periodj = '2021-02-01';  
+                    $periodk = '2021-07-31';  
+        }
+
+        $ca[] = $con2->findByCountdepex2($periodh,$periodi);
+        $nc1[] = $con->findByCountnc($periodh,$periodi);
+        $ca2[] = $con2->findByCountdepex2($periodj,$periodk);
+        $nc2[] = $con->findByCountnc($periodj,$periodk);  
+
+        $c=0;
+        $total1=0;
+        $total2=0;
+
+        while(isset($ca[0][$c]["CA"])){
+            $total1 += $ca[0][$c]["CA"];                       
+            $c++;
+        }
+
+        $c=0;
+
+        while(isset($ca2[0][$c]["CA"])){            
+            $total2 += $ca2[0][$c]["CA"];            
+            $c++;
+        }
+              
+        if(array_sum($nc1[0][0]) !==0 ){
+            $arpu_temp1 = array_sum($nc1[0][0]);
+        }else{
+            $arpu_temp1 = 0;
+        }
+
+        if(array_sum($nc2[0][0])!==0){ 
+            $arpu_temp2 = $total2/array_sum($nc2[0][0]);
+        }else{
+            $arpu_temp2 = 0; 
+        }        
+
         return $this->render('admin/statarpu.html.twig', [        
         'arpu_cols' => $arpu_cols,
         'arpu_cols2' => json_encode($vol_colnums),
@@ -90,7 +143,13 @@ class StatArpuController extends AbstractController
         'arpu_data' => $arpu_data,
         'arpu_data2' => json_encode($arpu_data),
         'total_arpu_data' => $total_arpu_data,     
-        'serie_data2' => json_encode($serie_data)
+        'serie_data2' => json_encode($serie_data),
+        'arpu_temp1' => $arpu_temp1,
+        'arpu_temp2' => $arpu_temp2,
+        'periodh' => $periodh,
+        'periodi' => $periodi,
+        'periodj' => $periodj,
+        'periodk' => $periodk, 
         ]);
     }
 }

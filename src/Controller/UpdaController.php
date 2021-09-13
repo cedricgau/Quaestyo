@@ -125,7 +125,7 @@ class UpdaController extends AbstractController
 
                     // Aventure 33 , 36 et 46 met le player en currency4 = 444
                     
-                    if( $d->{'SHORT_CODE'} === ('ADV_33') || $d->{'SHORT_CODE'} === ('ADV_36') || $d->{'SHORT_CODE'} === ('ADV_46')){
+                    if( $d->{'SHORT_CODE'} === ('ADV_33') || $d->{'SHORT_CODE'} === ('ADV_36') || $d->{'SHORT_CODE'} === ('ADV_46') || $d->{'SHORT_CODE'} === ('ADV_78')){
                         $nvcurr = $em->getRepository(Player::class)->find($d->{'userId'});
                         if($nvcurr!=null){
                             $nvcurr->setCurrency4(444);

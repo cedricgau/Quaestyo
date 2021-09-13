@@ -97,6 +97,28 @@
               <th scope="col">{{col|round(2)}}€</th>
             {% endfor %}
           </tr>
+          <tr>
+          <form action="{{ path('stat_arpu')}}" method="post" name="statarpu">
+            <th scope="row">ARPU temp 1</th>
+              <td></td>
+              <td></td>
+              <td></td>          
+                <td colspan=3><input type="date" class="form-control" name="dated" value="{{periodh}}" min="2018-06-08" required></td>
+                <td colspan=3><input type="date" class="form-control" name="datef" value="{{periodi}}" min="2018-06-08" required></td>
+                <td colspan=3><button type="submit" class="btn btn-success">Arpu temporaire 1</button></td>
+              <td scope="col" style="background-color: lightyellow">{{(arpu_temp1)|round(4)}}€</td>
+          </tr>
+          <tr>
+            <th scope="row">ARPU temp 2</th>
+              <td></td>
+              <td></td>
+              <td></td>             
+                <td colspan=3><input type="date" class="form-control" name="dated2" value="{{periodj}}" min="2018-06-08" required></td>
+                <td colspan=3><input type="date" class="form-control" name="datef2" value="{{periodk}}" min="2018-06-08" required></td>
+                <td colspan=3><button type="submit" class="btn btn-success">Arpu temporaire 2</button></td>              
+              <td scope="col" style="background-color: lightyellow">{{(arpu_temp2)|round(4)}}€</td>
+          </form>
+          </tr>
         </tbody>
       </table>
 

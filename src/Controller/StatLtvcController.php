@@ -162,8 +162,36 @@ class StatLtvcController extends AbstractController
         $total_ncn_data = array_sum($cac_ncn_data)-($cac_ncn_data[count($cac_ncn_data)-1]);
         $total_nadv_data = array_sum($cac_nadv_data)-($cac_nadv_data[count($cac_nadv_data)-1]);
 
-        $cltv_temp = new CltvController();
-        
+        // Calcul du CLTV avec période temporaire choisie
+        // $cltv_temp = new CltvController();
+       
+        if($request->request->get('dated') !== null && $request->request->get('datef') !== null){
+            $periodh = $request->request->get('dated');
+            $periodi = $request->request->get('datef');            
+
+        }else{
+            $periodh = '2021-02-01';  
+            $periodi = '2021-07-31';            
+        }
+
+        $ncnt1[] = $con->findByCountncn($periodh,$periodi);
+        $nadvt1[] = $con3->findByCountadv($periodh,$periodi);             
+               
+        $cltv_temp1 = $nadvt1[0][0][1]/$ncnt1[0][0][1];
+
+        if($request->request->get('dated2') !== null && $request->request->get('datef2') !== null){
+            $periodj = $request->request->get('dated2');
+            $periodk = $request->request->get('datef2');
+        }else{
+            $periodj = '2021-02-01';  
+            $periodk = '2021-07-31';  
+        }
+
+        $ncnt2[] = $con->findByCountncn($periodj,$periodk);
+        $nadvt2[] = $con3->findByCountadv($periodj,$periodk);             
+               
+        $cltv_temp2 = $nadvt2[0][0][1]/$ncnt2[0][0][1];
+         
                                 
         return $this->render('admin/statltvc.html.twig', [
             'numb' => $numb,
@@ -180,7 +208,12 @@ class StatLtvcController extends AbstractController
             'cac_nadv_data2' => json_encode($cac_nadv_data),
             'total_nadv_data' => $total_nadv_data,
             'cltv_data' => $cltv_data,
-            'cltv_temp' => $cltv_temp->cltv(),    
+            'cltv_temp1' => $cltv_temp1,
+            'cltv_temp2' => $cltv_temp2,
+            'periodh' => $periodh,
+            'periodi' => $periodi,
+            'periodj' => $periodj,
+            'periodk' => $periodk,    
         ]);
     }
 }

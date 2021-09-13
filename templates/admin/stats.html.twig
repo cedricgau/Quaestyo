@@ -109,6 +109,18 @@
                 {% endfor %}
 
               </tr>
+              <tr>
+                <th scope="row">Nombre d'applications actives</th>
+                {% set x = 1 %}
+                {% for col in nbapp_data %}
+                  {% if (nbapp_data | last == col and nbapp_data | length == x) %}
+                    <th scope="col" style="background-color: lightyellow">{{total_uninst+total_tele}}</th>
+                  {% endif %}
+                  {% set x = x + 1 %}
+                  <td>{{ col }}</td>
+                {% endfor %}
+
+              </tr>
         </tbody>
       </table>
 

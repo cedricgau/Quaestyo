@@ -63,11 +63,11 @@
                 </tr>
                 <tr>    
                     <th>Pondération</th>   
-                    <th>{{(totalpond/total*pond)|round(2)}}</th>
+                    <th>{{(total_nadv_data/total_ncn_data*pond)|round(2)}}</th>
                 </tr>   
                 <tr>    
                     <th>CLTV </th>   
-                    <th>{{(panmoy*totalpond/total*pond)|round(2)}}€</th>
+                    <th>{{(panmoy*total_nadv_data/total_ncn_data*pond)|round(2)}}€</th>
                 </tr>   
                 <tr>    
                     <th>CAC</th>   
@@ -75,11 +75,11 @@
                 </tr>   
                 <tr>    
                     <th>Résultat</th>   
-                    <th>{{((panmoy*totalpond/total*pond)-cac)|round(2)}}€</th>
+                    <th>{{((panmoy*total_nadv_data/total_ncn_data*pond)-cac)|round(2)}}€</th>
                 </tr>   
                 <tr>    
                     <th>CLTV/CAC </th>   
-                    <th>{{((panmoy*totalpond/total*pond)/cac)|round(2)}}</th>
+                    <th>{{((panmoy*total_nadv_data/total_ncn_data*pond)/cac)|round(2)}}</th>
                 </tr>       
             </tbody>
         </table>        
@@ -135,6 +135,28 @@
               <th scope="col">{{col|round(4)}}</th>
             {% endfor %}
 
+          </tr>
+          <tr>
+          <form action="{{ path('stat_ltvc')}}" method="post" name="statltvc">
+            <th scope="row">CLTV temporaire 1</th>
+              <td></td>
+              <td></td>
+              <td></td>          
+                <td colspan=3><input type="date" class="form-control" name="dated" value="{{periodh}}" min="2018-06-08" required></td>
+                <td colspan=3><input type="date" class="form-control" name="datef" value="{{periodi}}" min="2018-06-08" required></td>
+                <td colspan=3><button type="submit" class="btn btn-success">Cltv temporaire 1</button></td>
+              <td scope="col" style="background-color: lightyellow">{{(cltv_temp1)|round(4)}}</td>
+          </tr>
+          <tr>
+            <th scope="row">CLTV temporaire 2</th>
+              <td></td>
+              <td></td>
+              <td></td>             
+                <td colspan=3><input type="date" class="form-control" name="dated2" value="{{periodj}}" min="2018-06-08" required></td>
+                <td colspan=3><input type="date" class="form-control" name="datef2" value="{{periodk}}" min="2018-06-08" required></td>
+                <td colspan=3><button type="submit" class="btn btn-success">Cltv temporaire 2</button></td>              
+              <td scope="col" style="background-color: lightyellow">{{(cltv_temp2)|round(4)}}</td>
+          </form>
           </tr>
           
         </tbody>

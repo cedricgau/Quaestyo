@@ -163,7 +163,8 @@ class StatLtvcController extends AbstractController
         $total_nadv_data = array_sum($cac_nadv_data)-($cac_nadv_data[count($cac_nadv_data)-1]);
 
         // Calcul du CLTV avec période temporaire choisie
-        // $cltv_temp = new CltvController();
+        // $cltv_temp1 = new CltvController();
+        // $cltv_temp2 = $cltv_temp1;
        
         if($request->request->get('dated') !== null && $request->request->get('datef') !== null){
             $periodh = $request->request->get('dated');

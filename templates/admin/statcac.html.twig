@@ -307,7 +307,7 @@
                 {% set x = 1 %}
                 {% for col in nbncli_data %}
                   {% if (nbncli_data | last == col and nbncli_data | length == x) %}
-                    <th scope="col" style="background-color: lightyellow">{{total_cch_data+total_cc_data-total_ncn_data}}</th>
+                    <th scope="col" style="background-color: lightyellow">{{total_tele-total_ncn_data}}</th>
                   {% endif %}
                   {% set x = x + 1 %}
                   <td>{{ col }}</td>

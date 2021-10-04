@@ -31,7 +31,7 @@
             <th scope="col">Volumétries Nationales QUAESTYO</th>
             {% for col in vol_cols%}
               {% if (vol_cols | last == col and nb is defined) %}
-                <th scope="col">Moyen</th>
+                <th scope="col">Resultat</th>
               {% endif %}
               <th scope="col">{{col}}</th>
               {% set nb = 0 %}

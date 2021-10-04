@@ -68,8 +68,8 @@ class StatCacController extends AbstractController
                  $pourcent3[] = round($ncn[$c][0][1]/$cc[$c][0][1]*100,2);                 
                  $cac_data[] = round($depex[$c][0]["advert"]/$ncn[$c][0][1],2);
                  $cac_par_data[] = round($depex[$c][0]["advert"]/$ncnp[$c][0][1],2);
-                 $nbncli_data[] = $cch[$c][0][1]+$cc[$c][0][1]-$ncn[$c][0][1];
-                 $psc_data[] = $depex3[$c][0]["download"]-$cch[$c][0][1]-$cc[$c][0][1]-$ncn[$c][0][1];
+                 $nbncli_data[] = $depex3[$c][0]["download"]-$ncn[$c][0][1];
+                 $psc_data[] = $depex3[$c][0]["download"]-$cch[$c][0][1]-$cc[$c][0][1];
                  if($c>0){                   
                     $nbapp_data[] = $nbapp_data[$c-1]+$depex3[$c][0]["download"]+$depex4[$c][0]["uninstall"];
                     if(!isset($churn[$c-1]) || $churn[$c-1] === 0){
@@ -128,14 +128,14 @@ class StatCacController extends AbstractController
 
         }else{
             $periodh = '2021-02-01';  
-            $periodi = '2021-07-31';            
+            $periodi = 'Y-m-d';            
         }
         if($request->request->get('dated2') !== null && $request->request->get('datef2') !== null){
             $periodj = $request->request->get('dated2');
             $periodk = $request->request->get('datef2');
         }else{
             $periodj = '2021-02-01';  
-            $periodk = '2021-07-31';  
+            $periodk = 'Y-m-d';  
         }
 
 

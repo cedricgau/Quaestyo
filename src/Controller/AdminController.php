@@ -152,21 +152,7 @@ class AdminController extends AbstractController
             $player = $em->getRepository(Player::class)->find($form_mail_player->get('id_player')->getData());
 
             if (!$player) {
-                $messaged = 'Aucun Joueur trouvé pour l\'ID : '.$form_mail_player->get('id_player')->getData();
-                /* $file = '..\public\Files_JSON\playerDetails.json'; 
-                $data = file_get_contents($file);
-                $obj = json_decode($data);
-                
-                foreach($obj as $d) {                    
-                    if(substr($d->{'data'}->{'user_name'},0,3) === "FB_" || substr($d->{'data'}->{'user_name'},0,3) === "GP_" ){
-                        $player = $em->getRepository(Player::class)->find($d->{'id'});
-                        if ($player) {
-                            $player->setMail($d->{'data'}->{'email'});
-                            var_dump($d->{'data'}->{'email'});
-                            $em->flush();
-                        }  
-                    }
-                } */
+                $messaged = 'Aucun Joueur trouvé pour l\'ID : '.$form_mail_player->get('id_player')->getData();                
             }else{
                 if($form_mail_player->get('mail')->getData()!==null && $form_mail_player->get('city')->getData()!==null){
                     $player

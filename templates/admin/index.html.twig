@@ -22,7 +22,8 @@
                 <a href="{{ path('stats')}}" class="list-group-item list-group-item-action active" aria-current="true"> KPI sur 12 mois glissants</a>
                 <a href="{{ path('stat_cac')}}" class="list-group-item list-group-item-action">Statistiques Cout d'Acquisition Client </a>
                 <a href="{{ path('stat_arpu')}}" class="list-group-item list-group-item-action">Statistiques Average Revenu Per User</a>
-                <a href="{{ path('stat_ltvc')}}" class="list-group-item list-group-item-action">Statistiques Customer Lifetime Value</a>                
+                <a href="{{ path('stat_ltvc')}}" class="list-group-item list-group-item-action">Statistiques Customer Lifetime Value</a>
+                <a href="{{ path('stat_adv')}}" class="list-group-item list-group-item-action">Statistiques Played Adventures</a>                 
             </div>
             <div class="card-body mt-4">            
                 {% if form_majp is defined %}      
@@ -136,7 +137,7 @@
                 {{form_start(form_drop)}}
                     {{form_widget(form_drop.file)}}
                     <div>
-                    <span style="font-size: 13px">* Dans l'ordre : player.json , ADV_IND-leaderboard.json , meta.adventures.json</span>
+                    <span style="font-size: 13px">* Dans l'ordre : player.json , ADV_IND-leaderboard.json , meta.adventures.json , playerDetails.json , playerMails.csv</span>
                     </div>                                    
                         <div class="mt-4">
                             <button type="submit" class="btn btn-warning">Mettre à jour la base</button>
@@ -145,11 +146,13 @@
             {% endif %} 
         </div>                   
         <div class="card-footer text-muted">
-            {% if messageb is not empty %}
+            <div class="col-sm-6">
+                {% if messageb is not empty %}
                     <div class="alert alert-warning">
-                        <code>{{ messageb }}</code>
+                        {{ messageb }}
                     </div>
-            {% endif %}
+                {% endif %}
+            </div>   
         </div>    
     </div>
 

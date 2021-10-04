@@ -1,0 +1,81 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Played Adventures QUAESTYO{% endblock %}
+{% block stylesheets %}{% endblock %}      
+{% block body %}
+
+ <h1 class="text-center">Played Adventures QUAESTYO</h1>
+
+<div class="d-grid gap-3">
+  <div class="p-5 bg-white"></div>
+  <div class="container">
+    <a href="{{ path('quaestyo_homeland')}}">Retour à la page d'accueuil</a>
+  </div>
+  <div class="container">
+    <table>
+      <tr>
+        <form action="{{ path('stat_adv')}}" method="post" name="statadv">
+            <th scope="row">Période de jeu :</th>                      
+                <td colspan=3><input type="date" class="form-control" name="dated" value="{{periodStart}}" min="2018-06-08" required></td>
+                <td colspan=3><input type="date" class="form-control" name="datef" value="{{periodEnd}}" min="2018-06-08" required></td>
+                <td colspan=3><button type="submit" class="btn btn-success">Calculer</button></td>     
+        </form>
+      </tr>
+    </table>
+  </div> 
+    <div class="container">
+        <table class="table table-striped">
+            <thead>
+                <tr class="table-success">
+                <th>Classement</th>
+                <th>Nom de l'Aventure</th>    
+                <th>N° de l'Aventure</th>
+                <th>Nb de joueurs</th> 
+                <th>Temps passé</th>                  
+                <th>Téléchargement</th>                     
+                </tr>
+            </thead>
+            <tbody>                
+                {% for col in advJoue%}                    
+                <tr>
+                    {% if loop.index == 1 %}
+                    <td>{{ loop.index }} <sup>ère</sup></td>
+                    {% else %}
+                    <td>{{ loop.index }} <sup>ème</sup></td>
+                    {% endif %}
+                    <form action="{{ path('stat_adv') }}" method="post" name="statadv">
+                      <td scope="col">{{col.name}}</td>
+                      <td scope="col"><input type="hidden" name="list" value="{{col.code_adv}}">{{col.code_adv}}</td>                    
+                      <td scope="col">{{col.total}}</td>
+                      <td>{% if fich == col.code_adv %}                    
+                          <a href="..\Files_CSV\List_{{ fich }}.csv">Téléchargement {{ fich }}</a>
+                        
+                          {% endif %}
+                      </td>
+                      <input type="hidden" name="periodStart" value="{{periodStart}}">
+                      <input type="hidden" name="periodEnd" value="{{periodEnd}}">                                         
+                      <td><button type="submit" class="btn btn-success">Liste des joueurs</button></td>
+                    </form>                      
+                </tr>                
+                {% endfor %}
+                <tr>    
+                <th>Total</th>      
+                    <th></th>
+                    <th></th>
+                    <th>{{total}}</th> 
+                    <th></th>  
+                </tr>    
+            </tbody>
+        </table>
+    </div>   
+
+</div>
+
+{% endblock %}
+
+{% block javascripts %}
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.2.1/chart.js" integrity="sha512-or2Rj8rtp6G4AA7LOM1DVfQmzsevkILKgY1LLJ5kEDv3UCiEt9bmHJn7LNmo8BC5hxJCQ3cosqo1t77+p/yOfg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    
+    
+    
+{% endblock %}

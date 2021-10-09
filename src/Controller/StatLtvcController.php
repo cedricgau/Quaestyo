@@ -17,7 +17,7 @@ class StatLtvcController extends AbstractController
      */
     public function statistiques(Request $request){
 
-        $a = date("Y")-1;
+        $a = date("Y");
         $i = date("n")-1;
         $k=$i;
 
@@ -28,9 +28,9 @@ class StatLtvcController extends AbstractController
         for($i=$i+1; $i<$k+14 ; $i++){
     		if ($i>12){
         		$j=$i-12;
-        		$b=$a+1;
-    		}else{
         		$b=$a;
+    		}else{
+        		$b=$a-1;
        			$j=$i; 
     		}
 
@@ -42,8 +42,7 @@ class StatLtvcController extends AbstractController
             $perioda = $b.'-'.$j.'-01';
             $periodb = $b.'-'.$j.'-31';
             
-            $depex[] = $con2->findByCountdepex($perioda,$periodb);
-            $depex2[] = $con2->findByCountdepex2($perioda,$periodb);            
+            $depex[] = $con2->findByCountdepex($perioda,$periodb);                    
             $avpa[] = $con->findByCountavpa($perioda,$periodb);
             $avpa2[] = $con->findByCountnc($perioda,$periodb);         
             $ncn[] = $con->findByCountncn($perioda,$periodb);
@@ -55,10 +54,10 @@ class StatLtvcController extends AbstractController
         //datas arpu
 
         for($c=0; $c<12 ; $c++){
-            if(isset($avpa[$c][0][1]) && $avpa[$c][0][1]!==0 && isset($depex2[$c][0]["CA"])){
-                 $arpu_ca_data[] = $depex2[$c][0]["CA"];
+            if(isset($avpa[$c][0][1]) && $avpa[$c][0][1]!==0 && isset($depex[$c][0]["CA"])){
+                 $arpu_ca_data[] = $depex[$c][0]["CA"];
                  $arpu_avpa_data[] = $avpa2[$c][0][1]; 
-                 $arpu_data[] = round($depex2[$c][0]["CA"]/$avpa2[$c][0][1],2);            
+                 $arpu_data[] = round($depex[$c][0]["CA"]/$avpa2[$c][0][1],2);            
             
              }else{
                 $arpu_ca_data[] = 0;

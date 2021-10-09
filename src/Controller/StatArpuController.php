@@ -15,7 +15,7 @@ class StatArpuController extends AbstractController
      */
     public function statistiques(Request $request){
 
-        $a = date("Y")-1;
+        $a = date("Y");
         $i = date("n")-1;
         $k=$i;
 
@@ -25,9 +25,9 @@ class StatArpuController extends AbstractController
         for($i=$i+1; $i<$k+14 ; $i++){
     		if ($i>12){
         		$j=$i-12;
-        		$b=$a+1;
-    		}else{
         		$b=$a;
+    		}else{
+        		$b=$a-1;
        			$j=$i; 
     		}
             
@@ -38,8 +38,7 @@ class StatArpuController extends AbstractController
             $perioda = $b.'-'.$j.'-01';
             $periodb = $b.'-'.$j.'-31';
             
-            $depex[] = $con2->findByCountdepex($perioda,$periodb);
-            $depex2[] = $con2->findByCountdepex2($perioda,$periodb);            
+            $depex[] = $con2->findByCountdepex($perioda,$periodb);                       
             $avpa[] = $con->findByCountavpa($perioda,$periodb);
             $avpa2[] = $con->findByCountncn($perioda,$periodb);
         }
@@ -48,13 +47,13 @@ class StatArpuController extends AbstractController
         //datas arpu
 
         for($c=0; $c<13 ; $c++){
-            if(isset($avpa[$c][0][1]) && $avpa[$c][0][1]!==0 && isset($depex2[$c][0]["CA"])){
-                 $arpu_ca_data[] = $depex2[$c][0]["CA"];
+            if(isset($avpa[$c][0][1]) && $avpa[$c][0][1]!==0 && isset($depex[$c][0]["CA"])){
+                 $arpu_ca_data[] = $depex[$c][0]["CA"];
                  $arpu_avpa_data[] = $avpa[$c][0][1];
                  $arpu_avpa2_data[] = $avpa2[$c][0][1];
-                 $resultat[] = $depex2[$c][0]["CA"]-$depex[$c][0]["advert"];
-                 $pourcent1[] = ($depex2[$c][0]["CA"]-$depex[$c][0]["advert"])/$depex2[$c][0]["CA"]*100;
-                 $arpu_data[] = $depex2[$c][0]["CA"]/$avpa2[$c][0][1];       
+                 $resultat[] = $depex[$c][0]["CA"]-$depex[$c][0]["advert"];
+                 $pourcent1[] = ($depex[$c][0]["CA"]-$depex[$c][0]["advert"])/$depex[$c][0]["CA"]*100;
+                 $arpu_data[] = $depex[$c][0]["CA"]/$avpa2[$c][0][1];       
   
              }else{
                 $arpu_ca_data[] = 0;
@@ -95,9 +94,9 @@ class StatArpuController extends AbstractController
                     $periodk = '2021-07-31';  
         }
 
-        $ca[] = $con2->findByCountdepex2($periodh,$periodi);
+        $ca[] = $con2->findByCountdepex($periodh,$periodi);
         $nc1[] = $con->findByCountncn($periodh,$periodi);
-        $ca2[] = $con2->findByCountdepex2($periodj,$periodk);
+        $ca2[] = $con2->findByCountdepex($periodj,$periodk);
         $nc2[] = $con->findByCountncn($periodj,$periodk);  
 
         $c=0;

@@ -14,19 +14,19 @@ class StatController extends AbstractController
      */
     public function statistiques(){
 
-        $a = date("Y")-1;
-        $i = date("n")-1;
-        $k=$i;
+        $year = date("Y");
+        $monthBefore = date("n")-1;
+        $i=$monthBefore;
 
         $con = $this->getDoctrine()->getRepository(Game::class);
         $con2 = $this->getDoctrine()->getRepository(ExternDatas::class);
 
-        for($i=$i+1; $i<$k+14 ; $i++){
+        for($i=$i+1; $i<$monthBefore+14 ; $i++){
     		if ($i>12){
         		$j=$i-12;
-        		$b=$a+1;
+        		$b=$year;
     		}else{
-        		$b=$a;
+        		$b=$year-1;
        			$j=$i; 
     		}
             
@@ -37,37 +37,32 @@ class StatController extends AbstractController
             $perioda = $b.'-'.$j.'-01';
             $periodb = $b.'-'.$j.'-31';
             
-            $depex[] = $con2->findByCountdepex($perioda,$periodb);
-            $depex2[] = $con2->findByCountdepex2($perioda,$periodb);
-            $depex3[] = $con2->findByCountdepex3($perioda,$periodb);
-            $depex4[] = $con2->findByCountdepex4($perioda,$periodb);
+            $depex[] = $con2->findByCountdepex($perioda,$periodb);            
             $ncn[] = $con->findByCountncn($perioda,$periodb);            
             $avpa[] = $con->findByCountavpa($perioda,$periodb);          
             
-        }	
-        
-        
+        }	               
 
         //datas cac/arpu/cltv
         
         for($c=0; $c<13 ; $c++){
-            if(isset($ncn[$c][0][1]) && $ncn[$c][0][1]!==0 && isset($depex[$c][0]["advert"]) && isset($depex2[$c][0]["CA"])){                                
+            if(isset($ncn[$c][0][1]) && $ncn[$c][0][1]!==0 && isset($depex[$c][0]["advert"]) && isset($depex[$c][0]["CA"])){                                
                  $cac_data[] = round($depex[$c][0]["advert"]/$ncn[$c][0][1],2);
-                 $arpu_data[] = round($depex2[$c][0]["CA"]/$ncn[$c][0][1],2);
-                 $tele_data[] = $depex3[$c][0]["download"];
-                 $des_data[] = $depex4[$c][0]["uninstall"];
-                 $pan_moy_data[] = round($depex2[$c][0]["CA"]/$avpa[$c][0][1],2);
-                 $arpu_ca_data[] = $depex2[$c][0]["CA"];
+                 $arpu_data[] = round($depex[$c][0]["CA"]/$ncn[$c][0][1],2);
+                 $tele_data[] = $depex[$c][0]["download"];
+                 $des_data[] = $depex[$c][0]["uninstall"];
+                 $pan_moy_data[] = round($depex[$c][0]["CA"]/$avpa[$c][0][1],2);
+                 $arpu_ca_data[] = $depex[$c][0]["CA"];
                  $arpu_avpa_data[] = $avpa[$c][0][1];
                  $cac_dep_data[] = $depex[$c][0]["advert"];
                  $cac_ncn_data[] = $ncn[$c][0][1];                
                  if($c>0){
                    
-                    $nbapp_data[] = $nbapp_data[$c-1]+$depex3[$c][0]["download"]+$depex4[$c][0]["uninstall"];
+                    $nbapp_data[] = $nbapp_data[$c-1]+$depex[$c][0]["download"]+$depex[$c][0]["uninstall"];
                     if(!isset($churn[$c-1]) || $churn[$c-1] === 0){
-                        $churn[] = round(abs($depex4[$c][0]["uninstall"]/$depex3[$c][0]["download"]),4)*100;
+                        $churn[] = round(abs($depex[$c][0]["uninstall"]/$depex[$c][0]["download"]),4)*100;
                     }else{
-                        $churn[] = round(abs($depex4[$c][0]["uninstall"]/$depex3[$c][0]["download"]),4)*100;
+                        $churn[] = round(abs($depex[$c][0]["uninstall"]/$depex[$c][0]["download"]),4)*100;
                     }
                  }                         
                  

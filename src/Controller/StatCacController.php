@@ -37,9 +37,7 @@ class StatCacController extends AbstractController
             $perioda = $b.'-'.$j.'-01';
             $periodb = $b.'-'.$j.'-31';
 
-            $depex[] = $con2->findByCountdepex($perioda,$periodb);
-            $depex3[] = $con2->findByCountdepex3($perioda,$periodb);
-            $depex4[] = $con2->findByCountdepex4($perioda,$periodb);
+            $depex[] = $con2->findByCountdepex($perioda,$periodb);            
             $cc[] = $con->findByCountcc($perioda,$periodb);
             $cch[] = $con->findByCountcch($perioda,$periodb);
             $jag[] = $con->findByCountjag($perioda,$periodb);
@@ -54,8 +52,8 @@ class StatCacController extends AbstractController
         for($c=0; $c<13 ; $c++){
             if(isset($ncn[$c][0][1]) && $ncn[$c][0][1]!==0 && isset($depex[$c][0]["advert"])){
                  $cac_dep_data[] = $depex[$c][0]["advert"];
-                 $tele_data[] = $depex3[$c][0]["download"];
-                 $des_data[] = $depex4[$c][0]["uninstall"];
+                 $tele_data[] = $depex[$c][0]["download"];
+                 $des_data[] = $depex[$c][0]["uninstall"];
                  $cac_cc_data[] = $cc[$c][0][1];
                  $cac_cch_data[] = $cch[$c][0][1];
                  $cac_dpc_data[] = $depex[$c][0]["advert"]/$cc[$c][0][1];
@@ -68,14 +66,14 @@ class StatCacController extends AbstractController
                  $pourcent3[] = round($ncn[$c][0][1]/$cc[$c][0][1]*100,2);                 
                  $cac_data[] = round($depex[$c][0]["advert"]/$ncn[$c][0][1],2);
                  $cac_par_data[] = round($depex[$c][0]["advert"]/$ncnp[$c][0][1],2);
-                 $nbncli_data[] = $depex3[$c][0]["download"]-$ncn[$c][0][1];
-                 $psc_data[] = $depex3[$c][0]["download"]-$cch[$c][0][1]-$cc[$c][0][1];
+                 $nbncli_data[] = $depex[$c][0]["download"]-$ncn[$c][0][1];
+                 $psc_data[] = $depex[$c][0]["download"]-$cch[$c][0][1]-$cc[$c][0][1];
                  if($c>0){                   
-                    $nbapp_data[] = $nbapp_data[$c-1]+$depex3[$c][0]["download"]+$depex4[$c][0]["uninstall"];
+                    $nbapp_data[] = $nbapp_data[$c-1]+$depex[$c][0]["download"]+$depex[$c][0]["uninstall"];
                     if(!isset($churn[$c-1]) || $churn[$c-1] === 0){
-                        $churn[] = round(abs($depex4[$c][0]["uninstall"]/$depex3[$c][0]["download"]),4)*100;
+                        $churn[] = round(abs($depex[$c][0]["uninstall"]/$depex[$c][0]["download"]),4)*100;
                     }else{
-                        $churn[] = round(abs($depex4[$c][0]["uninstall"]/$depex3[$c][0]["download"]),4)*100;
+                        $churn[] = round(abs($depex[$c][0]["uninstall"]/$depex[$c][0]["download"]),4)*100;
                     }
                  }        
                  

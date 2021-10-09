@@ -28,7 +28,7 @@ class ExternDatasRepository extends ServiceEntityRepository
         $entityManager = $this->getEntityManager();
 
         $query = $entityManager->createQuery(
-            'SELECT e.advert
+            'SELECT e.advert,e.CA,e.download,e.uninstall
             FROM App\Entity\ExternDatas e            
             WHERE e.date_payed BETWEEN ?1 AND ?2            
             ')->setParameter(1, $dm)->setParameter(2, $fm);
@@ -36,44 +36,7 @@ class ExternDatasRepository extends ServiceEntityRepository
         
     }
 
-    public function findByCountdepex2($dm,$fm)
-    {   
-        $entityManager = $this->getEntityManager();
-
-        $query = $entityManager->createQuery(
-            'SELECT e.CA
-            FROM App\Entity\ExternDatas e            
-            WHERE e.date_payed BETWEEN ?1 AND ?2            
-            ')->setParameter(1, $dm)->setParameter(2, $fm);
-        return $query->getResult();  
-        
-    }
-
-    public function findByCountdepex3($dm,$fm)
-    {   
-        $entityManager = $this->getEntityManager();
-
-        $query = $entityManager->createQuery(
-            'SELECT e.download
-            FROM App\Entity\ExternDatas e            
-            WHERE e.date_payed BETWEEN ?1 AND ?2            
-            ')->setParameter(1, $dm)->setParameter(2, $fm);
-        return $query->getResult();  
-        
-    }
-
-    public function findByCountdepex4($dm,$fm)
-    {   
-        $entityManager = $this->getEntityManager();
-
-        $query = $entityManager->createQuery(
-            'SELECT e.uninstall
-            FROM App\Entity\ExternDatas e            
-            WHERE e.date_payed BETWEEN ?1 AND ?2            
-            ')->setParameter(1, $dm)->setParameter(2, $fm);
-        return $query->getResult();  
-        
-    }
+    
     /*
     public function findByExampleField($value)
     {

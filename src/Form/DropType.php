@@ -15,7 +15,7 @@ class DropType extends AbstractType
         $builder
             ->add('file', DropzoneType::class, [                
                 'mapped' => false,
-                'required' => true,
+                'required' => true,               
                 
                 
             ])         

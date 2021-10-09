@@ -25,7 +25,7 @@ class UpdaController extends AbstractController
 
         if($nameFile === 'player' || $nameFile === 'playerDetails' || $nameFile === 'playerMails'){
             $con = $em->getRepository(Player::class);            
-        }else if($nameFile === 'ADV_IND-leaderboard'){
+        }else if($nameFile === 'ADV_IND-leaderboard' || $nameFile === 'adventureScore'){
             $con = $em->getRepository(Game::class);
         }else if($nameFile === 'meta.adventures'){
             $con = $em->getRepository(Adventure::class);
@@ -58,12 +58,11 @@ class UpdaController extends AbstractController
                 fclose($handle);
                 }
             
-            }else if ($nameFile === 'player' || $nameFile === 'playerDetails' || $nameFile === 'ADV_IND-leaderboard' || $nameFile === 'meta.adventures') { 
+            }else if ($nameFile === 'player' || $nameFile === 'playerDetails' || $nameFile === 'ADV_IND-leaderboard' || $nameFile === 'meta.adventures' || $nameFile === 'adventureScore') { 
             
                 $data = file_get_contents($file);
                 $obj = json_decode($data); // Fichier 
-                unlink($file); // détruit le fichier                      
-                
+                unlink($file); // détruit le fichier                    
                 foreach($obj as $d) {
 
                     if($nameFile === 'player' && $con->find($d->{'_id'}->{'$oid'}) === null){
@@ -72,14 +71,14 @@ class UpdaController extends AbstractController
 
                         // conversion des différentes dates
 
-                        if(isset($d->{'created'}->{'$date'}->{'$numberLong'}) && $d->{'created'}->{'$date'}->{'$numberLong'}!=null){
+                        if(isset($d->{'created'}->{'$date'}->{'$numberLong'}) && $d->{'created'}->{'$date'}->{'$numberLong'} !== null){
                             $dt = substr($d->{'created'}->{'$date'}->{'$numberLong'},0,-3);
                             $dt2 = new DateTime(date('Y-m-d', $dt));
                             
                         }else{
                             $dt2=null;
                         }
-                        if(isset($d->{'firstPurchaseDate'}->{'$date'}->{'$numberLong'}) && $d->{'firstPurchaseDate'}->{'$date'}->{'$numberLong'}!=null){
+                        if(isset($d->{'firstPurchaseDate'}->{'$date'}->{'$numberLong'}) && $d->{'firstPurchaseDate'}->{'$date'}->{'$numberLong'} !== null){
                             $dt = substr($d->{'firstPurchaseDate'}->{'$date'}->{'$numberLong'},0,-3);
                             $dt3 = new DateTime(date('Y-m-d', $dt));
                             
@@ -99,14 +98,14 @@ class UpdaController extends AbstractController
                         }else{
                             $aremp = 'INCONNU'; 
                         }
-                        if (trim($d->{'location'}->{'latitide'})=="48.858200073242" && trim($d->{'location'}->{'longditute'})=="2.338700056076" ){ // Colonne 5 : VILLE DE CREATION DU COMPTE UTILISATEUR
+                        if (trim($d->{'location'}->{'latitide'}) === "48.858200073242" && trim($d->{'location'}->{'longditute'}) === "2.338700056076" ){ // Colonne 5 : VILLE DE CREATION DU COMPTE UTILISATEUR
                             $aremp2 = "Paris";
                         }elseif (is_null($d->{'location'}->{'city'})){
                             $aremp2 = "INCONNU";
                         }else{
                             $aremp2 = $d->{'location'}->{'city'};
                         }
-                        if ( isset($d->{'pushRegistrations'}[0]->{'deviceOS'}) && strcasecmp($d->{'pushRegistrations'}[0]->{'deviceOS'},"iOS") == 0){ 
+                        if ( isset($d->{'pushRegistrations'}[0]->{'deviceOS'}) && strcasecmp($d->{'pushRegistrations'}[0]->{'deviceOS'},"iOS") === 0){ 
                             $type = 'IOS';
                         }else{
                             $type = 'ANDROID';
@@ -134,7 +133,7 @@ class UpdaController extends AbstractController
 
                                 $em->persist($player);
 
-                    }else if($nameFile === 'ADV_IND-leaderboard' && $con->findOneBy(array('code_adv' => $d->{'SHORT_CODE'}, 'id_player' => $d->{'userId'})) == null){
+                    }else if($nameFile === 'ADV_IND-leaderboard' && $con->findOneBy(array('code_adv' => $d->{'SHORT_CODE'}, 'id_player' => $d->{'userId'})) === null){
 
                         $game = new Game();
 
@@ -155,6 +154,8 @@ class UpdaController extends AbstractController
                             }
                         }
 
+                        if(isset($d->{'SCORE'}->{'$numberLong'}) && $d->{'SCORE'}->{'$numberLong'} !== null) $score = (int)$d->{'SCORE'}->{'$numberLong'};
+
                         $advstate = $em->getRepository(Adventure::class)->findOneBy(['code_adv' => $d->{'SHORT_CODE'}]);
                         if($advstate){
                             $st = $advstate->getState();
@@ -166,8 +167,8 @@ class UpdaController extends AbstractController
                                     ->setCodeAdv($d->{'SHORT_CODE'})
                                     ->setIdPlayer($d->{'userId'})
                                     ->setDatePlayed($dtc)
-                                    ->setState($st);
-
+                                    ->setState($st)
+                                    ->setScore($score);
                             
                                 $em->persist($game);
 
@@ -211,9 +212,21 @@ class UpdaController extends AbstractController
                                 $em->flush();                            
                             }  
                         }
-                    } 
+                    }else if($nameFile === 'adventureScore'){
+                        $adventure = new Adventure();
+
+                        // mise à jour des scores
+                        $adventure = $em->getRepository(Game::class)->findOneBy(['id_player' => $d->{'userId'},'code_adv' => $d->{'SHORT_CODE'}]);                        
+                            if ($adventure) {
+                                
+                                $adventure->setScore($d->{'SCORE'}->{'$numberLong'});
+                                
+                                $em->flush();                            
+                            }  
+                    }
+                } 
                         
-                }        
+                       
         
                 $em->flush();               
        
@@ -223,8 +236,6 @@ class UpdaController extends AbstractController
             ]);
        
         }
-            return $this->redirectToRoute('quaestyo_homeland', [               
-                'messageb' => 'La base de donnée n\'a pas été mise à jour',               
-            ]);
+            
     }
 }

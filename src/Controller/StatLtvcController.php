@@ -164,7 +164,8 @@ class StatLtvcController extends AbstractController
 
         // Calcul du CLTV avec période temporaire choisie
         // $cltv_temp1 = new CltvController();
-        // $cltv_temp2 = $cltv_temp1;
+        // $cltv_temp2 = $cltv_temp1->cltv();
+        // dd($cltv_temp2);
        
         if($request->request->get('dated') !== null && $request->request->get('datef') !== null){
             $periodh = $request->request->get('dated');

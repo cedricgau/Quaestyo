@@ -9,10 +9,7 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class CltvController extends AbstractController
 {
-    /**
-     * @method getDoctrine()
-     */
-    
+        
     public function cltv(): float{
 
         $periodh = '2021-06-01'; // $request->request->get('')

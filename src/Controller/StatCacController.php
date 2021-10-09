@@ -15,19 +15,19 @@ class StatCacController extends AbstractController
      */
     public function statistiques(Request $request){
 
-        $a = date("Y")-1;
-        $i = date("n")-1;
-        $k=$i;
+        $year = date("Y");
+        $previousMonth = date("n")-1;
+        $i=$previousMonth;
 
         $con = $this->getDoctrine()->getRepository(Game::class);
         $con2 = $this->getDoctrine()->getRepository(ExternDatas::class);
 
-        for($i=$i+1; $i<$k+14 ; $i++){
+        for($i=$i+1; $i<$previousMonth+14 ; $i++){
     		if ($i>12){
         		$j=$i-12;
-        		$b=$a+1;
+        		$b=$year;
     		}else{
-        		$b=$a;
+        		$b=$year-1;
        			$j=$i; 
     		}
             

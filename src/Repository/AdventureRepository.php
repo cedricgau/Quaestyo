@@ -47,7 +47,7 @@ class AdventureRepository extends ServiceEntityRepository
         $entityManager = $this->getEntityManager();
 
         $query = $entityManager->createQuery(
-            'SELECT distinct p
+            'SELECT p.id_player,p.mail,p.pseudo,p.date_creation,p.city,p.phone,g.date_played,g.score
             FROM App\Entity\Game g
             Join App\Entity\Adventure a
             WITH g.code_adv = a.code_adv
@@ -55,15 +55,12 @@ class AdventureRepository extends ServiceEntityRepository
             WITH g.id_player = p.id_player  
             WHERE p.state NOT LIKE \'HIDDEN\'
             AND g.date_played BETWEEN ?1 AND ?2
-            AND g.code_adv LIKE ?3      
-            AND p.currency3=0
-            AND p.currency4=0
-            AND p.currency5=0
-            AND p.currency6=0      
+            AND g.code_adv LIKE ?3    
             ')->setParameter(1, $dm)->setParameter(2, $fm)->setParameter(3, $codeAdv);
         return $query->getResult();  
         
     }
+    
 
     // /**
     //  * @return Adventure[] Returns an array of Adventure objects

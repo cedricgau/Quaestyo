@@ -41,7 +41,7 @@ class StatArpuController extends AbstractController
             $depex[] = $con2->findByCountdepex($perioda,$periodb);
             $depex2[] = $con2->findByCountdepex2($perioda,$periodb);            
             $avpa[] = $con->findByCountavpa($perioda,$periodb);
-            $avpa2[] = $con->findByCountnc($perioda,$periodb);
+            $avpa2[] = $con->findByCountncn($perioda,$periodb);
         }
 
               
@@ -96,9 +96,9 @@ class StatArpuController extends AbstractController
         }
 
         $ca[] = $con2->findByCountdepex2($periodh,$periodi);
-        $nc1[] = $con->findByCountnc($periodh,$periodi);
+        $nc1[] = $con->findByCountncn($periodh,$periodi);
         $ca2[] = $con2->findByCountdepex2($periodj,$periodk);
-        $nc2[] = $con->findByCountnc($periodj,$periodk);  
+        $nc2[] = $con->findByCountncn($periodj,$periodk);  
 
         $c=0;
         $total1=0;
@@ -117,7 +117,7 @@ class StatArpuController extends AbstractController
         }
               
         if(array_sum($nc1[0][0]) !==0 ){
-            $arpu_temp1 = array_sum($nc1[0][0]);
+            $arpu_temp1 = $total1/array_sum($nc1[0][0]);
         }else{
             $arpu_temp1 = 0;
         }

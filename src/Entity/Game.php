@@ -32,6 +32,11 @@ class Game
      */
     private $state;
 
+    /**
+     * @ORM\Column(type="integer")
+     */
+    private $score;
+
     public function getCodeAdv(): ?string
     {
         return $this->code_adv;
@@ -76,6 +81,18 @@ class Game
     public function setState(?string $state): self
     {
         $this->state = $state;
+
+        return $this;
+    }
+
+    public function getScore(): ?int
+    {
+        return $this->score;
+    }
+
+    public function setScore(int $score): self
+    {
+        $this->score = $score;
 
         return $this;
     }

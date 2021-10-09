@@ -26,10 +26,11 @@ class AdventureController extends AbstractController
             $end = $request->request->get('periodEnd');
 
             $tab[] = $con2->findByAdv($lst,$start,$end);
-            $title = ['ID','MAIL','PSEUDO','DATE_CREATION','VILLE','Smartphone'];
+            $title = ['ID','MAIL','PSEUDO','DATE DE CREATION','VILLE','SMARTPHONE','DATE DE JEU','SCORE'];
             $newTab = array($title);
-            foreach ($tab[0] as $x){
-                $newTab2 = array($x->getIdPlayer(),$x->getMail(),$x->getPseudo(),date_format($x->getDateCreation(),'Y-m-d'),$x->getCity(),$x->getPhone());
+            
+            foreach ($tab[0] as $x){                
+                $newTab2 = array($x['id_player'],$x['mail'],$x['pseudo'],date_format($x['date_creation'],'Y-m-d'),$x['city'],$x['phone'],date_format($x['date_played'],'Y-m-d'),$x['score']);
                 array_push($newTab,$newTab2);            
             }            
                         

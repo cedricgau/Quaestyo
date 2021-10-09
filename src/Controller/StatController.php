@@ -42,8 +42,7 @@ class StatController extends AbstractController
             $depex3[] = $con2->findByCountdepex3($perioda,$periodb);
             $depex4[] = $con2->findByCountdepex4($perioda,$periodb);
             $ncn[] = $con->findByCountncn($perioda,$periodb);            
-            $avpa[] = $con->findByCountavpa($perioda,$periodb);
-            $avpa2[] = $con->findByCountnc($perioda,$periodb);
+            $avpa[] = $con->findByCountavpa($perioda,$periodb);          
             
         }	
         
@@ -54,15 +53,14 @@ class StatController extends AbstractController
         for($c=0; $c<13 ; $c++){
             if(isset($ncn[$c][0][1]) && $ncn[$c][0][1]!==0 && isset($depex[$c][0]["advert"]) && isset($depex2[$c][0]["CA"])){                                
                  $cac_data[] = round($depex[$c][0]["advert"]/$ncn[$c][0][1],2);
-                 $arpu_data[] = round($depex2[$c][0]["CA"]/$avpa2[$c][0][1],2);
+                 $arpu_data[] = round($depex2[$c][0]["CA"]/$ncn[$c][0][1],2);
                  $tele_data[] = $depex3[$c][0]["download"];
                  $des_data[] = $depex4[$c][0]["uninstall"];
                  $pan_moy_data[] = round($depex2[$c][0]["CA"]/$avpa[$c][0][1],2);
                  $arpu_ca_data[] = $depex2[$c][0]["CA"];
                  $arpu_avpa_data[] = $avpa[$c][0][1];
                  $cac_dep_data[] = $depex[$c][0]["advert"];
-                 $cac_ncn_data[] = $ncn[$c][0][1];
-                 $arpu_avpa2_data[] = $avpa2[$c][0][1];
+                 $cac_ncn_data[] = $ncn[$c][0][1];                
                  if($c>0){
                    
                     $nbapp_data[] = $nbapp_data[$c-1]+$depex3[$c][0]["download"]+$depex4[$c][0]["uninstall"];
@@ -81,8 +79,7 @@ class StatController extends AbstractController
                 $arpu_ca_data[] = 0;
                 $arpu_ca_data[] = 0;
                 $cac_dep_data[] = 0;
-                $cac_ncn_data[] = 0;
-                $arpu_avpa2_data[] = 0;
+                $cac_ncn_data[] = 0;                
                 $tele_data[] = 0;
                 $des_data[] = 0;
                 $nbapp_data[] = 0;
@@ -163,9 +160,15 @@ class StatController extends AbstractController
             $n++;
         }
 
-        $cac = array_sum($cac_dep_data)/array_sum($cac_ncn_data);        
-         
-        $arpu = array_sum($arpu_ca_data)/array_sum($arpu_avpa2_data);
+        $total_dep_data = array_sum($cac_dep_data)-($cac_dep_data[count($cac_dep_data)-1]);
+        $total_ncn_data = array_sum($cac_ncn_data)-($cac_ncn_data[count($cac_ncn_data)-1]);
+        $cac = round($total_dep_data/$total_ncn_data,2);
+        
+        $total_ca_data = array_sum($arpu_ca_data)-($arpu_ca_data[count($arpu_ca_data)-1]); 
+        $total_avpa2_data = array_sum($cac_ncn_data)-($cac_ncn_data[count($cac_ncn_data)-1]);         
+        $arpu = round($total_ca_data/$total_avpa2_data,2);
+
+                
         $cltv = $arpu*$totalpond/$total*$pond;
 
         $n=0;

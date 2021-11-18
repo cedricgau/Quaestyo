@@ -124,10 +124,10 @@ class GameRepository extends ServiceEntityRepository
             Join App\Entity\Player p
             WITH g.id_player = p.id_player  
             WHERE p.state NOT LIKE \'HIDDEN\'
-            AND p.date_creation BETWEEN ?1 AND ?2
+            AND g.date_played BETWEEN ?1 AND ?2            
             AND a.state LIKE \'PAYANT\'
             AND p.currency3=0
-            AND p.currency4=0
+            AND p.currency4=0            
             AND p.currency5=0
             AND p.currency6=0
             ')->setParameter(1, $dm)->setParameter(2, $fm);
@@ -221,20 +221,19 @@ class GameRepository extends ServiceEntityRepository
         $entityManager = $this->getEntityManager();
 
         $query = $entityManager->createQuery(
-            'SELECT COUNT(g.date_played) as NUM FROM App\Entity\Game g 
+            'SELECT COUNT(g.date_played) as NUM, MIN(g.date_played) as MINI FROM App\Entity\Game g 
             Join App\Entity\Adventure a
             WITH g.code_adv = a.code_adv
             Join App\Entity\Player p
             WITH g.id_player = p.id_player  
             WHERE p.state NOT LIKE \'HIDDEN\'
-            AND g.date_played BETWEEN ?1 AND ?2 
+            AND g.date_played >= ?1 
             AND a.state LIKE \'PAYANT\'
-            AND p.currency3=0
-            AND p.currency4=0
+            AND p.currency3=0                        
             AND p.currency5=0
             AND p.currency6=0            
-            GROUP BY g.id_player            
-            ')->setParameter(1, $dm)->setParameter(2, $fm);
+            GROUP BY p.id_player                  
+            ')->setParameter(1, $dm);
         return $query->getResult();  
         
     }  

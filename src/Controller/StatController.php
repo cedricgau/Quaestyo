@@ -4,6 +4,8 @@ namespace App\Controller;
 
 use App\Entity\Game;
 use App\Entity\ExternDatas;
+use App\Controller\functions\Today;
+use App\Controller\functions\Calculation;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
@@ -14,73 +16,53 @@ class StatController extends AbstractController
      */
     public function statistiques(){
 
-        $year = date("Y");
-        $monthBefore = date("n")-1;
-        $i=$monthBefore;
-
+          
         $con = $this->getDoctrine()->getRepository(Game::class);
         $con2 = $this->getDoctrine()->getRepository(ExternDatas::class);
 
-        for($i=$i+1; $i<$monthBefore+14 ; $i++){
-    		if ($i>12){
-        		$j=$i-12;
-        		$b=$year;
-    		}else{
-        		$b=$year-1;
-       			$j=$i; 
-    		}
-            
-            $vol_colnums[] = $j;
+        $today = new Today();   
 
+        for($i=(int)$today->getMonth() ; $i<$today->getMonth()+13 ; $i++){
+            
+    		if ($i>12){
+        		$month = $i-12;
+        		$year = $today->getYear();
+    		}else{
+        		$year = $today->getYear()-1;
+       			$month = $i; 
+    		}
+           
+            $vol_colnums[] = $month; // tableau des mois précédent
+            
 		    setlocale(LC_TIME, 'fra_fra');  
     		$vol_cols[]  = utf8_encode(strftime('%B', mktime(0, 0, 0, $i)));
-            $perioda = $b.'-'.$j.'-01';
-            $periodb = $b.'-'.$j.'-31';
+            $perioda = $year.'-'.$month.'-01';
+            $periodb = $year.'-'.$month.'-31';
             
             $depex[] = $con2->findByCountdepex($perioda,$periodb);            
             $ncn[] = $con->findByCountncn($perioda,$periodb);            
             $avpa[] = $con->findByCountavpa($perioda,$periodb);          
             
-        }	               
-
-        //datas cac/arpu/cltv
+        }	            
+        //dd($vol_colnums);
         
-        for($c=0; $c<13 ; $c++){
-            if(isset($ncn[$c][0][1]) && $ncn[$c][0][1]!==0 && isset($depex[$c][0]["advert"]) && isset($depex[$c][0]["CA"])){                                
-                 $cac_data[] = round($depex[$c][0]["advert"]/$ncn[$c][0][1],2);
-                 $arpu_data[] = round($depex[$c][0]["CA"]/$ncn[$c][0][1],2);
-                 $tele_data[] = $depex[$c][0]["download"];
-                 $des_data[] = $depex[$c][0]["uninstall"];
-                 $pan_moy_data[] = round($depex[$c][0]["CA"]/$avpa[$c][0][1],2);
-                 $arpu_ca_data[] = $depex[$c][0]["CA"];
-                 $arpu_avpa_data[] = $avpa[$c][0][1];
-                 $cac_dep_data[] = $depex[$c][0]["advert"];
-                 $cac_ncn_data[] = $ncn[$c][0][1];                
-                 if($c>0){
-                   
-                    $nbapp_data[] = $nbapp_data[$c-1]+$depex[$c][0]["download"]+$depex[$c][0]["uninstall"];
-                    if(!isset($churn[$c-1]) || $churn[$c-1] === 0){
-                        $churn[] = round(abs($depex[$c][0]["uninstall"]/$depex[$c][0]["download"]),4)*100;
-                    }else{
-                        $churn[] = round(abs($depex[$c][0]["uninstall"]/$depex[$c][0]["download"]),4)*100;
-                    }
-                 }                         
-                 
-                 
-             }else{           
-                $cac_data [] = 0;
-                $arpu_data[] = 0;                
-                $pan_moy_data[] = 0;               
-                $arpu_ca_data[] = 0;
-                $arpu_ca_data[] = 0;
-                $cac_dep_data[] = 0;
-                $cac_ncn_data[] = 0;                
-                $tele_data[] = 0;
-                $des_data[] = 0;
-                $nbapp_data[] = 0;
-            }
-             
+        //datas cac/arpu/cltv
+
+        $calculation = new Calculation();
+        $cac_data = $calculation->getCac($depex,$ncn);
+        $arpu_data = $calculation->getArpu($depex,$ncn);
+        $ncn_data = $calculation->getCltv($depex,$ncn);
+        $pan_moy_data = $calculation->getPanierMoyen($depex,$avpa);
+        $nbapp_data = $calculation->getActiveApplication($depex);
+        $extern_data = $calculation->getExternData($depex,$ncn);
+        foreach($extern_data as $datas){
+            $tele_data[] = $datas->getDownload();
+            $des_data[] = $datas->getUninstall();
+            $ca_data[] = $datas->getCA();
+            $ad_data[] = $datas->getAdvert();
         }
+        
+        
        
         // cas particulier du calcul avec pondération avant le 1/02/2022
         
@@ -155,12 +137,12 @@ class StatController extends AbstractController
             $n++;
         }
 
-        $total_dep_data = array_sum($cac_dep_data)-($cac_dep_data[count($cac_dep_data)-1]);
-        $total_ncn_data = array_sum($cac_ncn_data)-($cac_ncn_data[count($cac_ncn_data)-1]);
+        $total_dep_data = array_sum($ad_data)-($ad_data[count($ad_data)-1]);        
+        $total_ncn_data = array_sum($ncn_data)-($ncn_data[count($ncn_data)-1]);        
         $cac = round($total_dep_data/$total_ncn_data,2);
         
-        $total_ca_data = array_sum($arpu_ca_data)-($arpu_ca_data[count($arpu_ca_data)-1]); 
-        $total_avpa2_data = array_sum($cac_ncn_data)-($cac_ncn_data[count($cac_ncn_data)-1]);         
+        $total_ca_data = array_sum($ca_data)-($ca_data[count($ca_data)-1]); 
+        $total_avpa2_data = array_sum($ncn_data)-($ncn_data[count($ncn_data)-1]);         
         $arpu = round($total_ca_data/$total_avpa2_data,2);
 
                 

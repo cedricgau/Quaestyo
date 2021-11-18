@@ -13,6 +13,7 @@ use App\Form\AdventureType;
 use App\Form\MajPlayerType;
 use App\Form\PlayerMailType;
 use App\Form\ExternDatasType;
+use App\Controller\functions\Today;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -37,13 +38,11 @@ class AdminController extends AbstractController
         $messagef = "";
         $messageg = "";
 
-        setlocale(LC_TIME, 'fra_fra');
-        $affdate = strftime('%A %d %B %Y');        
-        $affdate2 = strftime('%d %m %Y');
+        $today = new Today();
         
         // Mise à jour des currencies du Player
         
-        $extdatas = new ExternDatas();
+        $extdatas = new ExternDatas(0,0,0,0);
         
         $form_externdatas = $this->createForm(ExternDatasType::class, $extdatas);
         
@@ -233,8 +232,8 @@ class AdminController extends AbstractController
             'form_majp' => $form_play->createView(),
             'form_adv' => $form_adv->createView(),
             'form_mail_player' => $form_mail_player->createView(),
-            'today' =>  $affdate,
-            'today2' =>  $affdate2,
+            'today' =>  $today->getFormatDateAdBY(),
+            'today2' =>  $today->getFormatDatedmY(),
             'dm' => $dm,
             'cp' => $cp,
             'cg' => $cg,

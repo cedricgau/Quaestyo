@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Game;
 use App\Entity\ExternDatas;
+use App\Controller\functions\Today;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -15,28 +16,27 @@ class StatArpuController extends AbstractController
      */
     public function statistiques(Request $request){
 
-        $a = date("Y");
-        $i = date("n")-1;
-        $k=$i;
-
+        $today = new Today();       
+        
         $con = $this->getDoctrine()->getRepository(Game::class);
         $con2 = $this->getDoctrine()->getRepository(ExternDatas::class);
 
-        for($i=$i+1; $i<$k+14 ; $i++){
+        for($i = (int)$today->getMonth() ; $i<$today->getMonth()+13 ; $i++){
+            
     		if ($i>12){
-        		$j=$i-12;
-        		$b=$a;
+        		$month = $i-12;
+        		$year = $today->getYear();
     		}else{
-        		$b=$a-1;
-       			$j=$i; 
+        		$year = $today->getYear()-1;
+       			$month = $i; 
     		}
             
-            $vol_colnums[] = $j;
+            $vol_colnums[] = $month; // tableau des mois précédent
 
 		    setlocale(LC_TIME, 'fra_fra');  
-    		$arpu_cols[]  = utf8_encode(strftime('%B', mktime(0, 0, 0, $i)));
-            $perioda = $b.'-'.$j.'-01';
-            $periodb = $b.'-'.$j.'-31';
+    		$vol_cols[]  = utf8_encode(strftime('%B', mktime(0, 0, 0, $i)));
+            $perioda = $year.'-'.$month.'-01';
+            $periodb = $year.'-'.$month.'-31';
             
             $depex[] = $con2->findByCountdepex($perioda,$periodb);                       
             $avpa[] = $con->findByCountavpa($perioda,$periodb);
@@ -128,7 +128,7 @@ class StatArpuController extends AbstractController
         }        
 
         return $this->render('admin/statarpu.html.twig', [        
-        'arpu_cols' => $arpu_cols,
+        'arpu_cols' => $vol_cols,
         'arpu_cols2' => json_encode($vol_colnums),
         'arpu_ca_data' => $arpu_ca_data,
         'total_ca_data' => $total_ca_data,

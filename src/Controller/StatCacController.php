@@ -4,6 +4,8 @@ namespace App\Controller;
 
 use App\Entity\Game;
 use App\Entity\ExternDatas;
+use App\Controller\functions\Today;
+use App\Controller\functions\Calculation;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -15,27 +17,27 @@ class StatCacController extends AbstractController
      */
     public function statistiques(Request $request){
 
-        $year = date("Y");
-        $previousMonth = date("n")-1;
-        $i=$previousMonth;
-
+        $today = new Today();       
+        
         $con = $this->getDoctrine()->getRepository(Game::class);
         $con2 = $this->getDoctrine()->getRepository(ExternDatas::class);
 
-        for($i=$i+1; $i<$previousMonth+14 ; $i++){
+        for($i = (int) $today->getMonth() ; $i<$today->getMonth()+13 ; $i++){
+            
     		if ($i>12){
-        		$j=$i-12;
-        		$b=$year;
+        		$month = $i-12;
+        		$year = $today->getYear();
     		}else{
-        		$b=$year-1;
-       			$j=$i; 
+        		$year = $today->getYear()-1;
+       			$month = $i; 
     		}
             
-            $vol_colnums[] = $j;            
+            $vol_colnums[] = $month; // tableau des mois précédent
+
 		    setlocale(LC_TIME, 'fra_fra');  
-    		$cac_cols[]  = utf8_encode(strftime('%B', mktime(0, 0, 0, $i)));
-            $perioda = $b.'-'.$j.'-01';
-            $periodb = $b.'-'.$j.'-31';
+    		$vol_cols[]  = utf8_encode(strftime('%B', mktime(0, 0, 0, $i)));
+            $perioda = $year.'-'.$month.'-01';
+            $periodb = $year.'-'.$month.'-31';
 
             $depex[] = $con2->findByCountdepex($perioda,$periodb);            
             $cc[] = $con->findByCountcc($perioda,$periodb);
@@ -48,6 +50,9 @@ class StatCacController extends AbstractController
         }             
                
         //datas cac
+
+        $calculation = new Calculation();
+        $cac_data = $calculation->getCac($depex,$ncn);
 
         for($c=0; $c<13 ; $c++){
             if(isset($ncn[$c][0][1]) && $ncn[$c][0][1]!==0 && isset($depex[$c][0]["advert"])){
@@ -63,8 +68,7 @@ class StatCacController extends AbstractController
                  $cac_ncn_data[] = $ncn[$c][0][1];  
                  $cac_ncnp_data[] = $ncnp[$c][0][1];                
                  $csa[] = $cc[$c][0][1]-$ncn[$c][0][1]-$jag[$c][0][1];
-                 $pourcent3[] = round($ncn[$c][0][1]/$cc[$c][0][1]*100,2);                 
-                 $cac_data[] = round($depex[$c][0]["advert"]/$ncn[$c][0][1],2);
+                 $pourcent3[] = round($ncn[$c][0][1]/$cc[$c][0][1]*100,2);  
                  $cac_par_data[] = round($depex[$c][0]["advert"]/$ncnp[$c][0][1],2);
                  $nbncli_data[] = $depex[$c][0]["download"]-$ncn[$c][0][1];
                  $psc_data[] = $depex[$c][0]["download"]-$cch[$c][0][1]-$cc[$c][0][1];
@@ -87,8 +91,7 @@ class StatCacController extends AbstractController
                 $cac_jag_data[] = 0;
                 $cac_jagQD_data[] = 0;
                 $cac_ncn_data[] = 0;
-                $cac_ncnp_data[] = 0;
-                $cac_data [] = 0;
+                $cac_ncnp_data[] = 0;                
                 $cac_par_data[] = 0;
                 $tele_data[] = 0;
                 $des_data[] = 0;
@@ -173,7 +176,7 @@ class StatCacController extends AbstractController
                         
 
         return $this->render('admin/statcac.html.twig', [       
-        'cac_cols' => $cac_cols,
+        'cac_cols' => $vol_cols,
         'cac_cols2' => json_encode($vol_colnums),        
         'tele_data' => $tele_data,
         'tele_data2' => json_encode($tele_data),        

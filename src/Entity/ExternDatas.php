@@ -41,6 +41,15 @@ class ExternDatas
      * @ORM\Column(type="integer", nullable=true)
      */
     private $uninstall;
+    
+
+    public function __construct(?float $CA, ?float $advert, ?int $download,?int $uninstall)
+    {
+        $this->CA = $CA;
+        $this->advert = $advert;
+        $this->download = $download;
+        $this->uninstall = $uninstall;
+    }
 
     public function getId(): ?int
     {

@@ -257,12 +257,12 @@ class GameRepository extends ServiceEntityRepository
         $entityManager = $this->getEntityManager();
 
         $query = $entityManager->createQuery(
-            'SELECT COUNT(g.date_played) as NUM, MIN(g.date_played) as MINI FROM App\Entity\Game g 
+            'SELECT COUNT(g.date_played) as NUM FROM App\Entity\Game g 
             Join App\Entity\Adventure a
             WITH g.code_adv = a.code_adv
             Join App\Entity\Player p
             WITH g.id_player = p.id_player  
-            WHERE p.state NOT LIKE \'HIDDEN\'            
+            WHERE p.state NOT LIKE \'HIDDEN\'                       
             AND g.date_played >= ?1 
             AND a.state LIKE \'PAYANT\'                       
             GROUP BY p.id_player                  

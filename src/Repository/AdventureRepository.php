@@ -32,11 +32,7 @@ class AdventureRepository extends ServiceEntityRepository
             WITH g.id_player = p.id_player  
             WHERE p.state NOT LIKE \'HIDDEN\'
             AND g.date_played BETWEEN ?1 AND ?2            
-            AND a.state LIKE \'PAYANT\'
-            AND p.currency3=0
-            AND p.currency4=0
-            AND p.currency5=0
-            AND p.currency6=0      
+            AND a.state LIKE \'PAYANT\'                
             ')->setParameter(1, $dm)->setParameter(2, $fm);
         return $query->getResult();  
         

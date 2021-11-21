@@ -79,9 +79,7 @@ class StatLtvcController extends AbstractController
                     ${'num'.$a['NUM']}=1;
                     $tab[]=$a['NUM'];
                     $n++;
-                   }
-
-                   $tab2[]=$a['MINI'];
+                   }                   
             
         }
        sort($tab);
@@ -115,37 +113,13 @@ class StatLtvcController extends AbstractController
             $periodend = $year.'-'.$month.'-31';
 		    
             
-            $depex[] = $con2->findByCountdepex($periodstart,$periodend);                    
-            $avpa[] = $con->findByCountAdventurePayed($periodstart,$periodend);
-            $avpa2[] = $con->findByCountnc($periodstart,$periodend);         
+            $depex[] = $con2->findByCountdepex($periodstart,$periodend);               
             $ncn[] = $con->findByCountCltvCustomer($periodstart,$periodend);
-            $nadv[] = $con3->findByCountadv($periodstart,$periodend);
-            $z=0;
-            foreach($tab2 as $y){
-                if($y >= $periodstart && $y <= $periodend) $z++;
-            }
-            $ncn2[] = $z;
+            $nadv[] = $con3->findByCountadv($periodstart,$periodend);         
             
-        }
-
-              
-        //datas arpu
-
-        for($c=0; $c<12 ; $c++){
-            if(isset($avpa[$c][0][1]) && $avpa[$c][0][1]!==0 && isset($depex[$c][0]["CA"])){
-                 $arpu_ca_data[] = $depex[$c][0]["CA"];
-                 $arpu_avpa_data[] = $avpa2[$c][0][1]; 
-                 $arpu_data[] = round($depex[$c][0]["CA"]/$avpa2[$c][0][1],2);            
-            
-             }else{
-                $arpu_ca_data[] = 0;
-                $arpu_avpa_data[] = 0;                
-                $arpu_data[] = 0;                      
-            }
-             
-        }
-        
-        //datas cac
+        }       
+       
+        //datas cltv
 
         for($c=0; $c<13 ; $c++){
             if(isset($ncn[$c][0][1]) && $ncn[$c][0][1]!==0 && isset($depex[$c][0]["advert"])){
@@ -163,9 +137,8 @@ class StatLtvcController extends AbstractController
             }
              
         }
-               
-        $total_cac_data = array_sum($cac_dep_data)/array_sum($cac_ncn_data);        
-        $total_moy_data = array_sum($arpu_ca_data)/array_sum($arpu_avpa_data);
+        //dd($cac_ncn_data);      
+        $total_cac_data = array_sum($cac_dep_data)/array_sum($cac_ncn_data); 
         $total_ncn_data = array_sum($cac_ncn_data)-($cac_ncn_data[count($cac_ncn_data)-1]);
         $total_nadv_data = array_sum($cac_nadv_data)-($cac_nadv_data[count($cac_nadv_data)-1]);      
         
@@ -207,8 +180,7 @@ class StatLtvcController extends AbstractController
             'numb' => $numb,
             'pond' => $pond,
             'total'=> $total,
-            'totalpond' => $totalpond,
-            'panmoy' => $total_moy_data,
+            'totalpond' => $totalpond,            
             'cac' => $total_cac_data,
             'vol_colnums' =>  $vol_cols,
             'cac_ncn_data' => $cac_ncn_data,

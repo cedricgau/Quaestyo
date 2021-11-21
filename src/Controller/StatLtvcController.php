@@ -111,18 +111,18 @@ class StatLtvcController extends AbstractController
 
 		    setlocale(LC_TIME, 'fra_fra');  
     		$vol_cols[]  = utf8_encode(strftime('%B', mktime(0, 0, 0, $i)));
-            $perioda = $year.'-'.$month.'-01';
-            $periodb = $year.'-'.$month.'-31';
+            $periodstart = $year.'-'.$month.'-01';
+            $periodend = $year.'-'.$month.'-31';
 		    
             
-            $depex[] = $con2->findByCountdepex($perioda,$periodb);                    
-            $avpa[] = $con->findByCountavpa($perioda,$periodb);
-            $avpa2[] = $con->findByCountnc($perioda,$periodb);         
-            $ncn[] = $con->findByCountncn($perioda,$periodb);
-            $nadv[] = $con3->findByCountadv($perioda,$periodb);
+            $depex[] = $con2->findByCountdepex($periodstart,$periodend);                    
+            $avpa[] = $con->findByCountAdventurePayed($periodstart,$periodend);
+            $avpa2[] = $con->findByCountnc($periodstart,$periodend);         
+            $ncn[] = $con->findByCountCltvCustomer($periodstart,$periodend);
+            $nadv[] = $con3->findByCountadv($periodstart,$periodend);
             $z=0;
             foreach($tab2 as $y){
-                if($y >= $perioda && $y <= $periodb) $z++;
+                if($y >= $periodstart && $y <= $periodend) $z++;
             }
             $ncn2[] = $z;
             
@@ -184,7 +184,7 @@ class StatLtvcController extends AbstractController
             $periodi = '2021-07-31';            
         }
 
-        $ncnt1[] = $con->findByCountncn($periodh,$periodi);
+        $ncnt1[] = $con->findByCountCltvCustomer($periodh,$periodi);
         $nadvt1[] = $con3->findByCountadv($periodh,$periodi);             
                
         $cltv_temp1 = $nadvt1[0][0][1]/$ncnt1[0][0][1];
@@ -197,7 +197,7 @@ class StatLtvcController extends AbstractController
             $periodk = '2021-07-31';  
         }
 
-        $ncnt2[] = $con->findByCountncn($periodj,$periodk);
+        $ncnt2[] = $con->findByCountCltvCustomer($periodj,$periodk);
         $nadvt2[] = $con3->findByCountadv($periodj,$periodk);             
                
         $cltv_temp2 = $nadvt2[0][0][1]/$ncnt2[0][0][1];

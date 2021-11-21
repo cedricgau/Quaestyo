@@ -35,12 +35,12 @@ class StatArpuController extends AbstractController
 
 		    setlocale(LC_TIME, 'fra_fra');  
     		$vol_cols[]  = utf8_encode(strftime('%B', mktime(0, 0, 0, $i)));
-            $perioda = $year.'-'.$month.'-01';
-            $periodb = $year.'-'.$month.'-31';
+            $periodstart = $year.'-'.$month.'-01';
+            $periodend = $year.'-'.$month.'-31';
             
-            $depex[] = $con2->findByCountdepex($perioda,$periodb);                       
-            $avpa[] = $con->findByCountavpa($perioda,$periodb);
-            $avpa2[] = $con->findByCountncn($perioda,$periodb);
+            $depex[] = $con2->findByCountdepex($periodstart,$periodend);                       
+            $avpa[] = $con->findByCountAdventurePayed($periodstart,$periodend); // aventures jouées payantes avec les 333,444,555,666
+            $playerpayed[] = $con->findByCountArpuCustomer($periodstart,$periodend); // joueurs qui ont joués payant avec les 333,444,555,666
         }
 
               
@@ -50,15 +50,15 @@ class StatArpuController extends AbstractController
             if(isset($avpa[$c][0][1]) && $avpa[$c][0][1]!==0 && isset($depex[$c][0]["CA"])){
                  $arpu_ca_data[] = $depex[$c][0]["CA"];
                  $arpu_avpa_data[] = $avpa[$c][0][1];
-                 $arpu_avpa2_data[] = $avpa2[$c][0][1];
+                 $arpu_playerpayed_data[] = $playerpayed[$c][0][1];
                  $resultat[] = $depex[$c][0]["CA"]-$depex[$c][0]["advert"];
                  $pourcent1[] = ($depex[$c][0]["CA"]-$depex[$c][0]["advert"])/$depex[$c][0]["CA"]*100;
-                 $arpu_data[] = $depex[$c][0]["CA"]/$avpa2[$c][0][1];       
+                 $arpu_data[] = $depex[$c][0]["CA"]/$playerpayed[$c][0][1];       
   
              }else{
                 $arpu_ca_data[] = 0;
                  $arpu_avpa_data[] = 0;
-                 $arpu_avpa2_data[] = 0;                 
+                 $arpu_playerpayed_data[] = 0;                 
                  $resultat[] = 0;
                  $pourcent1[] = 0;
                  $arpu_data[] = 0;      
@@ -69,8 +69,8 @@ class StatArpuController extends AbstractController
         
         $total_ca_data = array_sum($arpu_ca_data)-($arpu_ca_data[count($arpu_ca_data)-1]);        
         $total_avpa_data = array_sum($arpu_avpa_data)-($arpu_avpa_data[count($arpu_avpa_data)-1]);        
-        $total_avpa2_data = array_sum($arpu_avpa2_data)-($arpu_avpa2_data[count($arpu_avpa2_data)-1]);
-        $total_arpu_data = round($total_ca_data/$total_avpa2_data,2);
+        $total_playerpayed_data = array_sum($arpu_playerpayed_data)-($arpu_playerpayed_data[count($arpu_playerpayed_data)-1]);
+        $total_arpu_data = round($total_ca_data/$total_playerpayed_data,2);
         $total_resultat = array_sum($resultat)-($resultat[count($resultat)-1]);
         $serie_data = [$total_arpu_data, $total_arpu_data, $total_arpu_data, $total_arpu_data, $total_arpu_data,$total_arpu_data,$total_arpu_data,$total_arpu_data,$total_arpu_data,$total_arpu_data,$total_arpu_data,$total_arpu_data,$total_arpu_data];
 
@@ -95,9 +95,9 @@ class StatArpuController extends AbstractController
         }
 
         $ca[] = $con2->findByCountdepex($periodh,$periodi);
-        $nc1[] = $con->findByCountncn($periodh,$periodi);
+        $nc1[] = $con->findByCountArpuCustomer($periodh,$periodi);
         $ca2[] = $con2->findByCountdepex($periodj,$periodk);
-        $nc2[] = $con->findByCountncn($periodj,$periodk);  
+        $nc2[] = $con->findByCountArpuCustomer($periodj,$periodk);  
 
         $c=0;
         $total1=0;
@@ -134,8 +134,8 @@ class StatArpuController extends AbstractController
         'total_ca_data' => $total_ca_data,
         'arpu_avpa_data' => $arpu_avpa_data,
         'total_avpa_data' => $total_avpa_data,
-        'arpu_avpa2_data' => $arpu_avpa2_data,
-        'total_avpa2_data' => $total_avpa2_data,            
+        'arpu_playerpayed_data' => $arpu_playerpayed_data,
+        'total_playerpayed_data' => $total_playerpayed_data,            
         'resultat' => $resultat,
         'total_resultat' => $total_resultat,
         'pourcent1' => $pourcent1, 

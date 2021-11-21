@@ -53,7 +53,7 @@ class GameRepository extends ServiceEntityRepository
             Join App\Entity\Player p
             WITH g.id_player = p.id_player  
             WHERE p.state NOT LIKE \'HIDDEN\'
-            AND p.date_creation BETWEEN ?1 AND ?2
+            AND g.date_played BETWEEN ?1 AND ?2
             AND a.state LIKE \'GRATUIT\'            
             AND p.currency3=0
             AND p.currency4=0
@@ -76,8 +76,7 @@ class GameRepository extends ServiceEntityRepository
             Join App\Entity\Player p
             WITH g.id_player = p.id_player  
             WHERE p.state NOT LIKE \'HIDDEN\'
-            AND p.date_creation BETWEEN ?1 AND ?2
-            AND a.state LIKE \'GRATUIT\'
+            AND p.date_creation BETWEEN ?1 AND ?2            
             AND a.code_adv LIKE \'ADV_18\'            
             AND p.currency3=0
             AND p.currency4=0
@@ -88,7 +87,7 @@ class GameRepository extends ServiceEntityRepository
         
     }
 
-    public function findByCountncnp($dm,$fm)
+    public function findByCountCltvCustomer($dm,$fm)
     {   
         $entityManager = $this->getEntityManager();
 
@@ -101,18 +100,14 @@ class GameRepository extends ServiceEntityRepository
             WITH g.id_player = p.id_player  
             WHERE p.state NOT LIKE \'HIDDEN\'
             AND p.date_creation BETWEEN ?1 AND ?2
-            AND a.state LIKE \'PAYANT\'
-            AND ( a.cp LIKE \'75%\' OR a.cp LIKE \'77%\' OR a.cp LIKE \'78%\' OR a.cp LIKE \'91%\' OR a.cp LIKE \'92%\' OR a.cp LIKE \'93%\' OR a.cp LIKE \'94%\' OR a.cp LIKE \'95%\' )
-            AND p.currency3=0
-            AND p.currency4=0
-            AND p.currency5=0
-            AND p.currency6=0
+            AND g.date_played >= ?1            
+            AND a.state LIKE \'PAYANT\'            
             ')->setParameter(1, $dm)->setParameter(2, $fm);
         return $query->getResult();  
         
     }
 
-    public function findByCountncn($dm,$fm)
+    public function findByCountArpuCustomer($dm,$fm)
     {   
         $entityManager = $this->getEntityManager();
 
@@ -125,6 +120,51 @@ class GameRepository extends ServiceEntityRepository
             WITH g.id_player = p.id_player  
             WHERE p.state NOT LIKE \'HIDDEN\'
             AND g.date_played BETWEEN ?1 AND ?2            
+            AND a.state LIKE \'PAYANT\'            
+            ')->setParameter(1, $dm)->setParameter(2, $fm);
+        return $query->getResult();  
+        
+    }
+    
+    public function findByCountCacCustomerParis($dm,$fm)
+    {   
+        $entityManager = $this->getEntityManager();
+
+        $query = $entityManager->createQuery(
+            'SELECT count(distinct p.id_player)
+            FROM App\Entity\Game g
+            Join App\Entity\Adventure a
+            WITH g.code_adv = a.code_adv
+            Join App\Entity\Player p
+            WITH g.id_player = p.id_player  
+            WHERE p.state NOT LIKE \'HIDDEN\'
+            AND p.date_creation BETWEEN ?1 AND ?2
+            AND ( a.cp LIKE \'75%\' OR a.cp LIKE \'77%\' OR a.cp LIKE \'78%\' OR a.cp LIKE \'91%\' OR a.cp LIKE \'92%\' OR a.cp LIKE \'93%\' OR a.cp LIKE \'94%\' OR a.cp LIKE \'95%\' )
+            AND g.date_played >= ?1          
+            AND a.state LIKE \'PAYANT\'
+            AND p.currency3=0
+            AND p.currency4=0            
+            AND p.currency5=0
+            AND p.currency6=0
+            ')->setParameter(1, $dm)->setParameter(2, $fm);
+        return $query->getResult();  
+        
+    }
+    
+    public function findByCountCacCustomer($dm,$fm)
+    {   
+        $entityManager = $this->getEntityManager();
+
+        $query = $entityManager->createQuery(
+            'SELECT count(distinct p.id_player)
+            FROM App\Entity\Game g
+            Join App\Entity\Adventure a
+            WITH g.code_adv = a.code_adv
+            Join App\Entity\Player p
+            WITH g.id_player = p.id_player  
+            WHERE p.state NOT LIKE \'HIDDEN\'
+            AND p.date_creation BETWEEN ?1 AND ?2
+            AND g.date_played >= ?1          
             AND a.state LIKE \'PAYANT\'
             AND p.currency3=0
             AND p.currency4=0            
@@ -170,12 +210,12 @@ class GameRepository extends ServiceEntityRepository
         
     }
 
-    public function findByCountavpa($dm,$fm)
+    public function findByCountAdventurePayed($dm,$fm)
     {   
         $entityManager = $this->getEntityManager();
 
         $query = $entityManager->createQuery(
-            'SELECT count(p)
+            'SELECT count(g)
             FROM App\Entity\Game g
             Join App\Entity\Adventure a
             WITH g.code_adv = a.code_adv
@@ -183,15 +223,11 @@ class GameRepository extends ServiceEntityRepository
             WITH g.id_player = p.id_player  
             WHERE p.state NOT LIKE \'HIDDEN\'            
             AND g.date_played BETWEEN ?1 AND ?2 
-            AND a.state LIKE \'PAYANT\'
-            AND p.currency3=0
-            AND p.currency4=0
-            AND p.currency5=0
-            AND p.currency6=0
+            AND a.state LIKE \'PAYANT\'           
            ')->setParameter(1, $dm)->setParameter(2, $fm);
         return $query->getResult();  
         
-    }
+    }    
 
     public function findByCountnc($dm,$fm)
     {   
@@ -226,12 +262,9 @@ class GameRepository extends ServiceEntityRepository
             WITH g.code_adv = a.code_adv
             Join App\Entity\Player p
             WITH g.id_player = p.id_player  
-            WHERE p.state NOT LIKE \'HIDDEN\'
+            WHERE p.state NOT LIKE \'HIDDEN\'            
             AND g.date_played >= ?1 
-            AND a.state LIKE \'PAYANT\'
-            AND p.currency3=0                        
-            AND p.currency5=0
-            AND p.currency6=0            
+            AND a.state LIKE \'PAYANT\'                       
             GROUP BY p.id_player                  
             ')->setParameter(1, $dm);
         return $query->getResult();  

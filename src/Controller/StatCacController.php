@@ -36,16 +36,16 @@ class StatCacController extends AbstractController
 
 		    setlocale(LC_TIME, 'fra_fra');  
     		$vol_cols[]  = utf8_encode(strftime('%B', mktime(0, 0, 0, $i)));
-            $perioda = $year.'-'.$month.'-01';
-            $periodb = $year.'-'.$month.'-31';
+            $periodstart = $year.'-'.$month.'-01';
+            $periodend = $year.'-'.$month.'-31';
 
-            $depex[] = $con2->findByCountdepex($perioda,$periodb);            
-            $cc[] = $con->findByCountcc($perioda,$periodb);
-            $cch[] = $con->findByCountcch($perioda,$periodb);
-            $jag[] = $con->findByCountjag($perioda,$periodb);
-            $jagQD[] = $con->findByCountjagQD($perioda,$periodb);            
-            $ncn[] = $con->findByCountncn($perioda,$periodb);            
-            $ncnp[] = $con->findByCountncnp($perioda,$periodb);        
+            $depex[] = $con2->findByCountdepex($periodstart,$periodend);            
+            $cc[] = $con->findByCountcc($periodstart,$periodend); // creations de compte
+            $cch[] = $con->findByCountcch($periodstart,$periodend); // creations de compte en 333,444,555,666
+            $jag[] = $con->findByCountjag($periodstart,$periodend); // joueurs de parties gratuites sans 333,444,555,666
+            $jagQD[] = $con->findByCountjagQD($periodstart,$periodend); // joueurs de Quaestyo Demo sans 333,444,555,666           
+            $ncn[] = $con->findByCountCacCustomer($periodstart,$periodend); // joueurs qui ont créés un compte et qui ont joué à une aventure payante, même  après. Aucun 333,444,555,666          
+            $ncnp[] = $con->findByCountCacCustomerParis($periodstart,$periodend); // joueuers d'ile de France qui ont créés un compte et qui ont joué à une aventure payante, même  après. Aucun 333,444,555,666        
         
         }             
                
@@ -141,9 +141,9 @@ class StatCacController extends AbstractController
 
 
         $advert1[] = $con2->findByCountdepex($periodh,$periodi);
-        $nc1[] = $con->findByCountncn($periodh,$periodi);
+        $nc1[] = $con->findByCountCacCustomer($periodh,$periodi);
         $advert2[] = $con2->findByCountdepex($periodj,$periodk);
-        $nc2[] = $con->findByCountncn($periodj,$periodk);
+        $nc2[] = $con->findByCountCacCustomer($periodj,$periodk);
 
         $c=0;
         $total1=0;

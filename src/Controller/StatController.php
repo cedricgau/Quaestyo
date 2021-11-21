@@ -40,8 +40,10 @@ class StatController extends AbstractController
             $periodb = $year.'-'.$month.'-31';
             
             $depex[] = $con2->findByCountdepex($perioda,$periodb);            
-            $ncn[] = $con->findByCountncn($perioda,$periodb);            
-            $avpa[] = $con->findByCountavpa($perioda,$periodb);          
+            $ncnCac[] = $con->findByCountCacCustomer($perioda,$periodb);
+            $ncnArpu[] = $con->findByCountArpuCustomer($perioda,$periodb);  
+            $ncnCltv[] = $con->findByCountCltvCustomer($perioda,$periodb);              
+            $avpa[] = $con->findByCountAdventurePayed($perioda,$periodb);          
             
         }	            
         //dd($vol_colnums);
@@ -49,12 +51,12 @@ class StatController extends AbstractController
         //datas cac/arpu/cltv
 
         $calculation = new Calculation();
-        $cac_data = $calculation->getCac($depex,$ncn);
-        $arpu_data = $calculation->getArpu($depex,$ncn);
-        $ncn_data = $calculation->getCltv($depex,$ncn);
+        $cac_data = $calculation->getCac($depex,$ncnCac);
+        $arpu_data = $calculation->getArpu($depex,$ncnArpu);
+        $ncn_data = $calculation->getCltv($depex,$ncnCltv);
         $pan_moy_data = $calculation->getPanierMoyen($depex,$avpa);
         $nbapp_data = $calculation->getActiveApplication($depex);
-        $extern_data = $calculation->getExternData($depex,$ncn);
+        $extern_data = $calculation->getExternData($depex);
         foreach($extern_data as $datas){
             $tele_data[] = $datas->getDownload();
             $des_data[] = $datas->getUninstall();

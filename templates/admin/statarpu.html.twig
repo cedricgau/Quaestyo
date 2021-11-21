@@ -53,9 +53,9 @@
           <tr>
             <th scope="row">Nombre de clients</th>
             {% set x = 1 %}
-            {% for col in arpu_avpa2_data%}
-              {% if (arpu_avpa2_data | last == col and arpu_avpa2_data | length == x) %}
-                <th scope="col" style="background-color: lightyellow">{{total_avpa2_data}}</th>
+            {% for col in arpu_playerpayed_data%}
+              {% if (arpu_playerpayed_data | last == col and arpu_playerpayed_data | length == x) %}
+                <th scope="col" style="background-color: lightyellow">{{total_playerpayed_data}}</th>
               {% endif %}
               {% set x = x + 1 %}
               <th scope="col">{{col}}</th>

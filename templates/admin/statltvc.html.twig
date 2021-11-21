@@ -43,47 +43,7 @@
                 </tr>    
             </tbody>
         </table>
-    </div>
-    <div class="container">
-        <table class="table table-striped">
-            <thead>
-                <tr class="table-success">
-                <th>CLTV actuel</th>    
-                <th>Total</th>                  
-                </tr>
-            </thead>
-            <tbody>                
-                <tr>    
-                    <th>ARPU</th>                 
-                    <th>{{panmoy|round(2)}}€</th>                   
-                </tr>                
-                <tr>    
-                    <th>CLTV sans pondération</th>   
-                    <th style="color:red ; font-weight:1000">{{(total_nadv_data/total_ncn_data)|round(4)}}</th>
-                </tr>
-                <tr>    
-                    <th>Pondération</th>   
-                    <th>{{(total_nadv_data/total_ncn_data*pond)|round(2)}}</th>
-                </tr>   
-                <tr>    
-                    <th>CLTV </th>   
-                    <th>{{(panmoy*total_nadv_data/total_ncn_data*pond)|round(2)}}€</th>
-                </tr>   
-                <tr>    
-                    <th>CAC</th>   
-                    <th>{{cac|round(2)}}€</th>
-                </tr>   
-                <tr>    
-                    <th>Résultat</th>   
-                    <th>{{((panmoy*total_nadv_data/total_ncn_data*pond)-cac)|round(2)}}€</th>
-                </tr>   
-                <tr>    
-                    <th>CLTV/CAC </th>   
-                    <th>{{((panmoy*total_nadv_data/total_ncn_data*pond)/cac)|round(2)}}</th>
-                </tr>       
-            </tbody>
-        </table>        
-    </div>
+    </div>    
     <div class="container">
       <table class="table table-striped">
         <thead>

@@ -83,7 +83,7 @@ class StatLtvcController extends AbstractController
             
         }
        sort($tab);
-       // dd($tab2);
+       
        $plur="";
        for($i=0; $i<$n ; $i++){           
            if($tab[$i]>1) $plur="s";
@@ -137,7 +137,7 @@ class StatLtvcController extends AbstractController
             }
              
         }
-        //dd($cac_ncn_data);      
+           
         $total_cac_data = array_sum($cac_dep_data)/array_sum($cac_ncn_data); 
         $total_ncn_data = array_sum($cac_ncn_data)-($cac_ncn_data[count($cac_ncn_data)-1]);
         $total_nadv_data = array_sum($cac_nadv_data)-($cac_nadv_data[count($cac_nadv_data)-1]);      

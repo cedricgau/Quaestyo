@@ -99,8 +99,16 @@ class GameRepository extends ServiceEntityRepository
             Join App\Entity\Player p
             WITH g.id_player = p.id_player  
             WHERE p.state NOT LIKE \'HIDDEN\'
-            AND p.date_creation BETWEEN ?1 AND ?2
-            AND g.date_played >= ?1            
+            AND g.date_played BETWEEN ?1 AND ?2            
+            AND g.date_played = (SELECT MIN(distinct m.date_played) 
+                FROM App\Entity\Game m 
+                Join App\Entity\Adventure d
+                WITH m.code_adv = d.code_adv
+                Join App\Entity\Player l
+                WITH m.id_player = l.id_player  
+                WHERE l.state NOT LIKE \'HIDDEN\'            
+                AND d.state LIKE \'PAYANT\'
+                AND l.id_player = p.id_player) 
             AND a.state LIKE \'PAYANT\'            
             ')->setParameter(1, $dm)->setParameter(2, $fm);
         return $query->getResult();  
@@ -263,7 +271,7 @@ class GameRepository extends ServiceEntityRepository
             Join App\Entity\Player p
             WITH g.id_player = p.id_player  
             WHERE p.state NOT LIKE \'HIDDEN\'                       
-            AND g.date_played >= ?1 
+            AND g.date_played >= ?1             
             AND a.state LIKE \'PAYANT\'                       
             GROUP BY p.id_player                  
             ')->setParameter(1, $dm);

@@ -5,11 +5,10 @@ namespace App\Controller\functions;
 class ArrayToCsv
 {
     
-    function convertToCsv($array , $nameCsv) 
-    {
+    function convertToCsv($array , $nameCsv)     {
         
-        $path = $this->getParameter('csv_dir').'/'.$nameCsv.'.csv';
-        $file = fopen($path , 'w');
+        
+        $file = fopen($nameCsv , 'w');
         fputs( $file, "\xEF\xBB\xBF" );
 
         foreach ($array as $data) { 

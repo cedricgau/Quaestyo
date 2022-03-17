@@ -5,7 +5,6 @@ namespace App\Controller;
 use App\Entity\Game;
 use App\Entity\Adventure;
 use App\Entity\ExternDatas;
-use App\Controller\CltvController;
 use App\Controller\functions\Today;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
@@ -18,55 +17,125 @@ class StatLtvcController extends AbstractController
      */
     public function statistiques(Request $request){
 
-        $today = new Today();       
+        $telecharge = 0;
         
+        $today = new Today();        
         $con = $this->getDoctrine()->getRepository(Game::class);
         $con2 = $this->getDoctrine()->getRepository(ExternDatas::class);
         $con3 = $this->getDoctrine()->getRepository(Adventure::class);
 
-        // cas particulier du calcul avec pondération avant le 1/02/2022
         
-        $periodc =  '2021-02-01';
         $periodd =  date('Y-m-d',strtotime('-12 month'));
-        $periode =  date('Y-m-d');
         
-        if ( date('Y-m-d')< '2022-02-01'){             
-        
-            $num = $con->findByCountnum($periodc,$periode);                               
-            $datex = date("n")."/".date("Y");
+        if(isset($_GET['listClients'])){
             
-            switch ($datex){
-                case "6/2021" :
-                    $pond = 1.5;
-                    break;
-                case "7/2021" :
-                    $pond = 1.5;
-                    break;
-                case "8/2021" :
-                    $pond = 1.5;
-                    break;
-                case "9/2021" :
-                    $pond = 1.5;
-                    break;
-                case "10/2021" :
-                    $pond = 1.4;
-                    break;
-                case "11/2021" :
-                    $pond = 1.3;
-                    break;
-                case "12/2021" :
-                    $pond = 1.1;
-                    break;
-                case "1/2022" :
-                    $pond = 1.05;
-                    break;
-                default :
-                    $pond = 1;
-            }
-        }else{
-            $num = $con->findByCountnum($periodd,$periode);
-            $pond=1;
+        $details = $con->findByCountdetails($periodd,intval($_GET['listClients']));
+        $path = $this->getParameter('csv_dir').'/list.csv';
+
+           $file = fopen($path , 'w');
+           fputs( $file, "\xEF\xBB\xBF" );
+
+           foreach ($details as $data) { 
+               fputcsv($file, $data, ";"); 
+           } 
+
+           fclose($file);
+
+           $telecharge = 1;
         }
+        
+        if(isset($_GET['listAdv'])){
+
+            $date = new Today();
+            $year = $date->getYear()-1;
+            $month = $_GET['listAdv'];
+
+            if ( $_GET['listAdv'] > 12 ){
+                $month = $month - 12;
+                $year++; 
+            } 
+           
+            switch($month){                                  
+                case 2:
+                    $lastday = 28;
+                    break;
+                case 4:
+                case 6:
+                case 9:
+                case 11:
+                    $lastday = 30;
+                    break;
+                default:
+                    $lastday = 31;
+            }
+
+            if ( $month < 10 ) $month = "0".$month;
+            
+            $perioda = $year.'-'.$month.'-01';
+            $periodb = $year.'-'.$month.'-'.$lastday;
+            // dd($perioda,$periodb); 
+            $details = $con3->findByCountAdvpayed($perioda,$periodb);
+            $path = $this->getParameter('csv_dir').'/list.csv';
+
+           $file = fopen($path , 'w');
+           fputs( $file, "\xEF\xBB\xBF" );
+
+           foreach ($details as $data) { 
+               fputcsv($file, $data, ";"); 
+           } 
+
+           fclose($file);
+
+           $telecharge = 1;
+        }
+
+        if(isset($_GET['listCli'])){
+
+            $date = new Today();
+            $year = $date->getYear()-1;
+            $month = $_GET['listCli'];
+
+            if ( $_GET['listCli'] > 12 ){
+                $month = $month - 12;
+                $year++; 
+            } 
+           
+            switch($month){                                  
+                case 2:
+                    $lastday = 28;
+                    break;
+                case 4:
+                case 6:
+                case 9:
+                case 11:
+                    $lastday = 30;
+                    break;
+                default:
+                    $lastday = 31;
+            }
+
+            if ( $month < 10 ) $month = "0".$month;
+            
+            $perioda = $year.'-'.$month.'-01';
+            $periodb = $year.'-'.$month.'-'.$lastday;
+            // dd($perioda,$periodb); 
+            $details = $con->findByCltvCustomer($perioda,$periodb);
+            $path = $this->getParameter('csv_dir').'/list.csv';
+
+           $file = fopen($path , 'w');
+           fputs( $file, "\xEF\xBB\xBF" );
+
+           foreach ($details as $data) { 
+               fputcsv($file, $data, ";"); 
+           } 
+
+           fclose($file);
+
+           $telecharge = 1;
+        }
+        
+        $num = $con->findByCountnum($periodd);
+        $pond=1;        
 
         $n=0;
         $total = 0;
@@ -83,7 +152,7 @@ class StatLtvcController extends AbstractController
             
         }
        sort($tab);
-       
+    
        $plur="";
        for($i=0; $i<$n ; $i++){           
            if($tab[$i]>1) $plur="s";
@@ -109,8 +178,21 @@ class StatLtvcController extends AbstractController
 
 		    setlocale(LC_TIME, 'fra_fra');  
     		$vol_cols[]  = utf8_encode(strftime('%B', mktime(0, 0, 0, $i)));
+            switch($month){
+                case 2:
+                    $lastday = 28;
+                    break;
+                case 4:
+                case 6:
+                case 9:
+                case 11:
+                    $lastday = 30;
+                    break;
+                default:
+                    $lastday = 31;
+            }
             $periodstart = $year.'-'.$month.'-01';
-            $periodend = $year.'-'.$month.'-31';
+            $periodend = $year.'-'.$month.'-'.$lastday;
 		    
             
             $depex[] = $con2->findByCountdepex($periodstart,$periodend);               
@@ -137,7 +219,7 @@ class StatLtvcController extends AbstractController
             }
              
         }
-           
+            
         $total_cac_data = array_sum($cac_dep_data)/array_sum($cac_ncn_data); 
         $total_ncn_data = array_sum($cac_ncn_data)-($cac_ncn_data[count($cac_ncn_data)-1]);
         $total_nadv_data = array_sum($cac_nadv_data)-($cac_nadv_data[count($cac_nadv_data)-1]);      
@@ -195,7 +277,8 @@ class StatLtvcController extends AbstractController
             'periodh' => $periodh,
             'periodi' => $periodi,
             'periodj' => $periodj,
-            'periodk' => $periodk,    
+            'periodk' => $periodk,
+            'telecharge' => $telecharge,    
         ]);
     }
 }

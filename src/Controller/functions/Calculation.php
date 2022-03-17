@@ -50,10 +50,10 @@ class Calculation
 
     public function getActiveApplication($activeApplication) 
     {
-        
-        for($c=0; $c<13 ; $c++){
+        $nbappData[] = $activeApplication[0][0]["download"]+$activeApplication[0][0]["uninstall"];
+        for($c=1; $c<13 ; $c++){
             
-            if($c>0 && isset($activeApplication[$c][0]["download"]) && isset($activeApplication[$c][0]["uninstall"])){
+            if(isset($activeApplication[$c][0]["download"]) && isset($activeApplication[$c][0]["uninstall"])){
                                                          
                 $nbappData[] = $nbappData[$c-1]+$activeApplication[$c][0]["download"]+$activeApplication[$c][0]["uninstall"];
                 
@@ -66,16 +66,12 @@ class Calculation
         return $nbappData;
     }
 
-    public function getCltv($extern , $cltv) 
+    public function getCltv($arpu,$adv,$ncn) 
     {
-        for($c=0; $c<13 ; $c++){                                           
-            if(isset($extern[$c][0]["advert"])){
-                $cltvData[] = $cltv[$c][0][1];                
-            }else{
-                $cltvData[] = 0; 
-            } 
+        for($c=0; $c<13 ; $c++){                                        
+            $cltv[] = $adv[$c][0][1]/$ncn[$c][0][1]*$arpu[$c];
         }
-        return $cltvData;
+        return $cltv;
     }
     
     public function getExternData($extern) 
@@ -89,6 +85,18 @@ class Calculation
             }
         }
         return  $externData;
+    }
+
+    public function getNcn($extern , $ncn) 
+    {
+        for($c=0; $c<13 ; $c++){                                           
+            if(isset($extern[$c][0]["advert"])){
+                $cltvData[] = $ncn[$c][0][1];                
+            }else{
+                $cltvData[] = 0; 
+            } 
+        }
+        return $cltvData;
     }
     
 }

@@ -260,7 +260,7 @@ class GameRepository extends ServiceEntityRepository
         
     }
 
-    public function findByCountnum($dm,$fm)
+    public function findByCountnum($dm)
     {   
         $entityManager = $this->getEntityManager();
 
@@ -277,7 +277,28 @@ class GameRepository extends ServiceEntityRepository
             ')->setParameter(1, $dm);
         return $query->getResult();  
         
-    }  
+    }
+    
+    public function findByCountdetails($dm,$nbparties)
+    {   
+        $entityManager = $this->getEntityManager();
+
+        $query = $entityManager->createQuery(
+            'SELECT p.id_player,p.mail,p.pseudo,p.city,p.phone
+            FROM App\Entity\Game g 
+            Join App\Entity\Adventure a
+            WITH g.code_adv = a.code_adv
+            Join App\Entity\Player p
+            WITH g.id_player = p.id_player  
+            WHERE p.state NOT LIKE \'HIDDEN\'                       
+            AND g.date_played >= ?1                         
+            AND a.state LIKE \'PAYANT\'
+            GROUP BY p.id_player
+            HAVING count(g.date_played)= ?2
+            ')->setParameter(1, $dm)->setParameter(2, $nbparties);
+        return $query->getResult();  
+        
+    } 
     
     public function findByCountc($dm,$fm)
     {   
@@ -298,6 +319,34 @@ class GameRepository extends ServiceEntityRepository
         return $query->getResult();  
         
     } 
+
+    public function findByCltvCustomer($dm,$fm)
+    {   
+        $entityManager = $this->getEntityManager();
+
+        $query = $entityManager->createQuery(
+            'SELECT p.id_player,p.mail,p.pseudo,p.city,p.phone,g.code_adv
+            FROM App\Entity\Game g
+            Join App\Entity\Adventure a
+            WITH g.code_adv = a.code_adv
+            Join App\Entity\Player p
+            WITH g.id_player = p.id_player  
+            WHERE p.state NOT LIKE \'HIDDEN\'
+            AND g.date_played BETWEEN ?1 AND ?2            
+            AND g.date_played = (SELECT MIN(distinct m.date_played) 
+                FROM App\Entity\Game m 
+                Join App\Entity\Adventure d
+                WITH m.code_adv = d.code_adv
+                Join App\Entity\Player l
+                WITH m.id_player = l.id_player  
+                WHERE l.state NOT LIKE \'HIDDEN\'            
+                AND d.state LIKE \'PAYANT\'
+                AND l.id_player = p.id_player) 
+            AND a.state LIKE \'PAYANT\'            
+            ')->setParameter(1, $dm)->setParameter(2, $fm);
+        return $query->getResult();  
+        
+    }
 
     /*
     public function findOneBySomeField($value): ?Game

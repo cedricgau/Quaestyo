@@ -15,8 +15,7 @@ class DropType extends AbstractType
         $builder
             ->add('file', DropzoneType::class, [                
                 'mapped' => false,
-                'required' => true,               
-                
+                'required' => true, 
                 
             ])         
            
@@ -27,7 +26,7 @@ class DropType extends AbstractType
     public function configureOptions(OptionsResolver $resolver)
     {
         $resolver->setDefaults([
-            //'data_class' => Drop::class,            
+            //'data_class' => Drop::class,
         ]);
     }
 }

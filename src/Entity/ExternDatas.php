@@ -41,7 +41,6 @@ class ExternDatas
      * @ORM\Column(type="integer", nullable=true)
      */
     private $uninstall;
-    
 
     public function __construct(?float $CA, ?float $advert, ?int $download,?int $uninstall)
     {

@@ -5,8 +5,6 @@ use DateTime;
 use App\Entity\Game;
 use App\Entity\Player;
 use App\Entity\Adventure;
-use App\Controller\CsvConverter;
-use App\Controller\functions\ArrayToCsv;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -199,12 +197,17 @@ class ConverterController extends AbstractController{
                }        
          
            // $path = '..\public\Files_CSV\Quaestyo.csv';
-           
-           $path = $this->getParameter('csv_dir').'/Quaestyo.csv';
-           
-           $arrayToCsv = new ArrayToCsv();
 
-           $arrayToCsv->convertToCsv($tab,$path);
+           $path = $this->getParameter('csv_dir').'/Quaestyo.csv';
+
+           $file = fopen($path , 'w');
+           fputs( $file, "\xEF\xBB\xBF" );
+
+           foreach ($tab as $data) { 
+               fputcsv($file, $data, ";"); 
+           } 
+
+           fclose($file);
                       
            return $this->redirectToRoute('quaestyo_homeland', [               
                'messagec' => 'Fichier créé et téléchargeable ici',               

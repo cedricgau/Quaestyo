@@ -52,8 +52,9 @@ class StatCacController extends AbstractController
         //datas cac
 
         $calculation = new Calculation();
-        $cac_data = $calculation->getCac($depex,$ncn);
-
+        $cac_data = $calculation->getCac($depex,$ncn);    
+        $nbapp_data[] = $depex[0][0]["download"] + $depex[0][0]["uninstall"];
+        $churn[] = round(abs($depex[0][0]["uninstall"]/$depex[0][0]["download"]),4)*100;;
         for($c=0; $c<13 ; $c++){
             if(isset($ncn[$c][0][1]) && $ncn[$c][0][1]!==0 && isset($depex[$c][0]["advert"])){
                  $cac_dep_data[] = $depex[$c][0]["advert"];
@@ -72,6 +73,7 @@ class StatCacController extends AbstractController
                  $cac_par_data[] = round($depex[$c][0]["advert"]/$ncnp[$c][0][1],2);
                  $nbncli_data[] = $depex[$c][0]["download"]-$ncn[$c][0][1];
                  $psc_data[] = $depex[$c][0]["download"]-$cch[$c][0][1]-$cc[$c][0][1];
+                 
                  if($c>0){                   
                     $nbapp_data[] = $nbapp_data[$c-1]+$depex[$c][0]["download"]+$depex[$c][0]["uninstall"];
                     if(!isset($churn[$c-1]) || $churn[$c-1] === 0){

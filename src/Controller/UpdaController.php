@@ -174,14 +174,14 @@ class UpdaController extends AbstractController
 
                     }else if($nameFile === 'meta.adventures' && $con->find($d->{'_id'}->{'$oid'})== null){
                         $adventure = new Adventure();
-
+						
                         if (isset($d->{'name'}->{'description'})){
                             $aremp = $d->{'name'}->{'description'}; // Colonne 3 : PSEUDO
                         }else{
                             $aremp = ''; 
                         }            
-                        if (!isset($d->{'location'}->{'description'}))  $d->{'location'}->{'description'}="";
-
+                        if (!isset($d->{'location'}->{'description'}) || $d->{'location'}->{'description'} !== "PRIVE" || $d->{'location'}->{'description'} !== "GRATUIT" || $d->{'location'}->{'description'} !== "PAYANT")  $d->{'location'}->{'description'}="";
+						
                         $adventure
                             ->setIdAdventure($d->{'_id'}->{'$oid'})
                             ->setCodeAdv($d->{'short_code'})
@@ -191,7 +191,7 @@ class UpdaController extends AbstractController
                             ->setLongitude($d->{'location'}->{'longitude'})
                             ->setCity($d->{'location'}->{'city'})
                             ->setState($d->{'location'}->{'description'});
-            
+						
                         $em->persist($adventure);
 
                     }else if($nameFile === 'playerDetails'){

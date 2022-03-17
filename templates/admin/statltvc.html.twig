@@ -24,9 +24,10 @@
             </thead>
             <tbody>
                 {% for col in numb%}    
-                <tr>    
+                <tr>
+                {% set nb_fois = col.nbav %}    
                 <th scope="col">{{col.champ}}</th>      
-                    <th scope="col">{{col.client}}</th>
+                    <th scope="col"><a href="{{ path('stat_ltvc',{'listClients':nb_fois}) }}" class="btn btn-link btn-sm " role="button">{{col.client}}</a></th>
                     <th scope="col">{{(col.client/total*100)|round(2)}}%</th>
                     <th scope="col">{{col.nbav}}</th> 
                     <th scope="col">{{col.pond}}</th>  
@@ -43,6 +44,11 @@
                 </tr>    
             </tbody>
         </table>
+    </div>
+    <div class="card-body mx-auto">            
+                {% if (telecharge == 1) %}                    
+                        <a href="..\Files_CSV\list.csv" class="card-link">Telecharger la liste ici</a>                
+                {% endif %}            
     </div>    
     <div class="container">
       <table class="table table-striped">
@@ -62,24 +68,28 @@
         <tr>
             <th scope="row">Nb de parties payantes jouées</th>
             {% set x = 1 %}
+            {% set month = "now"|date("n") %}
             {% for col in cac_nadv_data%}
               {% if (cac_nadv_data | last == col and cac_nadv_data | length == x) %}
                 <th scope="col" style="background-color: lightyellow">{{total_nadv_data}}</th>
               {% endif %}
               {% set x = x + 1 %}
-              <th scope="col">{{col}}</th>
+              <th scope="col"><a href="{{ path('stat_ltvc',{'listAdv':month}) }}" class="btn btn-link btn-sm " role="button">{{col}}</a></th>
+              {% set month = month + 1 %}              
             {% endfor %}
 
           </tr>
           <tr>
             <th scope="row">Nombre de clients</th>
             {% set x = 1 %}
+            {% set month = "now"|date("n") %}
             {% for col in cac_ncn_data%}
               {% if (cac_ncn_data | last == col and cac_ncn_data | length == x) %}
                 <th scope="col" style="background-color: lightyellow">{{total_ncn_data}}</th>
               {% endif %}
               {% set x = x + 1 %}
-              <th scope="col">{{col}}</th>
+              <th scope="col"><a href="{{ path('stat_ltvc',{'listCli':month}) }}" class="btn btn-link btn-sm " role="button">{{col}}</a></th>
+              {% set month = month + 1 %}              
             {% endfor %}
 
           </tr>

@@ -68,8 +68,12 @@ class Calculation
 
     public function getCltv($arpu,$adv,$ncn) 
     {
-        for($c=0; $c<13 ; $c++){                                        
-            $cltv[] = $adv[$c][0][1]/$ncn[$c][0][1]*$arpu[$c];
+        for($c=0; $c<13 ; $c++){
+            if($ncn[$c][0][1] > 0 && $arpu[$c] > 0){                                        
+                $cltv[] = $adv[$c][0][1]/$ncn[$c][0][1]*$arpu[$c];
+            }else{
+                $cltv[] = 0;  
+            }
         }
         return $cltv;
     }
